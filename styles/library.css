@@ -1,0 +1,312 @@
+/* Chronos library — стили для страниц /tokens и /components */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--surface-bg);
+  color: var(--text-primary-active);
+  font-family: var(--font-family);
+}
+
+.lib-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: color-mix(in srgb, var(--surface-bg) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-category);
+}
+
+.lib-nav__brand {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-primary-active);
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.lib-nav__link {
+  color: var(--text-primary-hovered);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  border-radius: var(--radius-s);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.lib-nav__link:hover {
+  color: var(--text-primary-active);
+  background: var(--surface-icon-button-hovered);
+}
+.lib-nav__link[aria-current="page"] {
+  color: var(--text-primary-active);
+}
+
+.lib-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+}
+
+.lib-page__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-xs);
+  color: var(--text-primary-active);
+}
+
+.lib-page__sub {
+  font-size: 14px;
+  color: var(--text-primary-hovered);
+  margin: 0 0 var(--spacing-2xl);
+}
+
+.lib-supersection {
+  margin-bottom: var(--spacing-3xl);
+}
+.lib-supersection + .lib-supersection {
+  border-top: 1px solid var(--border-category);
+  padding-top: var(--spacing-3xl);
+}
+.lib-supersection__title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-2xs);
+  color: var(--text-primary-active);
+}
+.lib-supersection__sub {
+  font-size: 13px;
+  color: var(--text-primary-hovered);
+  margin: 0 0 var(--spacing-xl);
+  max-width: 720px;
+}
+
+.lib-section {
+  margin-bottom: var(--spacing-3xl);
+}
+
+.lib-section__title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-xs);
+  color: var(--text-primary-active);
+}
+
+.lib-section__hint {
+  font-size: 13px;
+  color: var(--text-primary-hovered);
+  margin: 0 0 var(--spacing-lg);
+}
+
+.lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.lib-card {
+  background: var(--surface-icon-button-hovered);
+  border: 1px solid var(--border-category);
+  border-radius: var(--radius-l);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.lib-card__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  border-radius: var(--radius-m);
+  /* checkerboard для прозрачных цветов */
+  background-image:
+    linear-gradient(45deg, var(--light-8) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--light-8) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--light-8) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--light-8) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  overflow: hidden;
+}
+
+.lib-card__swatch {
+  width: 100%;
+  height: 64px;
+  border-radius: var(--radius-m);
+}
+
+.lib-card__name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-primary-active);
+  word-break: break-all;
+}
+
+.lib-card__value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--text-primary-hovered);
+  word-break: break-all;
+}
+
+/* radius preview */
+.lib-card__radius-box {
+  width: 64px;
+  height: 64px;
+  background: var(--light-16);
+  border: 1px solid var(--border-event);
+}
+
+/* spacing preview */
+.lib-card__spacing-bar {
+  height: 24px;
+  background: var(--brand);
+  border-radius: var(--radius-xs);
+}
+
+/* typography preview */
+.lib-card__type-sample {
+  color: var(--text-primary-active);
+  padding: var(--spacing-md) 0;
+  word-break: break-word;
+}
+
+.lib-card--font {
+  /* шрифтовые карточки шире палитровых, чтобы превью не обрезалось */
+  grid-column: span 2;
+}
+
+/* Параметры шрифта (weight / size / line-height / letter-spacing) */
+.lib-card__params {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--spacing-md);
+  row-gap: var(--spacing-2xs);
+  margin: 0;
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--border-category);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+.lib-card__params dt {
+  color: var(--text-primary-hovered);
+}
+.lib-card__params dd {
+  margin: 0;
+  color: var(--text-primary-active);
+}
+
+/* ==================================================================
+ * KITCHEN SINK — секции для страницы /components
+ * ================================================================== */
+
+.ks-component {
+  margin-bottom: var(--spacing-3xl);
+  padding-bottom: var(--spacing-2xl);
+  border-bottom: 1px solid var(--border-category);
+}
+.ks-component:last-child {
+  border-bottom: none;
+}
+
+.ks-component__title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-2xs);
+  color: var(--text-primary-active);
+}
+
+.ks-component__desc {
+  font-size: 13px;
+  color: var(--text-primary-hovered);
+  margin: 0 0 var(--spacing-lg);
+  max-width: 720px;
+}
+
+.ks-states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.ks-subgroup {
+  margin: var(--spacing-lg) 0 var(--spacing-xs);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary-hovered);
+}
+
+.ks-state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 160px;
+}
+
+.ks-state__label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-primary-hovered);
+}
+
+.ks-state__demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  min-height: 64px;
+  min-width: 160px;
+  padding: var(--spacing-md);
+  /* light/4 — слабее, чем icon-btn hover (light/8), чтобы hover читался */
+  background: var(--light-4);
+  border: 1px solid var(--border-category);
+  border-radius: var(--radius-m);
+}
+
+/* Контейнер для life-line чтобы он растягивался по ширине демо-карточки */
+.ks-state__demo--full > .life-line {
+  width: 100%;
+}
+
+.ks-snippet {
+  background: var(--black-100);
+  border: 1px solid var(--border-category);
+  border-radius: var(--radius-m);
+  margin-top: var(--spacing-md);
+}
+
+.ks-snippet > summary {
+  cursor: pointer;
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: 12px;
+  color: var(--text-primary-hovered);
+  user-select: none;
+}
+
+.ks-snippet > summary:hover {
+  color: var(--text-primary-active);
+}
+
+.ks-snippet pre {
+  margin: 0;
+  padding: var(--spacing-md);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--text-primary-active);
+  overflow-x: auto;
+  border-top: 1px solid var(--border-category);
+}

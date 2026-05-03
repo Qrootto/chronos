@@ -1,0 +1,69 @@
+/* Icon buttons — три варианта по поведению на ховере.
+ *
+ * --ghost   — burger / info: 32×32 кнопка, фон light/8 на hover, иконка остаётся белой
+ * --action  — arrow up / arrow down / close: 24×24, без фона, цвет иконки сдвигается white → brand
+ * --pill    — plus / minus: круглая 14×14 с фоном light/64 → light/80, тёмный глиф
+ *
+ * Иконки во всех вариантах = SVG с fill="currentColor" — цвет берётся из CSS. */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* === Ghost (burger / info) ============================== */
+.icon-btn--ghost {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-m);
+  color: var(--text-white);
+}
+.icon-btn--ghost:hover,
+.icon-btn--ghost.icon-btn--hovered {
+  background: var(--light-8);
+}
+.icon-btn--ghost svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+/* === Action (arrow up / arrow down / close) ============= */
+.icon-btn--action {
+  width: 24px;
+  height: 24px;
+  color: var(--text-white);
+}
+.icon-btn--action:hover,
+.icon-btn--action.icon-btn--hovered {
+  color: var(--brand);
+}
+.icon-btn--action svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* === Pill (plus / minus, для Zoom-контролов) ============ */
+.icon-btn--pill {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--light-64);
+  color: var(--surface-bg);   /* тёмный глиф на светлом круге */
+}
+.icon-btn--pill:hover,
+.icon-btn--pill.icon-btn--hovered {
+  background: var(--light-80);
+}
+.icon-btn--pill svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}

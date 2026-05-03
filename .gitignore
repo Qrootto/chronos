@@ -1,0 +1,25 @@
+# Build / dev output
+node_modules
+dist
+.vite
+
+# Heavy design source files (исходники Figma — не нужны в репо)
+assets/Popup.svg
+assets/Popup.png
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Env / secrets
+.env
+.env.local
+
+# Local Claude state (личные настройки разработчика)
+.claude/settings.local.json

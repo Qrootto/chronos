@@ -1,0 +1,14 @@
+/* Divider — вертикальная разделительная линия.
+ * Type=Primary (default) и Type=Secondary (приглушённый). */
+
+.divider {
+  display: inline-block;
+  width: 1px;
+  height: 32px;
+  background: var(--surface-divider);
+  vertical-align: middle;
+}
+
+.divider--secondary {
+  background: var(--surface-divider-secondary);
+}

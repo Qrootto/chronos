@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+    <link rel="stylesheet" href="/styles/main-screen.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <button class="icon-btn icon-btn--ghost header__burger" type="button" aria-label="Меню" id="burger">
+        <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23 21C23.5523 21 24 21.4477 24 22C24 22.5523 23.5523 23 23 23H9C8.44771 23 8 22.5523 8 22C8 21.4477 8.44771 21 9 21H23ZM23 15C23.5523 15 24 15.4477 24 16C24 16.5523 23.5523 17 23 17H9C8.44771 17 8 16.5523 8 16C8 15.4477 8.44771 15 9 15H23ZM23 9C23.5523 9 24 9.4477 24 10C24 10.5523 23.5523 11 23 11H9C8.44771 11 8 10.5523 8 10C8 9.4477 8.44771 9 9 9H23Z"/>
+        </svg>
+      </button>
+      <div class="header__timeline">
+        <!-- Заполняется через js/timeline-mini.js (renderTimelineMini),
+             focus обновляется на scroll и resize основного Timeflow. -->
+        <div class="timeline-mini" id="timeline-mini"></div>
+      </div>
+      <button class="icon-btn icon-btn--ghost header__info" type="button" aria-label="О проекте">
+        <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 13C15.2091 13 17 14.7909 17 17V22H19C19.5523 22 20 22.4477 20 23C20 23.5523 19.5523 24 19 24H13C12.4477 24 12 23.5523 12 23C12 22.4477 12.4477 22 13 22H15V17C15 15.8954 14.1046 15 13 15C12.4477 15 12 14.5523 12 14C12 13.4477 12.4477 13 13 13ZM15.5 8C16.3284 8 17 8.6716 17 9.5C17 10.3284 16.3284 11 15.5 11C14.6716 11 14 10.3284 14 9.5C14 8.6716 14.6716 8 15.5 8Z"/>
+        </svg>
+      </button>
+    </header>
+
+    <main class="main-canvas">
+      <!-- Sidebar (overlay поверх Header, fixed). Контент рендерится в JS — см. js/sidebar.js. -->
+      <aside class="sidebar-overlay" id="sidebar"></aside>
+
+      <!-- Canvas: Timeflow + Year scale + Zoom -->
+      <section class="canvas">
+        <div class="canvas__scroll" id="canvas-scroll">
+          <div class="canvas__inner" id="canvas-inner">
+            <div class="canvas__timeflow-area">
+              <div class="timeflow" id="timeflow"></div>
+            </div>
+            <div class="canvas__year-area">
+              <div class="year-scale" id="year-scale"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zoom controls -->
+        <div class="canvas__zoom">
+          <div class="zoom">
+            <button class="icon-btn icon-btn--pill" type="button" aria-label="Уменьшить" id="zoom-out">
+              <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+              </svg>
+            </button>
+            <div class="zoom__track">
+              <span class="zoom__tick" style="left: 0%"></span>
+              <span class="zoom__tick" style="left: 25%"></span>
+              <span class="zoom__tick" style="left: 50%"></span>
+              <span class="zoom__tick" style="left: 75%"></span>
+              <span class="zoom__tick" style="left: 100%"></span>
+              <div class="zoom__thumb" style="left: 50%"></div>
+            </div>
+            <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить" id="zoom-in">
+              <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                <path d="M8 4C8 3.4477 7.5523 3 7 3C6.4477 3 6 3.4477 6 4V10C6 10.5523 6.4477 11 7 11C7.5523 11 8 10.5523 8 10V4Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Backdrop под попапом (затемнение) + сам popup-overlay (шторка). -->
+    <div class="popup-backdrop" id="popup-backdrop"></div>
+    <div class="popup-overlay" id="popup-overlay"></div>
+
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

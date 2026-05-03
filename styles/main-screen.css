@@ -1,0 +1,119 @@
+/* Main screen — раскладка главного экрана.
+ * Header сверху, под ним canvas (Timeflow + Year scale + Zoom + Sidebar).
+ * Sidebar выезжает слева через push-эффект (canvas сжимается). */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-bg);
+  color: var(--text-white);
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+
+/* Header — фикс высоты, не растягивается */
+.header {
+  flex-shrink: 0;
+}
+
+/* Канвас — всё что под header.
+ * При открытом Sidebar canvas сдвигается вправо на 288px (push-эффект),
+ * Header при этом остаётся на месте, sidebar его перекрывает (z-index). */
+.main-canvas {
+  flex: 1;
+  display: flex;            /* sidebar слева | canvas справа */
+  min-height: 0;
+  position: relative;
+  transition: margin-left 0.25s ease;
+}
+.main-canvas.main-canvas--shifted {
+  margin-left: 288px;
+}
+
+/* === Sidebar overlay — фиксированный, на всю высоту окна, поверх Header ===
+ * По умолчанию задвинут влево за край (transform: translateX(-100%)),
+ * по .is-open выезжает на место. */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 288px;
+  z-index: 200;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+}
+.sidebar-overlay.is-open {
+  transform: translateX(0);
+}
+
+/* === Canvas — Timeflow + Year scale + Zoom === */
+.canvas {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Один общий горизонтальный скролл — Timeflow и Year scale двигаются синхронно. */
+.canvas__scroll {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.canvas__inner {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* width задаётся inline JS = (endYear - startYear) * pxPerYear.
+   * Без padding: 1850 — самое начало шкалы (left: 0), 1950 — самый конец. */
+}
+
+.canvas__timeflow-area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  /* Горизонтально скрываем (общий H-скролл — на canvas-scroll).
+   * Вертикально — auto: если людей много, появляется свой Y-скролл,
+   * Header и Year scale при этом остаются на месте. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Нижняя граница Timeflow проходит ровно по нижнему краю мировых событий.
+   * События тянутся до bottom:0 (см. ниже event-блоки), а отступ до Year
+   * scale обеспечивается этим margin. */
+  margin-bottom: 4px;
+}
+
+.canvas__year-area {
+  position: relative;
+  height: 33px;     /* 22 (year box) + 11 (gap до низа экрана = 14px от bottom-цифры) */
+  flex-shrink: 0;
+}
+
+.canvas__zoom {
+  position: absolute;
+  /* 8px над year-area (33px) = bottom 41; 8px от правого края. */
+  bottom: 41px;
+  right: 8px;
+  z-index: 5;
+}
+
+/* === Внутри Timeflow — оригинальные правила из timeflow.css === */
+.canvas__timeflow-area .timeflow {
+  width: 100%;
+  height: 100%;
+}
+
+.canvas__year-area .year-scale {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,90 @@
+/* Timeline-mini — миниатюра общего таймлайна для шапки.
+ * Композит из: Time (фактическое время до "сейчас")
+ *            + дивайдеры веков (каждые 100px = 100 лет)
+ *            + римские лейблы веков
+ *            + Focus (рамка видимой области)
+ *            + размытие на левом крае (история, в которую
+ *              мы пока не уходим, но возможно поедем в будущем).
+ *
+ * Между дивайдерами ровно 100px (1px = 1 год). */
+
+.timeline-mini {
+  position: relative;
+  display: block;
+  height: 36px;
+  /* width задаётся снаружи на основе количества показываемых веков */
+}
+
+/* === Time-слой (поверх подложки, под дивайдерами) ===
+ * mask-image: слева полоска фейдится в прозрачность на 48px,
+ * совмещая её "исчезновение" с зоной progressive blur. */
+.timeline-mini__time {
+  position: absolute;
+  top: 8px;
+  left: 0; /* выравнивается на самый левый дивайдер */
+  /* width задаётся: (currentYear − startYear) px */
+  mask-image: linear-gradient(to right, transparent 0, black 48px);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, black 48px);
+}
+
+/* === Дивайдеры веков === */
+.timeline-mini__divider {
+  position: absolute;
+  top: 2px;
+  width: 1px;
+  height: 32px;
+  background: var(--light-32);
+  pointer-events: none;
+  /* left = px-позиция начала каждого века */
+}
+
+/* === Римский лейбл века (центруется между дивайдерами) ===
+ * top: 12px — геометрический центр (high="0", height=36, font 12px). */
+.timeline-mini__label {
+  position: absolute;
+  top: 12px;
+  transform: translateX(-50%);
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* === Focus (рамка видимой области), кладётся поверх всего === */
+.timeline-mini__focus {
+  position: absolute;
+  top: 4px;
+  /* left и width задаются JS */
+}
+
+/* === Progressive blur на левом крае ===
+ * Эмулируем Figma "Progressive Blur" двумя слоями backdrop-filter
+ * с разной силой и градиентными масками. В HTML этот элемент
+ * лежит ПОВЕРХ time/divider/label (но ПОД focus), потому что
+ * backdrop-filter применяется только к контенту под слоем.
+ * Затемняющий overlay не нужен — само "исчезновение" даёт mask
+ * на .timeline-mini__time. */
+.timeline-mini__fade-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 100%;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+}
+.timeline-mini__fade-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to right, black 0%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 50%);
+}

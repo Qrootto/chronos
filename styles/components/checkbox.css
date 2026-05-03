@@ -1,0 +1,61 @@
+/* Checkbox 16×16.
+ * Default  — приглушённый фон + бордер.
+ * Hovered  — оба чуть ярче.
+ * Checked  (=Active в Figma) — заливка brand, белая галочка внутри.
+ * Deselect — заливка brand, внутри горизонтальная линия 2px (вместо галочки).
+ *            Используется когда выбраны не все элементы группы (см. чекбокс «Все»). */
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;          /* для абсолютного ::after у --deselect */
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: var(--radius-s);
+  background: var(--surface-checkbox);
+  border: 1px solid var(--border-checkbox);
+  color: var(--text-white);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.checkbox:hover,
+.checkbox--hovered {
+  background: var(--surface-checkbox-hovered);
+  border-color: var(--border-checkbox-hovered);
+}
+
+.checkbox--checked,
+.checkbox[aria-checked="true"],
+.checkbox--deselect {
+  background: var(--surface-checkbox-active);
+  border-color: var(--surface-checkbox-active);
+}
+
+/* Deselect — горизонтальная линия 2px, отступы 3px от краёв чекбокса
+ * (16 − 2*3 = 10px ширина), скруглённые края. */
+.checkbox--deselect::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--text-white);
+  border-radius: 1px;
+}
+
+.checkbox svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.checkbox--checked svg,
+.checkbox[aria-checked="true"] svg {
+  opacity: 1;
+}

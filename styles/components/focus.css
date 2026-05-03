@@ -1,0 +1,15 @@
+/* Focus — рамка вокруг видимой области таймлайна.
+ * Скруглённая 1px-граница цвета light/64, внутри прозрачно.
+ * Двигается по Timeline-mini синхронно со скроллом главного экрана,
+ * показывая пользователю, в какой части истории он сейчас находится. */
+
+.focus {
+  display: block;
+  box-sizing: border-box;
+  height: 28px;
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-s);
+  background: transparent;
+  pointer-events: none;
+  /* left и width задаются JS на основе позиции скролла главного экрана */
+}

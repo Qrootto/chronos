@@ -1,0 +1,70 @@
+/* Sidebar — фильтр-панель слева на главном экране.
+ * 288×720, фон surface-bg, border-right 1px border-category.
+ * Flex column из верхней close-строки и набора Selector'ов.
+ * Под каждым раскрытым Selector — список Checkbox+text имён персон.
+ *
+ * Структура (по Figma 8053:2115):
+ *   .sidebar
+ *     .sidebar__close      — close-иконка справа, padding 20
+ *     .selector × N        — реюз компонента .selector
+ *     .sidebar__list       — раскрытый список под выбранным селектором
+ *       .sidebar__item     — Checkbox+text */
+
+/* Контейнер sidebar занимает всю высоту обёртки .sidebar-overlay (на главном
+ * экране — это 100vh; в kitchen sink — height задаётся inline для демо).
+ * Все дети flex-shrink:0 кроме раскрытого списка — он flex:1 со внутренним
+ * скроллом (см. MAIN_SCREEN.md → Sidebar → Поведение раскрытия). */
+.sidebar {
+  width: 288px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-bg);
+  border-right: 1px solid var(--border-category);
+  /* НЕ overflow-y: auto — иначе все элементы будут скроллиться вместе.
+   * Скролл происходит только внутри раскрытого .sidebar__list. */
+}
+
+.sidebar > .selector,
+.sidebar > .sidebar__close {
+  flex-shrink: 0;
+}
+
+/* === Верхняя строка с close ===
+ * Контейнер той же ширины, padding 20, иконка прижата вправо. */
+.sidebar__close {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+/* === Раскрытый список персон / событий под селектором ===
+ * flex: 1 → если список не помещается, он сжимается и появляется внутренний
+ * scroll (overflow-y: auto). Заголовки всех остальных групп остаются видимы. */
+.sidebar__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);   /* 16px между строками */
+  padding: var(--spacing-md) 0 var(--spacing-sm) var(--spacing-md);
+  /* top:16, right:0, bottom:12, left:16 — по Figma */
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: var(--font-semibold-14-size);
+  line-height: var(--font-semibold-14-line-height);
+  letter-spacing: var(--font-semibold-14-letter-spacing);
+  color: var(--text-white);
+  white-space: nowrap;
+}
+
+.sidebar__item .checkbox {
+  flex-shrink: 0;
+}

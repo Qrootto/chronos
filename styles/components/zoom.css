@@ -1,0 +1,52 @@
+/* Zoom — контрол масштабирования таймлайна (контейнер 128×22).
+ * Слева кнопка minus, в центре трек со ступенями и thumb,
+ * справа кнопка plus. Работает как scrubber видеоредактора.
+ *
+ * Кнопки plus/minus используют icon-btn--pill. */
+
+.zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  width: 128px;
+  height: 22px;
+  padding: 0 var(--spacing-2xs);
+  vertical-align: middle;
+}
+
+.zoom__track {
+  flex: 1;
+  position: relative;
+  height: 4px;
+  background: var(--light-24);
+  border-radius: var(--radius-xs);
+  /* Сжимаем рабочую часть на 6px с каждой стороны — чтобы thumb (12×12) в
+   * крайних положениях не наезжал на +/− кнопки. Между thumb-краем и
+   * кнопкой остаётся 4px (родительский gap 4 + margin 6 − thumb-half 6). */
+  margin: 0 6px;
+}
+
+.zoom__tick {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--light-48);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.zoom__thumb {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-s);
+  background: var(--light-100);
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  /* Плавный, но быстрый «прыжок» по шагам зума */
+  transition: left 0.15s ease;
+}
+.zoom__thumb:active { cursor: grabbing; }

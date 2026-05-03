@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronos · Components</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="/styles/tokens.css" />
+    <link rel="stylesheet" href="/styles/library.css" />
+    <link rel="stylesheet" href="/styles/components.css" />
+  </head>
+  <body>
+    <main class="lib-page">
+      <h1 class="lib-page__title">Библиотека компонентов</h1>
+      <p class="lib-page__sub">
+        Kitchen sink — все компоненты со всеми состояниями. Наполняется по мере того, как пишем.
+      </p>
+
+      <!-- ============== LIFE LINE ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Life line</h2>
+        <p class="ks-component__desc">
+          Горизонтальная линия жизни персонажа на таймлайне. По наведению становится толще
+          (3px → 5px) и подсвечивается.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="flex: 1; min-width: 320px;">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo ks-state__demo--full">
+              <div class="life-line"></div>
+            </div>
+          </div>
+          <div class="ks-state" style="flex: 1; min-width: 320px;">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo ks-state__demo--full">
+              <div class="life-line life-line--hovered"></div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="life-line"&gt;&lt;/div&gt;
+&lt;div class="life-line life-line--hovered"&gt;&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== EVENT DOT ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Event dot</h2>
+        <p class="ks-component__desc">
+          Точка-событие на линии жизни. 5 категорий по цвету персонажа.
+          По наведению увеличивается с 9px до 11px.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo">
+              <span class="event-dot event-dot--politic"></span>
+              &nbsp;
+              <span class="event-dot event-dot--scientist"></span>
+              &nbsp;
+              <span class="event-dot event-dot--businessman"></span>
+              &nbsp;
+              <span class="event-dot event-dot--artist"></span>
+              &nbsp;
+              <span class="event-dot event-dot--writer"></span>
+              &nbsp;
+              <span class="event-dot event-dot--musician"></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo">
+              <span class="event-dot event-dot--politic event-dot--hovered"></span>
+              &nbsp;
+              <span class="event-dot event-dot--scientist event-dot--hovered"></span>
+              &nbsp;
+              <span class="event-dot event-dot--businessman event-dot--hovered"></span>
+              &nbsp;
+              <span class="event-dot event-dot--artist event-dot--hovered"></span>
+              &nbsp;
+              <span class="event-dot event-dot--writer event-dot--hovered"></span>
+              &nbsp;
+              <span class="event-dot event-dot--musician event-dot--hovered"></span>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;span class="event-dot event-dot--politic"&gt;&lt;/span&gt;
+&lt;span class="event-dot event-dot--scientist"&gt;&lt;/span&gt;
+&lt;span class="event-dot event-dot--businessman"&gt;&lt;/span&gt;
+&lt;span class="event-dot event-dot--artist"&gt;&lt;/span&gt;
+&lt;span class="event-dot event-dot--writer"&gt;&lt;/span&gt;
+
+&lt;!-- Hovered (форсировано) --&gt;
+&lt;span class="event-dot event-dot--politic event-dot--hovered"&gt;&lt;/span&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== DIVIDER ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Divider</h2>
+        <p class="ks-component__desc">
+          Вертикальная разделительная линия. Primary — основная,
+          Secondary — приглушённая.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Primary</div>
+            <div class="ks-state__demo">
+              <div class="divider"></div>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Secondary</div>
+            <div class="ks-state__demo">
+              <div class="divider divider--secondary"></div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="divider"&gt;&lt;/div&gt;
+&lt;div class="divider divider--secondary"&gt;&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== CHECKBOX ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Checkbox</h2>
+        <p class="ks-component__desc">
+          Чекбокс 16×16. Состояния: Default, Hovered, Checked
+          (= Active в Figma — заливка brand с белой галочкой).
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo">
+              <button class="checkbox" type="button">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo">
+              <button class="checkbox checkbox--hovered" type="button">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Checked</div>
+            <div class="ks-state__demo">
+              <button class="checkbox checkbox--checked" type="button">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Deselect (partial)</div>
+            <div class="ks-state__demo">
+              <button class="checkbox checkbox--deselect" type="button" aria-label="Часть выбрана"></button>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;button class="checkbox" type="button"&gt;
+  &lt;svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- Состояния --&gt;
+&lt;button class="checkbox checkbox--hovered" type="button"&gt;...&lt;/button&gt;
+&lt;button class="checkbox checkbox--checked"  type="button"&gt;...галочка...&lt;/button&gt;
+&lt;button class="checkbox checkbox--deselect" type="button"&gt;&lt;/button&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== YEAR ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Year</h2>
+        <p class="ks-component__desc">
+          Атом одного года на временной шкале. Бокс 20×17. Внутри
+          <code>__dot</code> (точка) и <code>__label</code> (число), оба
+          центрированы. 3 состояния: Default → Hovered (цвет ярче) →
+          Active (точка 7×7, label 12px, цвет text-primary-active).
+          Используется как составная часть Year scale.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo">
+              <div class="year">
+                <div class="year__dot"></div>
+                <span class="year__label">1892</span>
+              </div>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo">
+              <div class="year year--hovered">
+                <div class="year__dot"></div>
+                <span class="year__label">1892</span>
+              </div>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Active</div>
+            <div class="ks-state__demo">
+              <div class="year year--active">
+                <div class="year__dot"></div>
+                <span class="year__label">1892</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="year"&gt;
+  &lt;div class="year__dot"&gt;&lt;/div&gt;
+  &lt;span class="year__label"&gt;1892&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class="year year--hovered"&gt;...&lt;/div&gt;
+&lt;div class="year year--active"&gt;...&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== ICON BUTTONS ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Icon buttons</h2>
+        <p class="ks-component__desc">
+          Три варианта поведения. <strong>Ghost</strong> — фон light/8 на ховере, иконка остаётся белой
+          (для шапки). <strong>Action</strong> — без фона, цвет иконки меняется white → brand
+          (для action-икон). <strong>Pill</strong> — круглая 14×14 с тёмным глифом на светлом круге
+          (для зум-контролов).
+        </p>
+
+        <h3 class="ks-subgroup">Ghost — burger / info</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">burger · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--ghost" type="button" aria-label="Меню">
+                <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 21C23.5523 21 24 21.4477 24 22C24 22.5523 23.5523 23 23 23H9C8.44771 23 8 22.5523 8 22C8 21.4477 8.44771 21 9 21H23ZM23 15C23.5523 15 24 15.4477 24 16C24 16.5523 23.5523 17 23 17H9C8.44771 17 8 16.5523 8 16C8 15.4477 8.44771 15 9 15H23ZM23 9C23.5523 9 24 9.4477 24 10C24 10.5523 23.5523 11 23 11H9C8.44771 11 8 10.5523 8 10C8 9.4477 8.44771 9 9 9H23Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">burger · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--ghost icon-btn--hovered" type="button" aria-label="Меню">
+                <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23 21C23.5523 21 24 21.4477 24 22C24 22.5523 23.5523 23 23 23H9C8.44771 23 8 22.5523 8 22C8 21.4477 8.44771 21 9 21H23ZM23 15C23.5523 15 24 15.4477 24 16C24 16.5523 23.5523 17 23 17H9C8.44771 17 8 16.5523 8 16C8 15.4477 8.44771 15 9 15H23ZM23 9C23.5523 9 24 9.4477 24 10C24 10.5523 23.5523 11 23 11H9C8.44771 11 8 10.5523 8 10C8 9.4477 8.44771 9 9 9H23Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">info · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--ghost" type="button" aria-label="О проекте">
+                <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 13C15.2091 13 17 14.7909 17 17V22H19C19.5523 22 20 22.4477 20 23C20 23.5523 19.5523 24 19 24H13C12.4477 24 12 23.5523 12 23C12 22.4477 12.4477 22 13 22H15V17C15 15.8954 14.1046 15 13 15C12.4477 15 12 14.5523 12 14C12 13.4477 12.4477 13 13 13ZM15.5 8C16.3284 8 17 8.6716 17 9.5C17 10.3284 16.3284 11 15.5 11C14.6716 11 14 10.3284 14 9.5C14 8.6716 14.6716 8 15.5 8Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">info · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--ghost icon-btn--hovered" type="button" aria-label="О проекте">
+                <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 13C15.2091 13 17 14.7909 17 17V22H19C19.5523 22 20 22.4477 20 23C20 23.5523 19.5523 24 19 24H13C12.4477 24 12 23.5523 12 23C12 22.4477 12.4477 22 13 22H15V17C15 15.8954 14.1046 15 13 15C12.4477 15 12 14.5523 12 14C12 13.4477 12.4477 13 13 13ZM15.5 8C16.3284 8 17 8.6716 17 9.5C17 10.3284 16.3284 11 15.5 11C14.6716 11 14 10.3284 14 9.5C14 8.6716 14.6716 8 15.5 8Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ks-subgroup">Action — arrow up / arrow down / close</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">arrow up · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action" type="button" aria-label="Вверх">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">arrow up · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action icon-btn--hovered" type="button" aria-label="Вверх">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">arrow down · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action" type="button" aria-label="Вниз">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5501 14.8351C12.2729 15.0182 11.9243 15.0489 11.6234 14.9269C11.5933 14.9147 11.5635 14.9011 11.5345 14.8858C11.4474 14.8401 11.3656 14.7804 11.2923 14.7071L7.2933 10.7071C6.9028 10.3166 6.9028 9.6836 7.2933 9.2931C7.6838 8.9027 8.3169 8.9026 8.7074 9.2931L12.0003 12.586L15.2923 9.2931C15.6828 8.9026 16.3158 8.9026 16.7064 9.2931C17.0969 9.6836 17.0969 10.3166 16.7064 10.7071L12.7074 14.7062C12.6584 14.7551 12.6057 14.7984 12.5501 14.8351Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">arrow down · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action icon-btn--hovered" type="button" aria-label="Вниз">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5501 14.8351C12.2729 15.0182 11.9243 15.0489 11.6234 14.9269C11.5933 14.9147 11.5635 14.9011 11.5345 14.8858C11.4474 14.8401 11.3656 14.7804 11.2923 14.7071L7.2933 10.7071C6.9028 10.3166 6.9028 9.6836 7.2933 9.2931C7.6838 8.9027 8.3169 8.9026 8.7074 9.2931L12.0003 12.586L15.2923 9.2931C15.6828 8.9026 16.3158 8.9026 16.7064 9.2931C17.0969 9.6836 17.0969 10.3166 16.7064 10.7071L12.7074 14.7062C12.6584 14.7551 12.6057 14.7984 12.5501 14.8351Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">close · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action" type="button" aria-label="Закрыть">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.2815 5.2961C17.6735 4.9071 18.3094 4.9071 18.7014 5.2961C19.0932 5.6852 19.0933 6.3154 18.7014 6.7043L13.4192 11.9446L18.7102 17.1956C19.1018 17.5845 19.1019 18.2148 18.7102 18.6038C18.3182 18.9928 17.6823 18.9928 17.2903 18.6038L12.0002 13.3538L6.7102 18.6038C6.3182 18.9928 5.6823 18.9928 5.2903 18.6038C4.8984 18.2148 4.8985 17.5846 5.2903 17.1956L10.5803 11.9456L5.2991 6.7043C4.907 6.3153 4.907 5.6842 5.2991 5.2952C5.6911 4.9065 6.3271 4.9063 6.719 5.2952L12.0002 10.5364L17.2815 5.2961Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">close · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--action icon-btn--hovered" type="button" aria-label="Закрыть">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.2815 5.2961C17.6735 4.9071 18.3094 4.9071 18.7014 5.2961C19.0932 5.6852 19.0933 6.3154 18.7014 6.7043L13.4192 11.9446L18.7102 17.1956C19.1018 17.5845 19.1019 18.2148 18.7102 18.6038C18.3182 18.9928 17.6823 18.9928 17.2903 18.6038L12.0002 13.3538L6.7102 18.6038C6.3182 18.9928 5.6823 18.9928 5.2903 18.6038C4.8984 18.2148 4.8985 17.5846 5.2903 17.1956L10.5803 11.9456L5.2991 6.7043C4.907 6.3153 4.907 5.6842 5.2991 5.2952C5.6911 4.9065 6.3271 4.9063 6.719 5.2952L12.0002 10.5364L17.2815 5.2961Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ks-subgroup">Pill — plus / minus (для Zoom)</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">plus · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 3C7.5523 3 8 3.4477 8 4V6H10C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H8V10C8 10.5523 7.5523 11 7 11C6.4477 11 6 10.5523 6 10V8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H6V4C6 3.4477 6.4477 3 7 3Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">plus · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--pill icon-btn--hovered" type="button" aria-label="Увеличить">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 3C7.5523 3 8 3.4477 8 4V6H10C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H8V10C8 10.5523 7.5523 11 7 11C6.4477 11 6 10.5523 6 10V8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H6V4C6 3.4477 6.4477 3 7 3Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">minus · Default</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--pill" type="button" aria-label="Уменьшить">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">minus · Hovered</div>
+            <div class="ks-state__demo">
+              <button class="icon-btn icon-btn--pill icon-btn--hovered" type="button" aria-label="Уменьшить">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML — пример (burger ghost)</summary>
+<pre>&lt;button class="icon-btn icon-btn--ghost" type="button" aria-label="Меню"&gt;
+  &lt;svg viewBox="0 0 32 32" fill="currentColor"&gt;...&lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- Action: --&gt;
+&lt;button class="icon-btn icon-btn--action"&gt;...&lt;/button&gt;
+
+&lt;!-- Pill: --&gt;
+&lt;button class="icon-btn icon-btn--pill"&gt;...&lt;/button&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== SELECTOR ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Selector</h2>
+        <p class="ks-component__desc">
+          Заголовок-аккордеон группы чекбоксов в сайдбаре (Художники, Писатели, Учёные и т.д.).
+          Клик раскрывает список персонажей под ним; селектор переходит в Active (chevron
+          поворачивается вниз). Повторный клик — список скрывается.
+          Группа "События" отображается как <code>События: все</code> когда выбраны все,
+          и просто <code>События</code> — когда фильтрованы.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 320px;">
+            <div class="ks-state__label">Default — группа закрыта</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <button class="selector" type="button">
+                <span class="event-dot event-dot--writer event-dot--sm"></span>
+                <span class="selector__name">Писатели</span>
+                <span class="selector__chevron">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state" style="min-width: 320px;">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <button class="selector selector--hovered" type="button">
+                <span class="event-dot event-dot--writer event-dot--sm"></span>
+                <span class="selector__name">Писатели</span>
+                <span class="selector__chevron">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state" style="min-width: 320px;">
+            <div class="ks-state__label">Active — группа раскрыта</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <button class="selector selector--active" type="button">
+                <span class="event-dot event-dot--writer event-dot--sm"></span>
+                <span class="selector__name">Писатели</span>
+                <span class="selector__chevron">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="ks-state" style="min-width: 320px;">
+            <div class="ks-state__label">События (без точки)</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <button class="selector" type="button">
+                <span class="selector__name">События: все</span>
+                <span class="selector__chevron">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;button class="selector" type="button"&gt;
+  &lt;span class="event-dot event-dot--writer event-dot--sm"&gt;&lt;/span&gt;
+  &lt;span class="selector__name"&gt;Писатели&lt;/span&gt;
+  &lt;span class="selector__chevron"&gt;
+    &lt;svg viewBox="0 0 24 24"&gt;...arrow up...&lt;/svg&gt;
+  &lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Состояния (та же разметка, меняется только класс): --&gt;
+&lt;button class="selector selector--hovered"&gt;...&lt;/button&gt;
+&lt;button class="selector selector--active"&gt;...&lt;/button&gt;
+
+&lt;!-- Группа "События" — без точки: --&gt;
+&lt;button class="selector"&gt;
+  &lt;span class="selector__name"&gt;События: все&lt;/span&gt;
+  &lt;span class="selector__chevron"&gt;...&lt;/span&gt;
+&lt;/button&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== EVENT ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Event</h2>
+        <p class="ks-component__desc">
+          Вертикальная "колонна" мирового события на таймлайне. 4 типа в зависимости
+          от длительности: несколько лет (широкая полоса), один год (узкая),
+          меньше года (1px линия), и вариант "следующий век" (тонкая линия с лейблом).
+          Высота колонны = высоте таймфлоу. Состояния: Default / Hovered.
+        </p>
+
+        <h3 class="ks-subgroup">Несколько лет</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--several-years" style="width: 80px;"></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--several-years event--hovered" style="width: 80px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ks-subgroup">Один год</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--one-year"></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--one-year event--hovered"></span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ks-subgroup">Меньше года</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--less-than-year"></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch;">
+              <span class="event event--less-than-year event--hovered"></span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="ks-subgroup">Дивайдер века (event--secondary, без hover)</h3>
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default — purple, persistent caption</div>
+            <div class="ks-state__demo" style="height: 140px; align-items: stretch; padding-top: 32px; position: relative;">
+              <div class="event event--secondary" style="position: relative; height: 100%;">
+                <span class="event__caption event__caption--persistent">XX</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;span class="event event--several-years"&gt;&lt;/span&gt;
+&lt;span class="event event--one-year"&gt;&lt;/span&gt;
+&lt;span class="event event--less-than-year"&gt;&lt;/span&gt;
+
+&lt;!-- Дивайдер века (без hover, persistent caption внутри): --&gt;
+&lt;div class="event event--secondary"&gt;
+  &lt;span class="event__caption event__caption--persistent"&gt;XX&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Hovered (форсировано): --&gt;
+&lt;span class="event event--several-years event--hovered"&gt;&lt;/span&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== EVENT CAPTION ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Event caption</h2>
+        <p class="ks-component__desc">
+          Текстовый ярлык события (название/год). 5 категорий персонажей × 2 ориентации.
+          Ориентация — это асимметричное скругление углов: "right" указывает направо
+          (привязка справа-снизу), "left" — налево.
+        </p>
+
+        <h3 class="ks-subgroup">Orientation = right</h3>
+        <div class="ks-states">
+          <div class="ks-state"><div class="ks-state__label">politic</div><div class="ks-state__demo"><span class="event-caption event-caption--right event-caption--politic">Революция 1917</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">businessman</div><div class="ks-state__demo"><span class="event-caption event-caption--right event-caption--businessman">Открытие Ford Motor</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">artist</div><div class="ks-state__demo"><span class="event-caption event-caption--right event-caption--artist">Чёрный квадрат</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">writer</div><div class="ks-state__demo"><span class="event-caption event-caption--right event-caption--writer">Доктор Живаго</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">scientist</div><div class="ks-state__demo"><span class="event-caption event-caption--right event-caption--scientist">Теория относительности</span></div></div>
+        </div>
+
+        <h3 class="ks-subgroup">Orientation = left</h3>
+        <div class="ks-states">
+          <div class="ks-state"><div class="ks-state__label">politic</div><div class="ks-state__demo"><span class="event-caption event-caption--left event-caption--politic">Революция 1917</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">businessman</div><div class="ks-state__demo"><span class="event-caption event-caption--left event-caption--businessman">Открытие Ford Motor</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">artist</div><div class="ks-state__demo"><span class="event-caption event-caption--left event-caption--artist">Чёрный квадрат</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">writer</div><div class="ks-state__demo"><span class="event-caption event-caption--left event-caption--writer">Доктор Живаго</span></div></div>
+          <div class="ks-state"><div class="ks-state__label">scientist</div><div class="ks-state__demo"><span class="event-caption event-caption--left event-caption--scientist">Теория относительности</span></div></div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;span class="event-caption event-caption--right event-caption--writer"&gt;
+  Доктор Живаго
+&lt;/span&gt;
+
+&lt;span class="event-caption event-caption--left event-caption--scientist"&gt;
+  Теория относительности
+&lt;/span&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== ZOOM ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Zoom</h2>
+        <p class="ks-component__desc">
+          Контрол масштабирования таймлайна. 128×22. Кнопки plus/minus
+          (используют icon-btn--pill) + трек со ступенями + thumb.
+          Работает как scrubber видеоредактора: drag thumb или клик +/− меняет шаг.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 200px;">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo">
+              <div class="zoom">
+                <button class="icon-btn icon-btn--pill" type="button" aria-label="Уменьшить">
+                  <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                  </svg>
+                </button>
+                <div class="zoom__track">
+                  <span class="zoom__tick" style="left: 0%"></span>
+                  <span class="zoom__tick" style="left: 25%"></span>
+                  <span class="zoom__tick" style="left: 50%"></span>
+                  <span class="zoom__tick" style="left: 75%"></span>
+                  <span class="zoom__tick" style="left: 100%"></span>
+                  <div class="zoom__thumb" style="left: 50%"></div>
+                </div>
+                <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить">
+                  <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 3C7.5523 3 8 3.4477 8 4V6H10C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H8V10C8 10.5523 7.5523 11 7 11C6.4477 11 6 10.5523 6 10V8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H6V4C6 3.4477 6.4477 3 7 3Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="zoom"&gt;
+  &lt;button class="icon-btn icon-btn--pill"&gt;...minus svg...&lt;/button&gt;
+  &lt;div class="zoom__track"&gt;
+    &lt;span class="zoom__tick" style="left: 0%"&gt;&lt;/span&gt;
+    &lt;span class="zoom__tick" style="left: 25%"&gt;&lt;/span&gt;
+    &lt;span class="zoom__tick" style="left: 50%"&gt;&lt;/span&gt;
+    &lt;span class="zoom__tick" style="left: 75%"&gt;&lt;/span&gt;
+    &lt;span class="zoom__tick" style="left: 100%"&gt;&lt;/span&gt;
+    &lt;div class="zoom__thumb" style="left: 50%"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="icon-btn icon-btn--pill"&gt;...plus svg...&lt;/button&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== TIME ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Time</h2>
+        <p class="ks-component__desc">
+          Отрезок времени. Тёмная подложка + 1px красная черта на правом крае —
+          обозначает <strong>текущий год</strong>. Каждый год 1 января черта сдвигается
+          на 1px вправо. Используется самостоятельно (например, как трек жизни
+          в попапе) и как часть Timeline-mini.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 380px;">
+            <div class="ks-state__label">329×20 (для попапа)</div>
+            <div class="ks-state__demo">
+              <div class="time" style="width: 329px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="time" style="width: 329px;"&gt;&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== FOCUS ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Focus</h2>
+        <p class="ks-component__desc">
+          Рамка-индикатор видимой области таймлайна. 1px светлая граница,
+          скруглённая, прозрачное наполнение. Двигается синхронно со скроллом
+          главного экрана внутри Timeline-mini.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">45×28</div>
+            <div class="ks-state__demo">
+              <div class="focus" style="width: 45px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="focus" style="width: 45px;"&gt;&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== YEAR SCALE ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Year scale</h2>
+        <p class="ks-component__desc">
+          Длинная горизонтальная шкала годов внизу основного экрана.
+          На каждый год — компонент <code>.year</code> (см. секцию выше).
+          Бокс <code>.year</code> центрирован на координате года: <code>left = yearToX − 10</code>.
+          На главном экране каждый год реагирует на hover курсором по любому
+          месту Timeflow (см. <code>MAIN_SCREEN.md</code> → Year scale).
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 460px;">
+            <div class="ks-state__label">1850–1860 с шагом 40px (наведи на год — он подсветится)</div>
+            <div class="ks-state__demo" style="padding: 24px 16px;">
+              <div class="year-scale" style="width: 400px; height: 33px;">
+                <div class="year" style="left: -10px;"><div class="year__dot"></div><span class="year__label">1850</span></div>
+                <div class="year" style="left: 30px;"><div class="year__dot"></div><span class="year__label">1851</span></div>
+                <div class="year" style="left: 70px;"><div class="year__dot"></div><span class="year__label">1852</span></div>
+                <div class="year" style="left: 110px;"><div class="year__dot"></div><span class="year__label">1853</span></div>
+                <div class="year" style="left: 150px;"><div class="year__dot"></div><span class="year__label">1854</span></div>
+                <div class="year year--active" style="left: 190px;"><div class="year__dot"></div><span class="year__label">1855</span></div>
+                <div class="year" style="left: 230px;"><div class="year__dot"></div><span class="year__label">1856</span></div>
+                <div class="year" style="left: 270px;"><div class="year__dot"></div><span class="year__label">1857</span></div>
+                <div class="year" style="left: 310px;"><div class="year__dot"></div><span class="year__label">1858</span></div>
+                <div class="year" style="left: 350px;"><div class="year__dot"></div><span class="year__label">1859</span></div>
+                <div class="year" style="left: 390px;"><div class="year__dot"></div><span class="year__label">1860</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="year-scale"&gt;
+  &lt;!-- На каждый год — компонент .year, бокс центрирован на координате
+       года: left = yearToX(year) − 10 (10 = половина бокса .year) --&gt;
+  &lt;div class="year" style="left: -10px;"&gt;
+    &lt;div class="year__dot"&gt;&lt;/div&gt;
+    &lt;span class="year__label"&gt;1850&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="year" style="left: 30px;"&gt;...&lt;/div&gt;
+  ...
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== TIMELINE-MINI ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Timeline-mini</h2>
+        <p class="ks-component__desc">
+          Миниатюра общего таймлайна для шапки. Композит из Time
+          (фактическое время до "сейчас") + дивайдеры веков (по 100px = 100 лет)
+          + римские лейблы веков + Focus (рамка видимой области)
+          + размытие на левом крае (история, в которую пока не уходим,
+          но возможно поедем в будущем).
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 480px;">
+            <div class="ks-state__label">4 века: XVIII–XXI, "сейчас" ≈ 2026</div>
+            <div class="ks-state__demo" style="padding: 24px 16px;">
+              <div class="timeline-mini" style="width: 445px;">
+                <!-- 1. Time — фактическая полоса времени, нижний слой -->
+                <div class="time timeline-mini__time" style="left: 40px; width: 326px;"></div>
+                <!-- 2. Fade — поверх time, ПОД дивайдерами (чтобы их не блюрить) -->
+                <div class="timeline-mini__fade-left"></div>
+                <!-- 3. Дивайдеры веков (каждые 100px) — поверх fade, остаются резкими -->
+                <div class="timeline-mini__divider" style="left: 40px;"></div>
+                <div class="timeline-mini__divider" style="left: 141px;"></div>
+                <div class="timeline-mini__divider" style="left: 242px;"></div>
+                <div class="timeline-mini__divider" style="left: 343px;"></div>
+                <div class="timeline-mini__divider" style="left: 444px;"></div>
+                <!-- 3b. Лейблы веков (центр между дивайдерами) -->
+                <div class="timeline-mini__label" style="left: 90px;">XVIII</div>
+                <div class="timeline-mini__label" style="left: 191px;">XIX</div>
+                <div class="timeline-mini__label" style="left: 292px;">XX</div>
+                <div class="timeline-mini__label" style="left: 393px;">XXI</div>
+                <!-- 4. Focus (рамка видимой области) — поверх всего -->
+                <div class="focus timeline-mini__focus" style="left: 220px; width: 45px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="timeline-mini" style="width: 445px;"&gt;
+  &lt;div class="time timeline-mini__time" style="left: 40px; width: 326px;"&gt;&lt;/div&gt;
+  &lt;!-- 5 дивайдеров (каждые 100px) --&gt;
+  &lt;div class="timeline-mini__divider" style="left: 40px;"&gt;&lt;/div&gt;
+  &lt;div class="timeline-mini__divider" style="left: 141px;"&gt;&lt;/div&gt;
+  ...
+  &lt;!-- Римские лейблы (центры между дивайдерами) --&gt;
+  &lt;div class="timeline-mini__label" style="left: 90px;"&gt;XVIII&lt;/div&gt;
+  &lt;div class="timeline-mini__label" style="left: 191px;"&gt;XIX&lt;/div&gt;
+  ...
+  &lt;!-- Progressive blur — над time/divider/label, под focus --&gt;
+  &lt;div class="timeline-mini__fade-left"&gt;&lt;/div&gt;
+  &lt;!-- Focus (left/width управляется JS) --&gt;
+  &lt;div class="focus timeline-mini__focus" style="left: 220px; width: 45px;"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== POPUP ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Popup</h2>
+        <p class="ks-component__desc">
+          Карточка-шторка с подробностями события на линии жизни. Выезжает с правого
+          края экрана, занимает 85vw. Двухколоночный grid: левая колонка (2/3)
+          с heading + lead + секциями текста, правая (1/3) — фото и блок
+          «В это же время». Реальный popup на главном экране позиционируется
+          через <code>.popup-overlay</code>; ниже демо самого <code>.popup</code>
+          в фиксированной обёртке.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="flex: 1; min-width: 1000px;">
+            <div class="ks-state__label">Малевич, 1915 (artist)</div>
+            <div class="ks-state__demo" style="padding: 0; display: block;">
+              <div class="popup" style="height: 700px;">
+                <button class="icon-btn icon-btn--ghost popup__close" type="button" aria-label="Закрыть">
+                  <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
+                  </svg>
+                </button>
+                <div class="popup__left">
+                  <div class="popup__heading">
+                    <h1 class="popup__title">Казимир Малевич в 1915</h1>
+                    <div class="popup__lifetime">
+                      <span class="popup__lifetime-year" style="left: 0;">1879</span>
+                      <span class="popup__lifetime-year popup__lifetime-year--event"
+                            style="left: 64.3%; color: var(--surface-person-artist);">1915</span>
+                      <span class="popup__lifetime-year popup__lifetime-year--end">1935</span>
+                      <div class="popup__lifetime-track"></div>
+                      <span class="popup__lifetime-dot"
+                            style="left: 64.3%; background: var(--surface-person-artist);"></span>
+                    </div>
+                  </div>
+
+                  <p class="popup__lead">
+                    1915 год стал поворотным моментом не только для Казимира Малевича,
+                    но и для всей истории искусства. Именно в этот период художник
+                    совершил решительный разрыв с предыдущими направлениями авангарда
+                    и сформировал собственный художественный язык, получивший название
+                    супрематизма.
+                  </p>
+
+                  <div class="popup__text">
+                    <section class="popup__section">
+                      <h2 class="popup__section-title">Рождение супрематизма</h2>
+                      <p class="popup__section-body">
+                        В 1915 году Малевич создает первые произведения, полностью
+                        освобожденные от изображения реальных предметов. Среди них
+                        особенно выделяется «Чёрный квадрат».
+                      </p>
+                    </section>
+                    <section class="popup__section">
+                      <h2 class="popup__section-title">Выставка «0,10»</h2>
+                      <p class="popup__section-body">
+                        Кульминацией года становится участие Малевича в петроградской
+                        выставке «0,10» (декабрь 1915). Художник представляет
+                        39 супрематических работ.
+                      </p>
+                    </section>
+                  </div>
+                </div>
+
+                <div class="popup__right">
+                  <div class="popup__photo"></div>
+                  <div class="popup__concurrent">
+                    <div class="popup__concurrent-title">В это же время</div>
+                    <div class="popup__concurrent-list">
+                      <div class="popup__concurrent-item">
+                        <span class="popup__concurrent-dot popup__concurrent-dot--businessman"></span>
+                        <div class="popup__concurrent-name popup__concurrent-name--businessman">Уолт Дисней</div>
+                        <div class="popup__concurrent-desc">Начинает работать художником-карикатуристом в Канзас-Сити</div>
+                      </div>
+                      <div class="popup__concurrent-item">
+                        <span class="popup__concurrent-dot popup__concurrent-dot--writer"></span>
+                        <div class="popup__concurrent-name popup__concurrent-name--writer">Франц Кафка</div>
+                        <div class="popup__concurrent-desc">Пишет «Процесс»</div>
+                      </div>
+                      <div class="popup__concurrent-item">
+                        <span class="popup__concurrent-dot popup__concurrent-dot--scientist"></span>
+                        <div class="popup__concurrent-name popup__concurrent-name--scientist">Альберт Эйнштейн</div>
+                        <div class="popup__concurrent-desc">Завершает формирование общей теории относительности</div>
+                      </div>
+                      <div class="popup__concurrent-item">
+                        <span class="popup__concurrent-dot popup__concurrent-dot--politic"></span>
+                        <div class="popup__concurrent-name popup__concurrent-name--politic">Владимир Ленин</div>
+                        <div class="popup__concurrent-desc">Пишет «Империализм как высшая стадия капитализма»</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ============== HEADER ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Header</h2>
+        <p class="ks-component__desc">
+          Шапка главного экрана: 1280×64, фон <code>surface-header</code>.
+          Композит: <code>icon-btn/burger</code> слева (16px от края, центр по Y)
+          + <code>timeline-mini</code> в центре (по Figma — 405px ширины, 4 века XVIII–XXI)
+          + <code>icon-btn/info</code> справа (16px от края).
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 1300px;">
+            <div class="ks-state__label">Default — все компоненты на месте</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <div class="header" style="width: 1280px;">
+                <button class="icon-btn icon-btn--ghost header__burger" type="button" aria-label="Меню">
+                  <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23 21C23.5523 21 24 21.4477 24 22C24 22.5523 23.5523 23 23 23H9C8.44771 23 8 22.5523 8 22C8 21.4477 8.44771 21 9 21H23ZM23 15C23.5523 15 24 15.4477 24 16C24 16.5523 23.5523 17 23 17H9C8.44771 17 8 16.5523 8 16C8 15.4477 8.44771 15 9 15H23ZM23 9C23.5523 9 24 9.4477 24 10C24 10.5523 23.5523 11 23 11H9C8.44771 11 8 10.5523 8 10C8 9.4477 8.44771 9 9 9H23Z"/>
+                  </svg>
+                </button>
+
+                <div class="header__timeline">
+                  <div class="timeline-mini" style="width: 445px;">
+                    <div class="time timeline-mini__time" style="left: 40px; width: 326px;"></div>
+                    <div class="timeline-mini__divider" style="left: 40px;"></div>
+                    <div class="timeline-mini__divider" style="left: 141px;"></div>
+                    <div class="timeline-mini__divider" style="left: 242px;"></div>
+                    <div class="timeline-mini__divider" style="left: 343px;"></div>
+                    <div class="timeline-mini__divider" style="left: 444px;"></div>
+                    <div class="timeline-mini__label" style="left: 90px;">XVIII</div>
+                    <div class="timeline-mini__label" style="left: 191px;">XIX</div>
+                    <div class="timeline-mini__label" style="left: 292px;">XX</div>
+                    <div class="timeline-mini__label" style="left: 393px;">XXI</div>
+                    <div class="timeline-mini__fade-left"></div>
+                    <div class="focus timeline-mini__focus" style="left: 220px; width: 45px;"></div>
+                  </div>
+                </div>
+
+                <button class="icon-btn icon-btn--ghost header__info" type="button" aria-label="О проекте">
+                  <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 13C15.2091 13 17 14.7909 17 17V22H19C19.5523 22 20 22.4477 20 23C20 23.5523 19.5523 24 19 24H13C12.4477 24 12 23.5523 12 23C12 22.4477 12.4477 22 13 22H15V17C15 15.8954 14.1046 15 13 15C12.4477 15 12 14.5523 12 14C12 13.4477 12.4477 13 13 13ZM15.5 8C16.3284 8 17 8.6716 17 9.5C17 10.3284 16.3284 11 15.5 11C14.6716 11 14 10.3284 14 9.5C14 8.6716 14.6716 8 15.5 8Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="header"&gt;
+  &lt;button class="icon-btn icon-btn--ghost header__burger"&gt;...&lt;/button&gt;
+  &lt;div class="header__timeline"&gt;
+    &lt;div class="timeline-mini"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;button class="icon-btn icon-btn--ghost header__info"&gt;...&lt;/button&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+      <!-- ============== SIDEBAR ============== -->
+      <section class="ks-component">
+        <h2 class="ks-component__title">Sidebar</h2>
+        <p class="ks-component__desc">
+          Левая фильтр-панель главного экрана: 288×720, фон <code>surface-bg</code>,
+          border-right <code>border-category</code>. Сверху close-иконка,
+          далее набор <code>Selector</code>'ов (события + 5 категорий людей);
+          под раскрытым селектором — список <code>Checkbox + имя</code>
+          с gap 16, padding-left 16.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 320px;">
+            <div class="ks-state__label">Раскрыты «Писатели», отмечен «Антон Чехов»</div>
+            <div class="ks-state__demo" style="padding: 0;">
+              <div class="sidebar">
+                <!-- Close-строка -->
+                <div class="sidebar__close">
+                  <button class="icon-btn icon-btn--action" type="button" aria-label="Закрыть">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.2815 5.2961C17.6735 4.9071 18.3094 4.9071 18.7014 5.2961C19.0932 5.6852 19.0933 6.3154 18.7014 6.7043L13.4192 11.9446L18.7102 17.1956C19.1018 17.5845 19.1019 18.2148 18.7102 18.6038C18.3182 18.9928 17.6823 18.9928 17.2903 18.6038L12.0002 13.3538L6.7102 18.6038C6.3182 18.9928 5.6823 18.9928 5.2903 18.6038C4.8984 18.2148 4.8985 17.5846 5.2903 17.1956L10.5803 11.9456L5.2991 6.7043C4.907 6.3153 4.907 5.6842 5.2991 5.2952C5.6911 4.9065 6.3271 4.9063 6.719 5.2952L12.0002 10.5364L17.2815 5.2961Z"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- События -->
+                <button class="selector" type="button">
+                  <span class="selector__name">События: все</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+
+                <!-- Художники (свёрнут) -->
+                <button class="selector" type="button">
+                  <span class="event-dot event-dot--artist event-dot--sm"></span>
+                  <span class="selector__name">Художники</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+
+                <!-- Писатели (раскрыт — chevron Active = повёрнут) -->
+                <button class="selector selector--active" type="button">
+                  <span class="event-dot event-dot--writer event-dot--sm"></span>
+                  <span class="selector__name">Писатели</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+
+                <!-- Список писателей -->
+                <div class="sidebar__list">
+                  <label class="sidebar__item"><span class="checkbox"></span>Александр Блок</label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Александр Куприн</label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Анна Ахматова</label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Андрей Белый</label>
+                  <label class="sidebar__item">
+                    <span class="checkbox checkbox--checked">
+                      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/>
+                      </svg>
+                    </span>
+                    Антон Чехов
+                  </label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Артур Конан Дойл</label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Борис Пастернак</label>
+                  <label class="sidebar__item"><span class="checkbox"></span>Валерий Брюсов</label>
+                </div>
+
+                <!-- Бизнесмены / Учёные / Политики (свёрнуты) -->
+                <button class="selector" type="button">
+                  <span class="event-dot event-dot--businessman event-dot--sm"></span>
+                  <span class="selector__name">Бизнесмены</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+                <button class="selector" type="button">
+                  <span class="event-dot event-dot--scientist event-dot--sm"></span>
+                  <span class="selector__name">Учёные</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+                <button class="selector" type="button">
+                  <span class="event-dot event-dot--politic event-dot--sm"></span>
+                  <span class="selector__name">Политики</span>
+                  <span class="selector__chevron">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML (упрощённо)</summary>
+<pre>&lt;div class="sidebar"&gt;
+  &lt;div class="sidebar__close"&gt;
+    &lt;button class="icon-btn icon-btn--action"&gt;...close svg...&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;button class="selector"&gt;
+    &lt;span class="selector__name"&gt;События: все&lt;/span&gt;
+    &lt;span class="selector__chevron"&gt;...&lt;/span&gt;
+  &lt;/button&gt;
+
+  &lt;button class="selector selector--active"&gt;
+    &lt;span class="event-dot event-dot--writer event-dot--sm"&gt;&lt;/span&gt;
+    &lt;span class="selector__name"&gt;Писатели&lt;/span&gt;
+    &lt;span class="selector__chevron"&gt;...&lt;/span&gt;
+  &lt;/button&gt;
+
+  &lt;div class="sidebar__list"&gt;
+    &lt;label class="sidebar__item"&gt;&lt;span class="checkbox"&gt;&lt;/span&gt;Имя&lt;/label&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;button class="selector"&gt;...Бизнесмены...&lt;/button&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
+
+    </main>
+    <script type="module" src="/js/components-page.js"></script>
+  </body>
+</html>

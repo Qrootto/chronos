@@ -1,0 +1,83 @@
+/* Event dot — точка-событие на линии жизни.
+ * 5 категорий (politic/scientist/businessman/artist/writer).
+ *
+ * Бокс всегда 11×11 (чтобы координата центра была одна и та же
+ * в Default и Hovered — не дёргалась). Сама точка рисуется через
+ * ::after и border-radius — браузерный антиалиасинг даёт идеально
+ * гладкие края (radial-gradient давал ступенчатые пиксели).
+ *
+ *   Default — сплошной круг 9px.
+ *   Hovered — кольцо 11px с прозрачной 3px дыркой в центре (donut).
+ *
+ * Small (--sm): 5×5 solid — индикатор категории внутри Selector. */
+
+.event-dot {
+  display: inline-block;
+  position: relative;
+  width: 11px;
+  height: 11px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Расширенная hit-зона ~21×21 — точка маленькая, нужен запас по 5px
+ * с каждой стороны, чтобы курсор уверенно её ловил. */
+.event-dot::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+
+/* Сама видимая точка (Default — solid 9×9, центрирована в боксе 11×11) */
+.event-dot::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dot-color);
+  box-sizing: border-box;
+  transition: width 0.15s ease, height 0.15s ease,
+              left 0.15s ease, top 0.15s ease,
+              background-color 0.15s ease, border-width 0.15s ease;
+}
+
+.event-dot--politic     { --dot-color: var(--surface-person-politic); }
+.event-dot--scientist   { --dot-color: var(--surface-person-scientist); }
+.event-dot--businessman { --dot-color: var(--surface-person-businessman); }
+.event-dot--artist      { --dot-color: var(--surface-person-artist); }
+.event-dot--writer      { --dot-color: var(--surface-person-writer); }
+.event-dot--musician    { --dot-color: var(--surface-person-musician); }
+
+/* Hovered: 15×15 (радиус +2 от Default 9), внутри маленькая 5×5 точка
+ * цвета surface-bg (радиус -1 от прошлой 7×7). Кольцо толщиной 5px.
+ * Реализовано через border (= кольцо) и background = surface-bg (= внутренняя
+ * "точка" того же цвета, что и фон Timeflow → выглядит как сквозная точка).
+ * Бокс event-dot остаётся 11×11, ::after выходит за бокс на -2px каждой стороной
+ * — центр всегда совпадает с центром бокса. */
+.event-dot:hover::after,
+.event-dot--hovered::after {
+  left: -2px;
+  top: -2px;
+  width: 15px;
+  height: 15px;
+  background: var(--surface-bg);
+  border: 5px solid var(--dot-color);
+}
+
+/* Small variant — для Selector. 5px solid через background, без ::after/::before. */
+.event-dot--sm {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dot-color);
+  cursor: inherit;
+}
+.event-dot--sm::before,
+.event-dot--sm::after { display: none; }
+.event-dot--sm:hover,
+.event-dot--sm.event-dot--hovered {
+  background: var(--dot-color);
+}

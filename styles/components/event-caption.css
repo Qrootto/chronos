@@ -1,0 +1,37 @@
+/* Event caption — текстовый ярлык события (название/год).
+ * 5 категорий персонажей × 2 ориентации = 10 вариантов.
+ *
+ * Ориентация задаёт асимметричное скругление углов:
+ *   --right — округлено слева, "указывает" направо (точка-привязка справа-снизу)
+ *   --left  — округлено справа, "указывает" налево (точка-привязка слева-снизу)
+ *
+ * Высота 20px. Текст внутри — Inter SemiBold 14, чёрный. */
+
+.event-caption {
+  display: inline-block;
+  height: 20px;
+  padding: 0 var(--spacing-xs);
+  line-height: 20px;
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: var(--font-semibold-14-size);
+  color: var(--text-black);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* === Категории (цвет фона) === */
+.event-caption--politic     { background: var(--surface-person-politic); }
+.event-caption--businessman { background: var(--surface-person-businessman); }
+.event-caption--artist      { background: var(--surface-person-artist); }
+.event-caption--writer      { background: var(--surface-person-writer); }
+.event-caption--scientist   { background: var(--surface-person-scientist); }
+.event-caption--musician    { background: var(--surface-person-musician); }
+
+/* === Ориентация (асимметричное скругление: tl, tr, br, bl) ===
+ * Угол с наименьшим радиусом (1px) — это «стрелка», смотрит на точку.
+ *   --right — caption справа от точки, стрелка снизу-слева (bl=1).
+ *   --left  — caption слева  от точки, стрелка снизу-справа (br=1).
+ * Значения 10/8/1 не из основной шкалы — компонент-специфичные. */
+.event-caption--right { border-radius: 8px 10px 10px 1px; }
+.event-caption--left  { border-radius: 10px 8px 1px 10px; }

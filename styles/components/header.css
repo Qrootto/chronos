@@ -1,0 +1,39 @@
+/* Header — шапка главного экрана. 1280×64.
+ *
+ * Структура (по Figma 8053:2111):
+ *   .header
+ *     .header__burger    — icon-btn 32×32, left: 16, центр по Y
+ *     .header__timeline  — timeline-mini (405×32), центр контейнера
+ *     .header__info      — icon-btn 32×32, right: 16, центр по Y
+ *
+ * Фон — surface-header (light/8). Высота фиксирована, ширина по родителю
+ * (на главном экране занимает всю ширину окна). */
+
+.header {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  background: var(--surface-header);
+}
+
+.header__burger {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+}
+
+.header__info {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
+.header__timeline {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* width задаётся inline (по умолчанию 405px = 4 века XVIII–XXI). */
+}

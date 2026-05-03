@@ -1,0 +1,252 @@
+/* Chronos — Design Tokens
+ * Сгенерировано из Figma 2026-05-02
+ * Источник: file UWWMIMoOJUYRhoEk5byWs4
+ *
+ * Структура: двухуровневая.
+ *   1. Primitives — палитра (red, green, blue, yellow, purple,
+ *      black/white/light-grade с alpha, dark, brand).
+ *   2. Semantic — токены для UI, ссылаются на primitives через var().
+ *
+ * При изменении бренда меняем только примитив — все семантические
+ * токены обновляются автоматически.
+ */
+
+:root {
+  /* ================================================================
+   * PRIMITIVES — SOLID COLORS
+   * ================================================================ */
+  --red:    #f95b70;
+  --green:  #4dc7a4;
+  --blue:   #3ed6f5;
+  --yellow: #ffdf86;
+  --purple: #de97ff;
+  --orange: #f99032;
+
+  /* ================================================================
+   * PRIMITIVES — BLACK (alpha grades)
+   * ================================================================ */
+  --black-100: #1c1e25;
+  --black-80:  #1c1e25cc;
+  --black-64:  #1c1e25a3;
+  --black-48:  #1c1e257a;
+  --black-32:  #1c1e2552;
+  --black-24:  #1c1e253d;
+  --black-16:  #1c1e2529;
+  --black-8:   #1c1e2514;
+  --black-4:   #1c1e250a;
+
+  /* ================================================================
+   * PRIMITIVES — WHITE (alpha grades)
+   * ================================================================ */
+  --white-100: #ffffff;
+  --white-80:  #ffffffcc;
+  --white-64:  #ffffffa3;
+  --white-48:  #ffffff7a;
+  --white-32:  #ffffff52;
+  --white-24:  #ffffff3d;
+  --white-16:  #ffffff29;
+  --white-8:   #ffffff14;
+  --white-4:   #ffffff0a;
+
+  /* ================================================================
+   * PRIMITIVES — LIGHT (alpha grades, base #c9d5ff)
+   * ================================================================ */
+  --light-100: #c9d5ff;
+  --light-80:  #c9d5ffcc;
+  --light-64:  #c9d5ffa3;
+  --light-48:  #c9d5ff7a;
+  --light-32:  #c9d5ff52;
+  --light-24:  #c9d5ff3d;
+  --light-16:  #c9d5ff29;
+  --light-8:   #c9d5ff14;
+  --light-4:   #c9d5ff0a;
+
+  /* ================================================================
+   * PRIMITIVES — DARK (solid shades, NOT alpha)
+   * ================================================================ */
+  --dark-100: #384059;
+  --dark-48:  #5a6589;
+
+  /* ================================================================
+   * PRIMITIVES — BRAND
+   * ================================================================ */
+  --brand: #13ac7b;
+
+  /* ================================================================
+   * SEMANTIC — TEXT
+   * ================================================================ */
+  --text-primary:           var(--light-24);  /* приглушённый */
+  --text-primary-hovered:   var(--light-48);
+  --text-primary-active:    var(--light-100); /* контрастный */
+  --text-white:             var(--white-100);
+  --text-black:             var(--black-100);
+
+  /* ================================================================
+   * SEMANTIC — SURFACE (фоны)
+   * ================================================================ */
+  --surface-bg:                var(--black-100); /* фон страницы */
+  --surface-bg-secondary:      var(--light-48);
+  --surface-bg-tertiary:       var(--light-24);
+  --surface-popup-bg:          #18191d;          /* фон попапа (отличается от surface-bg) */
+  --surface-darkener:          var(--black-64);  /* затемняющий слой под попапом */
+  --surface-header:            var(--light-8);   /* шапка */
+  --surface-divider:           var(--light-32);
+  --surface-divider-secondary: var(--light-16);
+
+  /* Иконки */
+  --surface-icon:                    var(--white-100);
+  --surface-icon-secondary:          var(--light-64);
+  --surface-icon-secondary-hovered:  var(--light-80);
+  --surface-icon-button-hovered:     var(--light-8);
+
+  /* Категории людей */
+  --surface-person-politic:      var(--red);
+  --surface-person-scientist:    var(--green);
+  --surface-person-businessman:  var(--blue);
+  --surface-person-artist:       var(--yellow);
+  --surface-person-writer:       var(--purple);
+  --surface-person-musician:     var(--orange);
+
+  /* Checkbox */
+  --surface-checkbox:           var(--light-24);
+  --surface-checkbox-hovered:   var(--light-32);
+  --surface-checkbox-active:    var(--brand);
+
+  /* Lifeline (линии жизни) */
+  --surface-lifeline:           var(--dark-100);
+  --surface-lifeline-hovered:   var(--dark-48);
+
+  /* Категория при ховере (карточка в сайдбаре) */
+  --surface-category-hovered:   var(--light-4);
+
+  /* ================================================================
+   * SEMANTIC — BORDER
+   * ================================================================ */
+  --border-lineend:                  var(--red);     /* красная метка "сейчас" */
+  --border-category:                 var(--light-8);
+  --border-checkbox:                 var(--light-16);
+  --border-checkbox-hovered:         var(--light-24);
+  --border-event:                    var(--light-16);
+  --border-event-hovered:            var(--light-64);
+  /* Точечное событие (event--less-than-year) — отдельные токены, чтобы
+   * управлять цветом независимо от других вариантов event. */
+  --surface-event-tick-default:      var(--light-24);
+  --surface-event-tick-hovered:      var(--light-32);
+  /* Дивайдер века (event--secondary, всегда виден с persistent caption). */
+  --surface-event-century:           var(--purple);
+  /* Линия связи между событиями двух людей — default цвет (без hover). */
+  --connection-default:              var(--light-24);
+  --border-event-secondary:          var(--light-48);
+  --border-event-secondary-hovered:  var(--light-80);
+  --border-focus:                    var(--light-64);
+
+  /* ================================================================
+   * BORDER RADIUS
+   * ================================================================ */
+  --radius-xs:    2px;
+  --radius-s:     4px;
+  --radius-m:     8px;
+  --radius-l:     12px;
+  --radius-xl:    16px;
+  --radius-xxl:   24px;
+  --radius-xxxl:  32px;
+
+  /* ================================================================
+   * SPACING
+   * ================================================================ */
+  --spacing-2xs:  4px;
+  --spacing-xs:   8px;
+  --spacing-sm:   12px;
+  --spacing-md:   16px;
+  --spacing-lg:   24px;
+  --spacing-xl:   32px;
+  --spacing-2xl:  48px;
+  --spacing-3xl:  64px;
+
+  /* ================================================================
+   * TYPOGRAPHY
+   * ================================================================ */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Inter Regular 48 — h1 в попапах (имя персонажа) */
+  --font-h1-weight:         400;
+  --font-h1-size:           48px;
+  --font-h1-line-height:    1.1;
+  --font-h1-letter-spacing: 0;
+
+  /* Inter SemiBold 24 — h2 (подзаголовки в попапе) */
+  --font-h2-weight:         600;
+  --font-h2-size:           24px;
+  --font-h2-line-height:    22px;
+  --font-h2-letter-spacing: 0;
+
+  /* Inter Regular 24 — lead (краткое описание года под таймлайном) */
+  --font-lead-weight:         400;
+  --font-lead-size:           24px;
+  --font-lead-line-height:    30px;
+  --font-lead-letter-spacing: 0;
+
+  /* Inter Regular 16 — body (основной текст в попапе) */
+  --font-body-weight:         400;
+  --font-body-size:           16px;
+  --font-body-line-height:    22px;
+  --font-body-letter-spacing: 0;
+
+  /* Inter Regular 14 — body small (описания под именами «В это же время») */
+  --font-body-s-weight:         400;
+  --font-body-s-size:           14px;
+  --font-body-s-line-height:    1.4;
+  --font-body-s-letter-spacing: 0;
+
+  /* Inter SemiBold 14 — labels, имена */
+  --font-semibold-14-weight:         600;
+  --font-semibold-14-size:           14px;
+  --font-semibold-14-line-height:    1;
+  --font-semibold-14-letter-spacing: 0;
+}
+
+/* ==================================================================
+ * UTILITY — TYPOGRAPHY
+ * ================================================================== */
+.text-h1 {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-h1-weight);
+  font-size:      var(--font-h1-size);
+  line-height:    var(--font-h1-line-height);
+  letter-spacing: var(--font-h1-letter-spacing);
+}
+.text-h2 {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-h2-weight);
+  font-size:      var(--font-h2-size);
+  line-height:    var(--font-h2-line-height);
+  letter-spacing: var(--font-h2-letter-spacing);
+}
+.text-lead {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-lead-weight);
+  font-size:      var(--font-lead-size);
+  line-height:    var(--font-lead-line-height);
+  letter-spacing: var(--font-lead-letter-spacing);
+}
+.text-body {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-body-weight);
+  font-size:      var(--font-body-size);
+  line-height:    var(--font-body-line-height);
+  letter-spacing: var(--font-body-letter-spacing);
+}
+.text-body-s {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-body-s-weight);
+  font-size:      var(--font-body-s-size);
+  line-height:    var(--font-body-s-line-height);
+  letter-spacing: var(--font-body-s-letter-spacing);
+}
+.text-semibold-14 {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-semibold-14-weight);
+  font-size:      var(--font-semibold-14-size);
+  line-height:    var(--font-semibold-14-line-height);
+  letter-spacing: var(--font-semibold-14-letter-spacing);
+}

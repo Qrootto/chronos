@@ -1,0 +1,486 @@
+{
+  "people": [
+    {
+      "id": "diaghilev",
+      "name": "Сергей Дягилев",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "morozov",
+      "name": "Савва Морозов",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "ford",
+      "name": "Генри Форд",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "disney",
+      "name": "Уолт Дисней",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "edison",
+      "name": "Томас Эдисон",
+      "category": "businessman",
+      "added": false
+    },
+    {
+      "id": "chanel",
+      "name": "Коко Шанель",
+      "category": "businessman",
+      "added": false
+    },
+    {
+      "id": "rokfeller",
+      "name": "Джон Рокфеллер",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "karnegi",
+      "name": "Эндрю Карнеги",
+      "category": "businessman",
+      "added": false
+    },
+    {
+      "id": "mamontov",
+      "name": "Савва Мамонтов",
+      "category": "businessman",
+      "added": true
+    },
+    {
+      "id": "picasso",
+      "name": "Пабло Пикассо",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "bakst",
+      "name": "Лев Бакст",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "benois",
+      "name": "Александр Бенуа",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "malevich",
+      "name": "Казимир Малевич",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "kandinsky",
+      "name": "Василий Кандинский",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "kustodiev",
+      "name": "Борис Кустодиев",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "chagal",
+      "name": "Марк Шагал",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "mone",
+      "name": "Клод Моне",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "kalo",
+      "name": "Фрида Кало",
+      "category": "artist",
+      "added": true
+    },
+    {
+      "id": "akhmatova",
+      "name": "Анна Ахматова",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "tolstoy",
+      "name": "Лев Толстой",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "chekhov",
+      "name": "Антон Чехов",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "gorky",
+      "name": "Максим Горький",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "gumilev",
+      "name": "Николай Гумилёв",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "mayakovsky",
+      "name": "Владимир Маяковский",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "blok",
+      "name": "Александр Блок",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "pasternak",
+      "name": "Борис Пастернак",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "mandelshtam",
+      "name": "Осип Мандельштам",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "wilde",
+      "name": "Оскар Уайльд",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "hemingway",
+      "name": "Эрнест Хемингуэй",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "doyle",
+      "name": "Артур Конан Дойл",
+      "category": "writer",
+      "added": true
+    },
+    {
+      "id": "kafka",
+      "name": "Франц Кафка",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "bely",
+      "name": "Андрей Белый",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "bryusov",
+      "name": "Валерий Брюсов",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "wells",
+      "name": "Герберт Уэллс",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "london",
+      "name": "Джек Лондон",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "merezhkovsky",
+      "name": "Дмитрий Мережковский",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "gippius",
+      "name": "Зинаида Гиппиус",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "bunin",
+      "name": "Иван Бунин",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "kuprin",
+      "name": "Александр Куприн",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "prust",
+      "name": "Марсель Пруст",
+      "category": "writer",
+      "added": false
+    },
+    {
+      "id": "einstein",
+      "name": "Альберт Эйнштейн",
+      "category": "scientist",
+      "added": true
+    },
+    {
+      "id": "freud",
+      "name": "Зигмунд Фрейд",
+      "category": "scientist",
+      "added": true
+    },
+    {
+      "id": "tesla",
+      "name": "Никола Тесла",
+      "category": "scientist",
+      "added": true
+    },
+    {
+      "id": "curie",
+      "name": "Мария Кюри",
+      "category": "scientist",
+      "added": true
+    },
+    {
+      "id": "jung",
+      "name": "Карл Юнг",
+      "category": "scientist",
+      "added": false
+    },
+    {
+      "id": "bohr",
+      "name": "Нильс Бор",
+      "category": "scientist",
+      "added": false
+    },
+    {
+      "id": "pavlov",
+      "name": "Иван Павлов",
+      "category": "scientist",
+      "added": false
+    },
+    {
+      "id": "lenin",
+      "name": "Владимир Ленин",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "nikolai2",
+      "name": "Николай II",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "stalin",
+      "name": "Иосиф Сталин",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "trotsky",
+      "name": "Лев Троцкий",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "stolypin",
+      "name": "Пётр Столыпин",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "vitte",
+      "name": "Сергей Витте",
+      "category": "politician",
+      "added": true
+    },
+    {
+      "id": "churchill",
+      "name": "Уинстон Черчилль",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "roosevelt",
+      "name": "Теодор Рузвельт",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "gandhi",
+      "name": "Махатма Ганди",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "pobedonostsev",
+      "name": "Константин Победоносцев",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "gapon",
+      "name": "Георгий Гапон",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "azef",
+      "name": "Евно Азеф",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "kerensky",
+      "name": "Александр Керенский",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "milyukov",
+      "name": "Павел Милюков",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "struve",
+      "name": "Пётр Струве",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "zubatov",
+      "name": "Сергей Зубатов",
+      "category": "politician",
+      "added": false
+    },
+    {
+      "id": "stravinsky",
+      "name": "Игорь Стравинский",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "rakhmaninov",
+      "name": "Сергей Рахманинов",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "debussy",
+      "name": "Клод Дебюсси",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "prokofiev",
+      "name": "Сергей Прокофьев",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "mahler",
+      "name": "Густав Малер",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "gershwin",
+      "name": "Джордж Гершвин",
+      "category": "musician",
+      "added": true
+    },
+    {
+      "id": "shostakovich",
+      "name": "Дмитрий Шостакович",
+      "category": "musician",
+      "added": false
+    }
+  ],
+  "events": [
+    {
+      "id": "russo_japanese_war",
+      "name": "Русско-японская война",
+      "added": true
+    },
+    {
+      "id": "wwi",
+      "name": "Первая мировая война",
+      "added": true
+    },
+    {
+      "id": "russian_civil_war",
+      "name": "Гражданская война в России",
+      "added": true
+    },
+    {
+      "id": "wwii",
+      "name": "Вторая мировая война",
+      "added": true
+    },
+    {
+      "id": "revolution_1905",
+      "name": "Революция 1905 года",
+      "added": true
+    },
+    {
+      "id": "revolution_1917",
+      "name": "Революция 1917 года",
+      "added": true
+    },
+    {
+      "id": "hitler_rise",
+      "name": "Приход Гитлера к власти",
+      "added": true
+    },
+    {
+      "id": "radioactivity_discovery",
+      "name": "Открытие радиоактивности",
+      "added": true
+    },
+    {
+      "id": "theory_of_relativity",
+      "name": "Теория относительности",
+      "added": true
+    },
+    {
+      "id": "penicillin_discovery",
+      "name": "Открытие пенициллина",
+      "added": true
+    },
+    {
+      "id": "atomic_bomb",
+      "name": "Атомная бомба",
+      "added": true
+    },
+    {
+      "id": "gold_rush",
+      "name": "Клондайкская золотая лихорадка",
+      "added": true
+    }
+  ]
+}

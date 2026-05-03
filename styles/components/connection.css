@@ -1,0 +1,29 @@
+/* Connection — дугообразная 1px-линия между двумя event-dot'ами связанных
+ * людей. См. MAIN_SCREEN.md → Connections.
+ *
+ * Реализация: SVG-path с quadratic Bezier — control point на 30px правее
+ * прямой даёт дугу глубиной 15px в середине (`Q controlX,midY endX,endY`).
+ *
+ * Состояния:
+ *   default  — stroke `--connection-default` (light/24). Видна всегда.
+ *   hovered  — stroke gradient (top→bottom) — переключение через `<defs>`
+ *              + два path'а (default + hovered), CSS hide/show. */
+
+.connection {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;             /* SVG чуть шире bbox path'а — не клипаем */
+}
+.connection__path-default {
+  stroke: var(--connection-default);
+  fill: none;
+  stroke-width: 1;
+}
+.connection__path-hovered {
+  display: none;
+  fill: none;
+  stroke-width: 1;
+  /* stroke = url(#g-${key}) задаётся inline в SVG */
+}
+.connection.connection--hovered .connection__path-default { display: none; }
+.connection.connection--hovered .connection__path-hovered { display: block; }

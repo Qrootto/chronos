@@ -1,0 +1,83 @@
+/* Timeline — горизонтальная шкала.
+ *
+ * --l (Size=L, 1557×17) — основная шкала по векам (для шапки):
+ *   римские цифры веков, дивайдеры, тики между ними, красная метка "сейчас".
+ *   1 век = 100px, 1 год = 1px.
+ *
+ * --s (Size=S, 329×20) — компактный трек жизни персонажа (для попапа):
+ *   тёмная подложка с красным правым краем (border-lineend).
+ *   Содержимое (год рождения, текущий, год смерти) рендерится в композите Popup. */
+
+/* === Базовый контейнер === */
+.timeline {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+/* === Size=S — трек попапа === */
+.timeline--s {
+  width: 329px;
+  height: 20px;
+  background: var(--surface-bg);
+  border-right: 1px solid var(--border-lineend);
+  border-radius: var(--radius-xs);
+}
+
+/* === Size=L — шкала веков === */
+.timeline--l {
+  display: inline-flex;
+  align-items: flex-end;
+  height: 17px;
+}
+
+.timeline__century {
+  width: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+}
+
+.timeline__label {
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+.timeline__century--active .timeline__label {
+  color: var(--text-primary-active);
+}
+
+.timeline__divider {
+  width: 1px;
+  height: 100%;
+  background: var(--surface-divider-secondary);
+}
+
+/* === Красная метка "сейчас" — позиция считается в JS, например:
+   style="left: calc(<centuryStart>px + <yearWithinCentury>px)" === */
+.timeline__now {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-lineend);
+  pointer-events: none;
+}
+
+/* === Viewport indicator (полупрозрачная скруглённая рамка вокруг видимой области) === */
+.timeline__viewport {
+  position: absolute;
+  top: 50%;
+  height: 100%;
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-s);
+  background: transparent;
+  transform: translateY(-50%);
+  pointer-events: none;
+  /* left/width задаются JS на основе current scroll position */
+}

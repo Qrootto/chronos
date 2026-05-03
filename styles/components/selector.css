@@ -1,0 +1,72 @@
+/* Selector — элемент списка в сайдбаре (выбор персонажа/события).
+ * 288×56. Состоит из: 5px цветной точки категории + имя + chevron справа.
+ *
+ * Состояния:
+ *   Default — фон transparent, 1px верхний разделитель, chevron вверх
+ *   Hovered — добавляется фон light/4, остальное как Default
+ *   Active  — фон transparent, chevron повёрнут вниз (CSS rotate 180°) */
+
+.selector {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 288px;
+  height: 56px;
+  padding: 16px 20px;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--border-category);
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-white);
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: var(--font-semibold-14-size);
+  line-height: var(--font-semibold-14-line-height);
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  transition: background 0.15s ease;
+}
+
+.selector:hover,
+.selector--hovered {
+  background: var(--surface-category-hovered);
+}
+
+/* Имя по натуральной ширине — счётчик прилипает к нему через 4px gap.
+ * Chevron уезжает в правый край за счёт margin-left: auto. */
+.selector__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selector__count {
+  margin-left: 4px;
+  color: var(--text-primary);
+}
+
+.selector__chevron {
+  margin-left: auto;     /* отталкивает chevron к правому краю */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--text-white);
+  /* Default — chevron указывает ВНИЗ (группа закрыта, можно раскрыть).
+   * Active — chevron указывает ВВЕРХ (группа раскрыта, можно свернуть).
+   * SVG в HTML рисует chevron-up; в default поворачиваем на 180°. */
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+.selector__chevron svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.selector--active .selector__chevron {
+  transform: rotate(0);
+}

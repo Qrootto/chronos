@@ -1,0 +1,22 @@
+/* Сборный файл всех компонентов библиотеки.
+ * Подключается на любой странице, где нужны компоненты Chronos. */
+
+@import './components/life-line.css';
+@import './components/event-dot.css';
+@import './components/divider.css';
+@import './components/checkbox.css';
+@import './components/year.css';
+@import './components/icon-btn.css';
+@import './components/selector.css';
+@import './components/event.css';
+@import './components/event-caption.css';
+@import './components/zoom.css';
+@import './components/time.css';
+@import './components/focus.css';
+@import './components/year-scale.css';
+@import './components/timeline-mini.css';
+@import './components/popup.css';
+@import './components/header.css';
+@import './components/sidebar.css';
+@import './components/connection.css';
+@import './components/timeflow.css';

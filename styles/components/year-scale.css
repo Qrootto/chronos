@@ -1,0 +1,21 @@
+/* Year scale — длинная горизонтальная шкала годов внизу основного экрана.
+ * Высота 33px: 22 = year box, 11 = свободное место снизу до края экрана
+ * (так что низ цифры default = 14px от низа экрана). См. MAIN_SCREEN.md → Year scale.
+ *
+ * overflow: hidden обрезает крайние year-боксы (1850 наполовину слева, 1950
+ * наполовину справа) и одновременно ограничивает scrollWidth родительского
+ * canvas-scroll до точной ширины шкалы — чтобы scroll к концу выводил 1950
+ * ровно на правый край viewport. */
+
+.year-scale {
+  position: relative;
+  display: block;
+  height: 33px;
+  user-select: none;
+  overflow: hidden;
+}
+
+.year-scale .year {
+  position: absolute;
+  top: 0;
+}

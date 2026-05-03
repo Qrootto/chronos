@@ -1,0 +1,111 @@
+/* Timeflow — центральная область главного экрана.
+ *
+ * Архитектура двухслойная:
+ *   .timeflow-viewport — внешняя обёртка width: 100% доступной области
+ *                        (ширина окна минус sidebar). Имеет горизонтальный
+ *                        скролл, если контент шире окна.
+ *   .timeflow         — внутренний слой с реальной шириной "по данным"
+ *                        (ширина = (yearsTotal * pxPerYear) + paddings).
+ *                        Все absolute-позиции внутри считаются от него.
+ *
+ * Высота фиксирована 613px (или адаптируется к высоте окна минус
+ * Header 64 и Year scale 17 + paddings).
+ *
+ * Внутри (по координатам Figma `Main screen + different hovers`):
+ *   - Метка века "XX" сверху, центрирована на середине века
+ *   - Имена людей слева — Inter SemiBold 14, цвет категории, x=4
+ *   - Линии жизни (life-line)
+ *   - Точки событий (event-dot)
+ *   - Вертикальные блоки мировых событий (event)
+ *   - Connections — появляются ТОЛЬКО при hover события со связью (через JS)
+ *   - Event caption — появляется ТОЛЬКО при hover точки (через JS)
+ *
+ * Шаг по вертикали между линиями жизни — 43px. См. MAIN_SCREEN.md. */
+
+.timeflow-viewport {
+  position: relative;
+  width: 100%;
+  height: 613px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.timeflow {
+  position: relative;
+  height: 613px;
+  /* width задаётся либо inline (статика), либо JS-расчётом по данным */
+}
+
+/* Метки веков (XIX, XX) теперь рендерятся как persistent caption над
+ * century-divider event-блоком — см. event.css → .event__caption--persistent.
+ * Отдельного класса .timeflow__century нет. */
+
+/* === Имя персонажа === */
+.timeflow__name {
+  position: absolute;
+  left: 4px;
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: var(--font-semibold-14-size);
+  line-height: var(--font-semibold-14-line-height);
+  letter-spacing: var(--font-semibold-14-letter-spacing);
+  white-space: nowrap;
+  /* top и color задаются inline (top = N*43+34 от 1-го; color = категория) */
+}
+
+/* Цвета имени по категориям */
+.timeflow__name--politic     { color: var(--surface-person-politic); }
+.timeflow__name--scientist   { color: var(--surface-person-scientist); }
+.timeflow__name--businessman { color: var(--surface-person-businessman); }
+.timeflow__name--artist      { color: var(--surface-person-artist); }
+.timeflow__name--writer      { color: var(--surface-person-writer); }
+.timeflow__name--musician    { color: var(--surface-person-musician); }
+
+/* === Стрелка-индикатор у имени, когда линия полностью за viewport ===
+ * По умолчанию скрыта. Появляется только в --stuck-left / --stuck-right.
+ * Сглаженные углы 2px — реализованы через SVG polygon с stroke-linejoin=round
+ * и stroke-width 4 (CSS-border-trick не умеет border-radius на углах). */
+.timeflow__name-arrow {
+  display: none;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+  margin: 0 4px;
+}
+.timeflow__name-arrow svg { display: block; width: 100%; height: 100%; }
+
+.timeflow__name--stuck-left .timeflow__name-arrow {
+  display: inline-block;
+  order: -1;            /* стрелка перед текстом */
+  transform: scaleX(-1); /* зеркально → ◀ */
+}
+.timeflow__name--stuck-right .timeflow__name-arrow {
+  display: inline-block;
+}
+
+/* Имя со стрелкой = flex-row, и приглушено opacity 32% — чтобы оно
+ * выглядело как «фоновый указатель», не отвлекало внимание. */
+.timeflow__name--stuck-left,
+.timeflow__name--stuck-right {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.32;
+}
+
+/* === Все позиционируемые элементы внутри Timeflow === */
+.timeflow .event-dot,
+.timeflow .life-line,
+.timeflow .event,
+.timeflow .connection,
+.timeflow .event-caption {
+  position: absolute;
+}
+
+/* Z-стек: life-line снизу → connections над линиями жизни (но под точками)
+ * → dots → имена → caption. Связь должна быть видна "над линиями жизни,
+ * на слое выше" — не смешиваться с самими линиями. */
+.timeflow .life-line       { z-index: 1; }
+.timeflow .connection      { z-index: 2; }
+.timeflow .event-dot       { z-index: 3; }
+.timeflow .timeflow__name  { z-index: 4; }
+.timeflow .event-caption   { z-index: 5; }

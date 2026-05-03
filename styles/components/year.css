@@ -1,0 +1,63 @@
+/* Year — компонент одного года на шкале времени.
+ * Бокс 20×17. Внутри: __dot (точка) и __label (число).
+ *
+ * 3 состояния (Figma 8085:3826):
+ *   Default — точка 5×5 light/24, label Inter SemiBold 9 light/24.
+ *   Hovered — точка и label в light/48 (text-primary-hovered).
+ *   Active  — точка 7×7 light/100, label Inter SemiBold 12 light/100. */
+
+/* Бокс 20×22. Внутри: dot top:0 + label с отступом от dot.
+ * Default: gap dot↔label = +3px относительно базы Figma → label.top = 9.
+ * Active:  +4px → label.top = 10. */
+.year {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 22px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.year__dot {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  transition: background 0.15s ease, width 0.15s ease, height 0.15s ease;
+}
+
+.year__label {
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: 10px;
+  line-height: 1;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: color 0.15s ease, font-size 0.15s ease, top 0.15s ease;
+}
+
+/* Hovered */
+.year:hover .year__dot,
+.year--hovered .year__dot { background: var(--text-primary-hovered); }
+.year:hover .year__label,
+.year--hovered .year__label { color: var(--text-primary-hovered); }
+
+/* Active (выбран) — крупнее, ярче, чуть ниже сдвинут */
+.year--active .year__dot {
+  width: 7px;
+  height: 7px;
+  background: var(--text-primary-active);
+}
+.year--active .year__label {
+  top: 10px;
+  font-size: 12px;
+  color: var(--text-primary-active);
+}

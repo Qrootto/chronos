@@ -1,0 +1,280 @@
+/* Popup — карточка-шторка с подробностями события на линии жизни.
+ * См. MAIN_SCREEN.md → Popup для смысла и раскладки.
+ *
+ * Шторка справа: top:0, right:0, bottom:0; ширина 85vw. По умолчанию задвинут
+ * за правый край (translateX 100%), при .is-open выезжает на место. */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85vw;
+  z-index: 300;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.popup-overlay.is-open {
+  transform: translateX(0);
+}
+
+/* Затемняющий слой под попапом (см. MAIN_SCREEN.md → Popup → Затемнение). */
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 290;          /* ниже .popup-overlay (300), выше всего остального */
+  background: var(--surface-darkener);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.popup-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === Контейнер ===
+ * 2-колоночный grid с явным gap-колонкой 48px между контентом и фото.
+ * position: relative — для абсолютной кнопки close в правом верхнем углу.
+ * НЕ ставим overflow: hidden на сам .popup, иначе кнопка close с right:20
+ * может визуально срезаться. Скролл живёт в .popup__left. */
+.popup {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--surface-popup-bg);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: grid;
+  grid-template-columns: 2fr 48px 1fr;
+  padding-left: 32px;
+  font-family: var(--font-family);
+  color: var(--text-white);
+}
+
+/* Кнопка close в правом верхнем углу попапа: 20px от верха и от правого края. */
+.popup__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* === Левая колонка ===
+ * top: 64px от верха попапа; вертикальный скролл, gap 40 между секциями. */
+.popup__left {
+  grid-column: 1;
+  padding: 64px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+/* === Heading: title + life-line === */
+.popup__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.popup__title {
+  margin: 0;
+  font-weight: 400;     /* Inter Regular */
+  font-size: 40px;
+  line-height: 1.1;
+  color: var(--text-white);
+}
+
+/* === Life-line полоска внутри попапа ===
+ * Высота ~30px: 3 года сверху + сама линия + dot на координате года события.
+ * Координаты задаются inline JS (left для каждого year-label и event-dot). */
+.popup__lifetime {
+  position: relative;
+  height: 30px;
+  width: 100%;
+}
+
+.popup__lifetime-year {
+  position: absolute;
+  top: 0;
+  font-weight: 500;     /* Inter Medium */
+  font-size: 14px;
+  line-height: 1;
+  color: var(--text-white);
+  white-space: nowrap;
+}
+.popup__lifetime-year--event {
+  /* color = категория, задаётся inline */
+  transform: translateX(-50%);
+}
+.popup__lifetime-year--end {
+  right: 0;
+  text-align: right;
+}
+
+.popup__lifetime-track {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--surface-lifeline);
+  /* Красная граница «конец» — справа */
+}
+.popup__lifetime-track::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: var(--border-lineend);
+}
+
+.popup__lifetime-dot {
+  position: absolute;
+  top: 21px;          /* центр на 25.5 — ровно на center линии (24+1.5) */
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  /* background задаётся inline (цвет категории) */
+}
+
+/* === Lead — краткое описание года === */
+.popup__lead {
+  margin: 0;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 34px;
+  color: var(--text-white);
+  opacity: 0.8;
+}
+
+/* === Text — набор секций с подзаголовками === */
+.popup__text {
+  display: flex;
+  flex-direction: column;
+  gap: 41px;
+}
+
+.popup__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popup__section-title {
+  margin: 0;
+  font-weight: 600;     /* Inter SemiBold */
+  font-size: 24px;
+  line-height: 22px;
+  color: var(--text-white);
+}
+
+.popup__section-body {
+  margin: 0;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--text-white);
+  opacity: 0.8;
+}
+
+/* === Правая колонка ===
+ * top: 64px от верха попапа (как левая колонка). */
+.popup__right {
+  grid-column: 3;
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* Фото — div с background-image. Гарантирует квадратность даже если URL
+ * сломан: при ошибке бекграунд не загрузится, но box остаётся квадратным
+ * (на месте видно placeholder-цвет). */
+.popup__photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--surface-bg-secondary);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* === «В это же время» === */
+.popup__concurrent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 287px;     /* по Figma 8097:3872 */
+  max-width: 100%;
+}
+
+.popup__concurrent-title {
+  padding-left: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--text-white);
+}
+
+.popup__concurrent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.popup__concurrent-item {
+  position: relative;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.popup__concurrent-dot {
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  /* background задаётся модификатором цвета категории (см. ниже) */
+}
+
+.popup__concurrent-name {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  /* color задаётся модификатором категории */
+}
+
+.popup__concurrent-desc {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--text-white);
+  opacity: 0.8;
+  padding-right: 12px;
+}
+
+/* Цвета категорий */
+.popup__concurrent-name--politic     { color: var(--surface-person-politic); }
+.popup__concurrent-name--scientist   { color: var(--surface-person-scientist); }
+.popup__concurrent-name--businessman { color: var(--surface-person-businessman); }
+.popup__concurrent-name--artist      { color: var(--surface-person-artist); }
+.popup__concurrent-name--writer      { color: var(--surface-person-writer); }
+.popup__concurrent-name--musician    { color: var(--surface-person-musician); }
+
+.popup__concurrent-dot--politic      { background: var(--surface-person-politic); }
+.popup__concurrent-dot--scientist    { background: var(--surface-person-scientist); }
+.popup__concurrent-dot--businessman  { background: var(--surface-person-businessman); }
+.popup__concurrent-dot--artist       { background: var(--surface-person-artist); }
+.popup__concurrent-dot--writer       { background: var(--surface-person-writer); }
+.popup__concurrent-dot--musician     { background: var(--surface-person-musician); }
