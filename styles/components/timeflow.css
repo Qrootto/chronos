@@ -78,9 +78,14 @@
   display: inline-block;
   order: -1;            /* стрелка перед текстом */
   transform: scaleX(-1); /* зеркально → ◀ */
+  /* Стрелка примыкает к краю экрана: убираем margin со стороны viewport,
+   * чтобы общий visible offset был ровно 4px (=PAD из updateStickyNames). */
+  margin-left: 0;
 }
 .timeflow__name--stuck-right .timeflow__name-arrow {
   display: inline-block;
+  /* То же справа — стрелка примыкает к правому краю viewport. */
+  margin-right: 0;
 }
 
 /* Имя со стрелкой = flex-row, и приглушено opacity 32% — чтобы оно
