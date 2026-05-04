@@ -88,6 +88,14 @@
         <div class="current-year" id="current-year" hidden>
           <div class="current-year__line"></div>
         </div>
+
+        <!-- Scroll hint: «shift + scroll» в левом нижнем углу. Появляется
+             только когда у timeflow-area реально есть вертикальный скролл
+             (см. js/main.js → updateScrollHint). -->
+        <div class="scroll-hint" id="scroll-hint" hidden>
+          <div class="scroll-hint__icon"></div>
+          <span>shift + scroll</span>
+        </div>
       </section>
     </main>
 

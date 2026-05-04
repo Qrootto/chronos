@@ -78,6 +78,7 @@
   --text-primary:           var(--light-24);  /* приглушённый */
   --text-primary-hovered:   var(--light-48);
   --text-primary-active:    var(--light-100); /* контрастный */
+  --text-secondary:         var(--light-64);  /* hint-подписи и пр. */
   --text-white:             var(--white-100);
   --text-black:             var(--black-100);
 

@@ -79,6 +79,17 @@ function scrollToCenter(year) {
   scrollEl.scrollLeft = Math.max(0, targetLeft);
 }
 
+/** Показывает scroll-hint только когда есть вертикальный скролл по людям
+ *  (timeflowArea.scrollHeight > clientHeight). Вызывается из applyState
+ *  и из resize. */
+function updateScrollHint() {
+  const hintEl = document.getElementById('scroll-hint');
+  const timeflowArea = document.querySelector('.canvas__timeflow-area');
+  if (!hintEl || !timeflowArea) return;
+  const hasVertical = timeflowArea.scrollHeight > timeflowArea.clientHeight + 1;
+  hintEl.toggleAttribute('hidden', !hasVertical);
+}
+
 /** Полный рендер. Вызывается при инициализации, изменении state, resize. */
 function applyState() {
   const innerEl     = document.getElementById('canvas-inner');
@@ -122,6 +133,7 @@ function syncDynamic() {
   updateFocus(STATE, scrollLeft, viewportPx);
   updateStickyNames(timeflow, scrollLeft, viewportPx);
   syncCurrentYear(scrollLeft);
+  updateScrollHint();
 }
 
 /** При scroll/resize/zoom двигаем current-year линию (если она видна).

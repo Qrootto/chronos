@@ -1,0 +1,44 @@
+/* Scroll hint — подсказка «shift + scroll» в левом нижнем углу.
+ *
+ * Появляется ТОЛЬКО когда есть вертикальный scroll (timeflowArea.scrollHeight
+ * > clientHeight). Контролируется из js/main.js → updateScrollHint, вызывается
+ * в applyState и при resize.
+ *
+ * Позиция: над bottom-bar (41px) + 4px = bottom 45px от низа canvas;
+ * левый край — 4px от левого края canvas. Не блокирует клики (pointer-events: none).
+ *
+ * Иконка слева — маленький скруглённый прямоугольник, плавно колышется
+ * вверх-вниз (амплитуда 6px), как бы изображая колесо мыши. */
+
+.scroll-hint {
+  position: absolute;
+  bottom: 45px;
+  left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--text-secondary);
+  pointer-events: none;
+  z-index: 5;
+  user-select: none;
+}
+
+.scroll-hint[hidden] {
+  display: none;
+}
+
+.scroll-hint__icon {
+  width: 6px;
+  height: 12px;
+  background: var(--surface-icon-secondary);
+  border-radius: 3px;
+  animation: scroll-hint-bob 1.5s ease-in-out infinite;
+}
+
+@keyframes scroll-hint-bob {
+  0%, 100% { transform: translateY(-3px); }
+  50%      { transform: translateY(3px); }
+}
