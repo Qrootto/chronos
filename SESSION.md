@@ -5,7 +5,7 @@
 ---
 
 ## Last updated
-2026-05-03 (вечер 2026-05-02 → пауза до 2026-05-03)
+2026-05-04 (релиз на past-simple.ru)
 
 ## Главное (не теряй между сессиями)
 
@@ -24,38 +24,37 @@
 
 ---
 
-## Состояние кода
+## Свежие сессии (2026-05-04)
 
-### Готово
-- Библиотека из 14 компонентов в `/components.html`: life-line, event-dot, divider, checkbox, year, icon-btn, selector, event, event-caption, zoom, time, focus, year-scale, timeline-mini.
-- Композиты: Popup, Header, Sidebar, Timeflow.
-- Дизайн-токены в `styles/tokens.css`: цвета, типографика (h1, h2, lead, body, body-s, semibold-14), spacing, radius. Карточки шрифтов на `/tokens.html` сгруппированы по стилю.
-- **Slice 1 main screen в `index.html` + `js/main.js` + `js/timeflow.js` + `js/year-scale.js` + `styles/main-screen.css`.** Рендерит 10 рандомных людей по формуле, есть burger-toggle sidebar, синхронный горизонтальный скролл Timeflow и Year scale.
+### Что сделано
+- **Заполнение sections для всех событий**: 6 батчей по 8 человек + точечный patch на 14 событий, источник — WebFetch на ru/en.wikipedia. Покрытие **181/181 событий, 43/43 человек**. Тексты — черновики до факт-чек прохода. Скрипт-сидер: `js/build/seed-sections.js` (поддерживает поле `match` для дизамбигуации событий с одним годом).
+- **Сэмпл-фактчек**: проверены 15 случайных секций. Найдено 4 неточности (Дебюсси/свадьба, Рокфеллер/95% vs 90%, Моне/годы серии, Форд/девиз) — все исправлены. Уровень брака ~27%, дальше — точечный фактчек по затронутым местам.
+- **Подключён домен past-simple.ru** (reg.ru + Netlify). Apex запись `A @ → 75.2.60.5`, www записан туда же. HTTPS Let's Encrypt автоматический. `www.past-simple.ru` редиректит на apex.
+- **Проект переименован: Chronos → Past Simple.** Затронуто: HTML titles, бренд в навигации, package.json (`past-simple`), глобалка `__pastSimple`, User-Agent, comment-headers, все md-документы, memory-файлы (содержимое; имена `chronos_*.md` остались). НЕ переименовано: GitHub-репо `Qrootto/chronos`, локальная папка `Chronos/`, Netlify site name (`coruscating-entremet-9241f5`), имена memory-файлов.
 
-### НЕ готово (Slice 2 — интерактив)
-- Hover на event-dot → event-caption + connection если есть `connections[]`.
-- Click → popup.
-- Sticky-имена при скролле (3 случая, см. MAIN_SCREEN.md).
+### Состояние кода — основное
+- **Главный экран `index.html` + `js/main.js`** работает: люди с линиями жизни, точками событий, метки веков, year scale, sidebar.
+- **Попап** работает: открывается по клику на точку события, рендерит фото, имя, годы жизни, lifetime-track с маркером, lead, секции (заголовок + body) для каждого подзаголовка.
+- **Библиотека компонентов** в `/components.html` и токены в `/tokens.html` — обновляются при правках в `styles/components/*.css` и `styles/tokens.css`.
+- Деплой: push в `main` → Netlify собирает → live на past-simple.ru за ~30-60 сек.
 
-### НЕ готово (Slice 3 — управление)
-- Zoom +/− меняет `pxPerYear`, всё пересчитывается.
-- Sidebar чекбоксы добавляют/удаляют людей.
-- Year-scale hover.
-
-### Открытые долги (BACKLOG.md)
-- Кнопка close + «пара мелочей» в попапе.
-- Особый попап для связанных событий (пары).
+### Открытые долги (см. BACKLOG.md)
+- **Факт-чек текстов** — приоритет №1 перед production. Все 181 секции — черновики, нужна сверка с Wikipedia / Britannica.
+- Особый попап для связанных событий (пары двух людей с одной точкой).
 - Расхождение timeline-mini в Header (Figma 32×405, у нас 36×445).
-- Категория `musician`, дополнительная типографика, mobile/empty/loading.
+- Категория `musician` (токен + variant + проверка roster).
+- Mobile/empty/loading состояния.
+- Аналитика (Я.Метрика).
 
 ---
 
-## С чего начать завтра
+## С чего начать в следующей сессии
 
 1. **Прочитать `MAIN_SCREEN.md`** — освежить ментальную модель.
-2. `npm run dev` в `Chronos/` (vite, обычно :5174).
-3. Открыть `http://localhost:5174/`, проверить Slice 1: рандом людей, линии жизни, точки, метки веков, year scale, sidebar по burger.
-4. Если Slice 1 ОК у пользователя — переходить к **Slice 2** (интерактив). Начать с самого простого: hover на event-dot → caption (через CSS-only или delegated event listener в timeflow.js).
+2. Спросить пользователя про задачу. Скорее всего:
+   - Полировка/баги — `npm run dev` в папке `Chronos/`, открыть `http://localhost:5174/past-simple.ru` для prod-проверки.
+   - Факт-чек текстов — следующий пакет точечных правок (вариант C из BACKLOG: «Факт-чек текстов»).
+   - Что-то из BACKLOG (попап-пара, мобайл, метрика).
 
 ---
 
