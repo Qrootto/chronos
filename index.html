@@ -35,41 +35,49 @@
       <!-- Sidebar (overlay поверх Header, fixed). Контент рендерится в JS — см. js/sidebar.js. -->
       <aside class="sidebar-overlay" id="sidebar"></aside>
 
-      <!-- Canvas: Timeflow + Year scale + Zoom -->
+      <!-- Canvas: Timeflow (scrollable) + Bottom bar (Year scale + Zoom, вне scroll) -->
       <section class="canvas">
         <div class="canvas__scroll" id="canvas-scroll">
           <div class="canvas__inner" id="canvas-inner">
             <div class="canvas__timeflow-area">
               <div class="timeflow" id="timeflow"></div>
             </div>
-            <div class="canvas__year-area">
-              <div class="year-scale" id="year-scale"></div>
-            </div>
           </div>
         </div>
 
-        <!-- Zoom controls -->
-        <div class="canvas__zoom">
-          <div class="zoom">
-            <button class="icon-btn icon-btn--pill" type="button" aria-label="Уменьшить" id="zoom-out">
-              <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
-              </svg>
-            </button>
-            <div class="zoom__track">
-              <span class="zoom__tick" style="left: 0%"></span>
-              <span class="zoom__tick" style="left: 25%"></span>
-              <span class="zoom__tick" style="left: 50%"></span>
-              <span class="zoom__tick" style="left: 75%"></span>
-              <span class="zoom__tick" style="left: 100%"></span>
-              <div class="zoom__thumb" style="left: 50%"></div>
+        <!-- Bottom bar: year-scale (синхронизируется с canvas-scroll через JS)
+             + zoom. Вне scroll-контейнера, чтобы scrollbar (Windows) не съезжал
+             на zoom (см. styles/main-screen.css → .canvas__bottom-bar). -->
+        <div class="canvas__bottom-bar">
+          <div class="canvas__year-scroll">
+            <div class="canvas__year-inner" id="canvas-year-inner">
+              <div class="year-scale" id="year-scale"></div>
             </div>
-            <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить" id="zoom-in">
-              <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
-                <path d="M8 4C8 3.4477 7.5523 3 7 3C6.4477 3 6 3.4477 6 4V10C6 10.5523 6.4477 11 7 11C7.5523 11 8 10.5523 8 10V4Z"/>
-              </svg>
-            </button>
+          </div>
+
+          <!-- Zoom controls — позиционируется над bottom-bar -->
+          <div class="canvas__zoom">
+            <div class="zoom">
+              <button class="icon-btn icon-btn--pill" type="button" aria-label="Уменьшить" id="zoom-out">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                </svg>
+              </button>
+              <div class="zoom__track">
+                <span class="zoom__tick" style="left: 0%"></span>
+                <span class="zoom__tick" style="left: 25%"></span>
+                <span class="zoom__tick" style="left: 50%"></span>
+                <span class="zoom__tick" style="left: 75%"></span>
+                <span class="zoom__tick" style="left: 100%"></span>
+                <div class="zoom__thumb" style="left: 50%"></div>
+              </div>
+              <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить" id="zoom-in">
+                <svg viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 6C10.5523 6 11 6.4477 11 7C11 7.5523 10.5523 8 10 8H4C3.4477 8 3 7.5523 3 7C3 6.4477 3.4477 6 4 6H10Z"/>
+                  <path d="M8 4C8 3.4477 7.5523 3 7 3C6.4477 3 6 3.4477 6 4V10C6 10.5523 6.4477 11 7 11C7.5523 11 8 10.5523 8 10V4Z"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>

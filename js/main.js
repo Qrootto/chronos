@@ -48,8 +48,11 @@ function pickRandomPeople(people, count, state) {
 
 /** Полный рендер. Вызывается при инициализации, изменении state, resize. */
 function applyState() {
-  const innerEl = document.getElementById('canvas-inner');
-  innerEl.style.width = (STATE.endYear - STATE.startYear) * STATE.pxPerYear + 'px';
+  const innerEl     = document.getElementById('canvas-inner');
+  const yearInnerEl = document.getElementById('canvas-year-inner');
+  const totalWidth  = (STATE.endYear - STATE.startYear) * STATE.pxPerYear + 'px';
+  innerEl.style.width     = totalWidth;
+  yearInnerEl.style.width = totalWidth;
 
   const visiblePeople = DATA.people.filter(p => STATE.peopleIds.includes(p.id));
   const visibleEvents = DATA.events.filter(e => STATE.selectedEventIds.has(e.id));
@@ -68,13 +71,19 @@ function applyState() {
   syncDynamic();
 }
 
-/** Пересчёт динамических вещей: focus в timeline-mini, sticky-имена.
+/** Пересчёт динамических вещей: focus в timeline-mini, sticky-имена,
+ *  синхронизация Year scale (через transform на canvas-year-inner).
  *  Вызывается на scroll/resize. */
 function syncDynamic() {
-  const scrollEl = document.getElementById('canvas-scroll');
-  const timeflow = document.getElementById('timeflow');
-  const scrollLeft = scrollEl.scrollLeft;
-  const viewportPx = scrollEl.clientWidth;
+  const scrollEl    = document.getElementById('canvas-scroll');
+  const timeflow    = document.getElementById('timeflow');
+  const yearInnerEl = document.getElementById('canvas-year-inner');
+  const scrollLeft  = scrollEl.scrollLeft;
+  const viewportPx  = scrollEl.clientWidth;
+
+  // Year scale теперь вне общего scroll (см. main-screen.css → .canvas__bottom-bar):
+  // двигаем его в обратную сторону scroll'а через transform.
+  yearInnerEl.style.transform = `translateX(${-scrollLeft}px)`;
 
   updateFocus(STATE, scrollLeft, viewportPx);
   updateStickyNames(timeflow, scrollLeft, viewportPx);
@@ -107,26 +116,38 @@ function setupPopup() {
 
 function initYearHover() {
   const innerEl     = document.getElementById('canvas-inner');
+  const yearInnerEl = document.getElementById('canvas-year-inner');
   const yearScaleEl = document.getElementById('year-scale');
   let hovered = null;
 
-  innerEl.addEventListener('mousemove', (e) => {
-    // x относительно canvas-inner content — это x в "содержательной"
-    // координатной системе (та же что и yearToX).
-    const rect = innerEl.getBoundingClientRect();
-    const xInside = e.clientX - rect.left;
-    const y = yearAtX(xInside, STATE);
-    if (y < STATE.startYear || y > STATE.endYear) return;
-    if (y !== hovered) {
-      setHoveredYear(yearScaleEl, hovered, y);
-      hovered = y;
-    }
-  });
+  // Координата xInside в "содержательной" coord-системе (та же что и yearToX):
+  // canvas-inner и canvas-year-inner всегда смещены вместе (одинаковый width;
+  // year-inner двигается через translateX = -scrollLeft, что эквивалентно
+  // одной системе координат).
+  function onMove(refEl) {
+    return (e) => {
+      const rect = refEl.getBoundingClientRect();
+      const xInside = e.clientX - rect.left;
+      const y = yearAtX(xInside, STATE);
+      if (y < STATE.startYear || y > STATE.endYear) return;
+      if (y !== hovered) {
+        setHoveredYear(yearScaleEl, hovered, y);
+        hovered = y;
+      }
+    };
+  }
 
-  innerEl.addEventListener('mouseleave', () => {
+  function onLeave() {
     setHoveredYear(yearScaleEl, hovered, null);
     hovered = null;
-  });
+  }
+
+  innerEl.addEventListener('mousemove', onMove(innerEl));
+  innerEl.addEventListener('mouseleave', onLeave);
+  // Year scale теперь вне canvas-inner (см. main-screen.css → .canvas__bottom-bar) —
+  // вешаем отдельный listener, чтобы hover на полосу лет тоже подсвечивал год.
+  yearInnerEl.addEventListener('mousemove', onMove(yearInnerEl));
+  yearInnerEl.addEventListener('mouseleave', onLeave);
 }
 
 /** Sidebar: динамический рендер групп + одна открытая группа за раз. */
