@@ -178,7 +178,7 @@ export function renderTimeflow(el, state, people, worldEvents = []) {
     const lineWidth = (visibleDied - visibleBorn) * state.pxPerYear;
 
     const line = document.createElement('div');
-    line.className = 'life-line';
+    line.className = 'life-line life-line--' + cat;
     line.style.left  = lineLeft + 'px';
     line.style.top   = lifeLineTop + 'px';
     line.style.width = lineWidth + 'px';
@@ -444,13 +444,20 @@ function hideCaption(timeflowEl) {
 }
 
 /** Подключает делегированные обработчики hover на event-dot.
- * Вызывается один раз при инициализации. */
+ * Вызывается один раз при инициализации.
+ *
+ * Hover на event-dot триггерит:
+ *  - caption (event-caption);
+ *  - connections (если у события есть связанный человек);
+ *  - hovered-state у life-line, которой принадлежит точка (см.
+ *    styles/components/life-line.css → .life-line--hovered). */
 export function attachHoverCaptions(timeflowEl, getData, getState) {
   timeflowEl.addEventListener('mouseover', (e) => {
     const dot = e.target.closest('.event-dot');
     if (!dot || dot.classList.contains('is-sticky-dot')) return;
     showCaption(timeflowEl, dot);
     showConnectionsFor(timeflowEl, dot, getData(), getState());
+    setLifeLineHovered(timeflowEl, dot.dataset.personId, true);
   });
   timeflowEl.addEventListener('mouseout', (e) => {
     const dot = e.target.closest('.event-dot');
@@ -459,7 +466,15 @@ export function attachHoverCaptions(timeflowEl, getData, getState) {
     if (related && dot.contains(related)) return;
     hideCaption(timeflowEl);
     hideConnections(timeflowEl);
+    setLifeLineHovered(timeflowEl, dot.dataset.personId, false);
   });
+}
+
+/** Тогглим класс .life-line--hovered у линии этого человека. */
+function setLifeLineHovered(timeflowEl, personId, on) {
+  if (!personId) return;
+  const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
+  if (line) line.classList.toggle('life-line--hovered', on);
 }
 
 /* ===== Connections (см. MAIN_SCREEN.md → Connections) ===== */

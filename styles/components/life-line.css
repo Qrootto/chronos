@@ -1,9 +1,18 @@
 /* Life line — горизонтальная линия жизни персонажа на таймлайне.
- * Default: 3px, Hovered: 5px (цвет тоже меняется).
+ * Default: 3px, Hovered: 5px, цвет = категория человека.
  * На правом конце — 1px красный stroke (border/lineend),
- * показывающий конец жизни / границу. */
+ * показывающий конец жизни / границу.
+ *
+ * Hover-state НЕ срабатывает при наведении мышью на саму линию — это
+ * бессмысленно. Класс --hovered ставится JS'ом, когда курсор над точкой
+ * события, принадлежащей этой линии (см. js/timeflow.js → attachHoverCaptions).
+ *
+ * Цвет hover задаётся через CSS-переменную --lifeline-hovered-color,
+ * которую переопределяют модификаторы категории (--politic, --writer
+ * и т.д.). Дефолт — старый fallback. */
 
 .life-line {
+  --lifeline-hovered-color: var(--surface-lifeline-hovered);
   display: block;
   position: relative;
   width: 100%;
@@ -13,22 +22,16 @@
   transition: height 0.15s ease, background-color 0.15s ease;
 }
 
-/* Расширенная hover-зона: линия 3px тонкая — невозможно попасть курсором.
- * ::before добавляет по 8px запаса сверху и снизу (итого ~19px hit-area). */
-.life-line::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -8px;
-  bottom: -8px;
-}
+.life-line--politic     { --lifeline-hovered-color: var(--surface-person-politic); }
+.life-line--writer      { --lifeline-hovered-color: var(--surface-person-writer); }
+.life-line--artist      { --lifeline-hovered-color: var(--surface-person-artist); }
+.life-line--scientist   { --lifeline-hovered-color: var(--surface-person-scientist); }
+.life-line--businessman { --lifeline-hovered-color: var(--surface-person-businessman); }
+.life-line--musician    { --lifeline-hovered-color: var(--surface-person-musician); }
 
-.life-line:hover,
 .life-line--hovered {
   height: 5px;
-  background: var(--surface-lifeline-hovered);
-  opacity: 0.48;
+  background: var(--lifeline-hovered-color);
   /* Линия растёт симметрично от центра: 3px → 5px = +2 высота, поэтому
    * сдвигаем на -1 вверх. Inline top остаётся, transform складывается поверх. */
   transform: translateY(-1px);
