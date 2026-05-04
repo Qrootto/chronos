@@ -90,16 +90,58 @@ function syncDynamic() {
   updateStickyNames(timeflow, scrollLeft, viewportPx);
 }
 
-/** Wheel events на timeflow-pane (overflow: hidden) перенаправляем в
- *  главный horizontal scroll. Обрабатывает обе оси: deltaX (трекпад
- *  горизонтально) и deltaY (мышь / трекпад вертикально). */
+/** Wheel events на timeflow-pane.
+ *
+ *  Pane имеет overflow: hidden, нативный wheel-скролл не сработает —
+ *  обрабатываем сами и решаем, куда направить:
+ *
+ *  - **Shift зажат** → vertical scroll в timeflow-area (по высоте людей).
+ *  - **deltaX ≠ 0** (трекпад двумя пальцами в сторону) → horizontal scroll;
+ *    deltaY в этом же событии оставляем браузеру (нативный vertical
+ *    scroll timeflow-area).
+ *  - **только deltaY**:
+ *      - **Мышь** (дискретное колесо, deltaMode > 0 или |dy| ≥ 50 и целое)
+ *        → перенаправляем в horizontal (default на этом сайте).
+ *      - **Трекпад** вертикально (маленькие/дробные значения) → оставляем
+ *        браузеру (нативный vertical scroll timeflow-area). */
 function setupWheel() {
   const paneEl   = document.querySelector('.canvas__pane');
   const scrollEl = document.getElementById('canvas-scroll');
+
   paneEl.addEventListener('wheel', (e) => {
     if (e.deltaX === 0 && e.deltaY === 0) return;
-    e.preventDefault();
-    scrollEl.scrollLeft += (e.deltaX || e.deltaY);
+
+    // Shift+scroll → vertical в timeflow-area (для людей, когда их много).
+    if (e.shiftKey) {
+      const timeflowArea = e.target.closest('.canvas__timeflow-area');
+      if (timeflowArea) {
+        e.preventDefault();
+        timeflowArea.scrollTop += (e.deltaY || e.deltaX);
+      }
+      return;
+    }
+
+    // Трекпад двумя пальцами в сторону: deltaX уже есть. Нативный
+    // scroll не сработает (pane overflow: hidden) — двигаем сами.
+    if (e.deltaX !== 0) {
+      e.preventDefault();
+      scrollEl.scrollLeft += e.deltaX;
+      return;
+    }
+
+    // Только deltaY. Отличаем мышь от трекпада: мышь даёт дискретные
+    // большие целые значения (типично кратные 100/120) или deltaMode > 0
+    // (line/page mode). Трекпад — маленькие/дробные пиксельные значения.
+    const isMouseWheel = e.deltaMode > 0 ||
+                         (Math.abs(e.deltaY) >= 50 && Number.isInteger(e.deltaY));
+
+    if (isMouseWheel) {
+      // Мышь: deltaY → horizontal scroll (default behavior).
+      e.preventDefault();
+      scrollEl.scrollLeft += e.deltaY;
+    }
+    // Трекпад vertical → не preventDefault'им, браузер сам скроллит
+    // timeflow-area нативно (overflow-y: auto на ней).
   }, { passive: false });
 }
 
