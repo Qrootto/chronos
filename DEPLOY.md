@@ -1,23 +1,35 @@
-# Деплой Chronos
+# Деплой Past Simple
 
 ## Где хостится
 
-- **GitHub repo:** https://github.com/Qrootto/chronos (origin/main)
-- **Production URL (всегда последний билд):** https://coruscating-entremet-9241f5.netlify.app/
-- **Хостинг:** Netlify, бесплатный план. Подключён к GitHub repo, деплоит main автоматически.
+- **GitHub repo:** https://github.com/Qrootto/chronos (origin/main) — имя репозитория исторически осталось `chronos`, не переименовываем.
+- **Production URL:** https://past-simple.ru (apex). `www.past-simple.ru` автоматически редиректится на apex.
+- **Fallback URL Netlify:** https://coruscating-entremet-9241f5.netlify.app — всегда отдаёт последний билд, удобно для проверки в обход DNS.
+- **Хостинг:** Netlify, бесплатный тариф. Подключён к GitHub repo, деплоит main автоматически.
 
-⚠️ **Deploy preview vs production.** Netlify для каждого билда даёт временный URL вида `https://<deploy-hash>--coruscating-entremet-9241f5.netlify.app/`. Это **снимок конкретного коммита**, он не обновляется. Если смотришь не последние правки — ты на preview-URL'е. Production (постоянный) — без префикса с хешем.
+## DNS-настройки
+
+Регистратор: reg.ru. DNS-записи:
+
+```
+A    @    →  75.2.60.5      (apex Netlify)
+A    www  →  75.2.60.5      (тот же IP, Netlify сам сделает редирект на apex)
+```
+
+HTTPS-сертификат — Let's Encrypt, выпускается Netlify автоматически и продлевается без участия.
+
+⚠️ **Deploy preview vs production.** Netlify для каждого билда даёт временный URL вида `https://<deploy-hash>--coruscating-entremet-9241f5.netlify.app/`. Это **снимок конкретного коммита**, он не обновляется. Production — `https://past-simple.ru` (или fallback `coruscating-entremet-9241f5.netlify.app` без префикса с хешем).
 
 ## Как деплоить изменения
 
-Любой `git push` в `main` → Netlify пересобирает и деплоит. Цикл занимает ~30–60 секунд.
+Любой `git push` в `main` → Netlify пересобирает и деплоит. Цикл занимает ~30-60 секунд.
 
 ```bash
 # Локально
 git add <files>
 git commit -m "сообщение"
 git push
-# ~30 секунд ждём → live на coruscating-entremet-9241f5.netlify.app
+# ~30 секунд ждём → live на past-simple.ru
 ```
 
 ## Build settings (на стороне Netlify)
@@ -42,9 +54,13 @@ npm run build     # собрать в dist/
 npm run preview   # локальный сервер на http://localhost:4173/
 ```
 
-## Будущее: свой домен
+## Ограничения Netlify free tier
 
-Когда купишь домен — зайти в Netlify → **Domain settings** → **Add custom domain** → ввести домен → Netlify даёт CNAME/A-записи → пропишешь у регистратора → через 5–30 минут домен указывает на сайт. HTTPS Netlify автоматически выпускает (Let's Encrypt).
+- 100 GB bandwidth/месяц — для нашего объёма данных хватает с большим запасом.
+- 300 build minutes/месяц — наш билд ~10 секунд, до ~1800 деплоев в месяц.
+- 1 одновременный билд (нам не критично).
+
+Сайт продолжит работать в рамках free tier при любых разумных нагрузках.
 
 ## Не забывать
 

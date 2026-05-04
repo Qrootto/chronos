@@ -2,7 +2,7 @@
 
 export function renderNav(currentPath) {
   const links = [
-    { href: '/', label: 'Chronos', brand: true },
+    { href: '/', label: 'Past Simple', brand: true },
     { href: '/tokens.html', label: 'Tokens' },
     { href: '/components.html', label: 'Components' },
   ];

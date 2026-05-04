@@ -1,4 +1,4 @@
-/* Главная точка входа Chronos. См. MAIN_SCREEN.md для смысла и поведения.
+/* Главная точка входа Past Simple. См. MAIN_SCREEN.md для смысла и поведения.
  *
  * Архитектура:
  * - applyState(): полный рендер всех частей (Timeflow, Year scale, Timeline-mini).
@@ -240,5 +240,5 @@ function setupSidebar() {
   // Resize → полный re-render (меняется H и распределение линий) + sync
   window.addEventListener('resize', applyState);
 
-  window.__chronos = { state: STATE, data: DATA, applyState };
+  window.__pastSimple = { state: STATE, data: DATA, applyState };
 })();

@@ -1,4 +1,4 @@
-# Chronos — Design Snapshot
+# Past Simple — Design Snapshot
 
 Снимок состояния Figma на 2026-05-01. Источник истины для генерации кода. Перечитывать Figma имеет смысл, только если дизайн обновился.
 

@@ -1,4 +1,4 @@
-// DATA SCHEMA — Chronos project
+// DATA SCHEMA — Past Simple project
 // Agreed on 2026-04-27. Update this file when schema changes.
 
 // ─── PERSON ───────────────────────────────────────────────────────────────────

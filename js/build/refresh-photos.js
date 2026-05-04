@@ -44,7 +44,7 @@ async function fetchSummary(lang, title) {
   const slug = title.replace(/ /g, '_');
   const url = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(slug)}`;
   const r = await fetch(url, {
-    headers: { 'User-Agent': 'Chronos/1.0 (https://github.com/Qrootto/chronos)' },
+    headers: { 'User-Agent': 'PastSimple/1.0 (https://github.com/Qrootto/chronos)' },
   });
   if (r.status === 404) return null;
   if (!r.ok) {
