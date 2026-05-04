@@ -1,0 +1,49 @@
+/* Current year — вертикальная индикаторная линия года под курсором.
+ *
+ * Появляется при hover на любую x-позицию в Timeflow или Year scale.
+ * Простирается от верхнего края Timeflow до центра year-dot в Year scale.
+ *
+ * В точках пересечения с life-line отображается возраст человека в этом
+ * году (создаются динамически из JS, см. js/main.js → initYearHover).
+ *
+ * Контейнер — пустой width:0 absolute элемент, его двигаем
+ * translateX(current-year-viewport-x) при каждом mousemove. Дочерние
+ * элементы (line + age labels) позиционируются относительно него. */
+
+.current-year {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.current-year[hidden] {
+  display: none;
+}
+
+.current-year__line {
+  position: absolute;
+  top: 0;
+  /* Bottom-bar высотой 41px (33 year + 8 scrollbar). Year-dot 5×5
+   * (default) у самого top of year-inner. Линия должна заканчиваться
+   * на center year-dot = 2.5px от top of year-inner.
+   * bottom = 41 - 2.5 ≈ 38px. */
+  bottom: 38px;
+  left: 0;
+  width: 1px;
+  background: var(--light-4);
+}
+
+.current-year__age {
+  position: absolute;
+  /* 4px справа от линии, ниже устанавливается top через inline JS */
+  left: 4px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--light-16);
+  white-space: nowrap;
+}

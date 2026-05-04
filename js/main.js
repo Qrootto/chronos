@@ -88,6 +88,18 @@ function syncDynamic() {
 
   updateFocus(STATE, scrollLeft, viewportPx);
   updateStickyNames(timeflow, scrollLeft, viewportPx);
+  syncCurrentYear(scrollLeft);
+}
+
+/** При scroll/resize/zoom двигаем current-year линию (если она видна).
+ *  Year хранится в dataset.year, новая viewport-x = yearX - scrollLeft. */
+function syncCurrentYear(scrollLeft) {
+  const cy = document.getElementById('current-year');
+  if (!cy || cy.hasAttribute('hidden')) return;
+  const y = +cy.dataset.year;
+  if (!y) return;
+  const yearX = (y - STATE.startYear) * STATE.pxPerYear;
+  cy.style.transform = `translateX(${yearX - scrollLeft}px)`;
 }
 
 /** Wheel events на timeflow-pane.
@@ -171,9 +183,11 @@ function setupPopup() {
 }
 
 function initYearHover() {
-  const innerEl     = document.getElementById('canvas-inner');
-  const yearInnerEl = document.getElementById('canvas-year-inner');
-  const yearScaleEl = document.getElementById('year-scale');
+  const innerEl       = document.getElementById('canvas-inner');
+  const yearInnerEl   = document.getElementById('canvas-year-inner');
+  const yearScaleEl   = document.getElementById('year-scale');
+  const currentYearEl = document.getElementById('current-year');
+  const timeflowEl    = document.getElementById('timeflow');
   let hovered = null;
 
   // Координата xInside в "содержательной" coord-системе (та же что и yearToX):
@@ -189,6 +203,7 @@ function initYearHover() {
       if (y !== hovered) {
         setHoveredYear(yearScaleEl, hovered, y);
         hovered = y;
+        updateCurrentYear(currentYearEl, timeflowEl, y);
       }
     };
   }
@@ -196,6 +211,7 @@ function initYearHover() {
   function onLeave() {
     setHoveredYear(yearScaleEl, hovered, null);
     hovered = null;
+    currentYearEl.setAttribute('hidden', '');
   }
 
   innerEl.addEventListener('mousemove', onMove(innerEl));
@@ -204,6 +220,84 @@ function initYearHover() {
   // вешаем отдельный listener, чтобы hover на полосу лет тоже подсвечивал год.
   yearInnerEl.addEventListener('mousemove', onMove(yearInnerEl));
   yearInnerEl.addEventListener('mouseleave', onLeave);
+
+  // Vertical scroll внутри timeflow-area (когда людей много) — пересчитать
+  // позиции age-labels у current-year. Horizontal scroll обработан в
+  // syncDynamic → syncCurrentYear, который уже двигает translateX линии.
+  const timeflowArea = timeflowEl.parentElement;  // .canvas__timeflow-area
+  timeflowArea.addEventListener('scroll', () => {
+    if (currentYearEl.hasAttribute('hidden')) return;
+    const y = +currentYearEl.dataset.year;
+    if (!y) return;
+    updateCurrentYear(currentYearEl, timeflowEl, y);
+  });
+}
+
+/** Обновляет вертикальную линию current-year и возрасты людей в местах,
+ *  где она пересекает их life-line.
+ *
+ *  - Линия двигается через translateX = (yearX - scrollLeft) — viewport-x.
+ *  - Возраст показываем только если born ≤ year ≤ died и life-line видна
+ *    в текущем vertical viewport (с учётом scroll по высоте).
+ *  - Русское склонение: 1 год / 2-4 года / 5+ лет (с учётом 11-14 → лет). */
+function updateCurrentYear(currentYearEl, timeflowEl, year) {
+  const scrollEl     = document.getElementById('canvas-scroll');
+  const timeflowArea = timeflowEl.parentElement;  // .canvas__timeflow-area
+  const yearX        = (year - STATE.startYear) * STATE.pxPerYear;
+  const viewportX    = yearX - scrollEl.scrollLeft;
+
+  currentYearEl.style.transform = `translateX(${viewportX}px)`;
+  currentYearEl.dataset.year = String(year);
+  currentYearEl.removeAttribute('hidden');
+
+  // Удаляем предыдущие age-labels, оставляем только .current-year__line.
+  for (const node of [...currentYearEl.querySelectorAll('.current-year__age')]) {
+    node.remove();
+  }
+
+  const scrollTop  = timeflowArea.scrollTop;
+  const visTop     = scrollTop;
+  const visBottom  = scrollTop + timeflowArea.clientHeight;
+
+  for (const personId of STATE.peopleIds) {
+    const person = DATA.people.find(p => p.id === personId);
+    if (!person) continue;
+    if (year < person.born || year > person.died) continue;
+
+    const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
+    if (!line) continue;
+
+    const lifeLineTop = parseFloat(line.style.top);
+    if (Number.isNaN(lifeLineTop)) continue;
+
+    // Показываем только если life-line видна в vertical viewport.
+    if (lifeLineTop < visTop || lifeLineTop > visBottom) continue;
+
+    const age = year - person.born;
+    const label = document.createElement('div');
+    label.className = 'current-year__age';
+    label.textContent = formatAge(age);
+    // Координаты current-year относительно canvas (родитель). Y ось:
+    //   life-line.style.top — в координатах canvas-inner (timeflow-area).
+    //   В canvas координатах = lifeLineTop - timeflowArea.scrollTop
+    //     (с учётом vertical scroll людей).
+    //   "Выше life-line на 4px" + line-height ~14 → top = visibleTop - 4 - 14.
+    const visibleY = lifeLineTop - scrollTop;
+    label.style.top = (visibleY - 4 - 14) + 'px';
+    currentYearEl.appendChild(label);
+  }
+}
+
+/** Возраст в годах с русским склонением: 1 год / 2-4 года / 5+ лет.
+ *  Учитывает «лет» для 11-14 (11 лет, не «11 год»). */
+function formatAge(n) {
+  const mod10  = n % 10;
+  const mod100 = n % 100;
+  let word;
+  if (mod10 === 1 && mod100 !== 11)                          word = 'год';
+  else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) word = 'года';
+  else                                                        word = 'лет';
+  return `${n} ${word}`;
 }
 
 /** Sidebar: динамический рендер групп + одна открытая группа за раз. */
