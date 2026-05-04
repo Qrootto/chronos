@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node js/build/generate-components-meta.js && vite",
+    "prebuild": "node js/build/generate-components-meta.js",
     "build": "vite build",
     "preview": "vite preview"
   },

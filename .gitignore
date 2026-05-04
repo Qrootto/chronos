@@ -3,6 +3,9 @@ node_modules
 dist
 .vite
 
+# Auto-generated при prebuild (см. js/build/generate-components-meta.js)
+public/data/components-meta.json
+
 # Heavy design source files (исходники Figma — не нужны в репо)
 assets/Popup.svg
 assets/Popup.png
