@@ -21,6 +21,24 @@ const DELAY_MS = 250;   // мягкая пауза, чтобы не дёргат
 const people = JSON.parse(fs.readFileSync(FILE, 'utf-8'));
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+/** Целевая ширина фото в попапе (retina-ready для блока ~320px wide). */
+const TARGET_PHOTO_WIDTH = 600;
+
+/** Из URL Wikimedia (originalimage.source / thumbnail.source) делаем
+ *  стабильную ссылку на thumbnail заданной ширины через Special:FilePath.
+ *  Это в десятки раз легче, чем оригинальная full-size картинка. */
+function thumbUrl(sourceUrl, width) {
+  if (!sourceUrl) return null;
+  // Берём filename — последняя часть URL после '/'.
+  const m = sourceUrl.match(/\/([^\/?#]+)(?:[?#]|$)/);
+  if (!m) return sourceUrl;
+  // filename в URL уже percent-encoded (например `%28`); декодируем для
+  // последующего encodeURIComponent — иначе будет двойное кодирование.
+  let filename;
+  try { filename = decodeURIComponent(m[1]); } catch { filename = m[1]; }
+  return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(filename)}?width=${width}`;
+}
+
 /** Запрос /summary/{title}. Возвращает {photo, foundTitle} или null если 404 / без фото. */
 async function fetchSummary(lang, title) {
   const slug = title.replace(/ /g, '_');
@@ -36,8 +54,9 @@ async function fetchSummary(lang, title) {
   const j = await r.json();
   // Тип "disambiguation" → не персональная страница
   if (j.type === 'disambiguation') return null;
-  const photo = j.originalimage?.source || j.thumbnail?.source || null;
-  if (!photo) return null;
+  const source = j.originalimage?.source || j.thumbnail?.source || null;
+  if (!source) return null;
+  const photo = thumbUrl(source, TARGET_PHOTO_WIDTH);
   return { photo, foundTitle: j.title, lang };
 }
 
