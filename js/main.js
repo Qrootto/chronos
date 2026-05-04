@@ -28,6 +28,8 @@ const STATE = {
 };
 
 const RANDOM_COUNT = 10;
+const STORAGE_PEOPLE_KEY = 'past-simple:selected-people';
+const DEFAULT_CENTER_YEAR = 1900;   // разделитель XIX/XX, по центру при load.
 let DATA = null;
 
 async function loadData() {
@@ -44,6 +46,37 @@ function pickRandomPeople(people, count, state) {
   );
   const shuffled = [...candidates].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count).map(p => p.id);
+}
+
+/** Восстанавливает выбор людей из localStorage. Возвращает null если
+ *  сохранения нет, формат битый или пустой массив. */
+function loadSelectedPeople() {
+  try {
+    const json = localStorage.getItem(STORAGE_PEOPLE_KEY);
+    if (!json) return null;
+    const arr = JSON.parse(json);
+    if (!Array.isArray(arr) || !arr.length) return null;
+    return arr.filter(id => typeof id === 'string');
+  } catch {
+    return null;
+  }
+}
+
+/** Сохраняет текущий STATE.peopleIds в localStorage. Вызывается из
+ *  sidebar handlers после каждого изменения списка. */
+function saveSelectedPeople() {
+  try {
+    localStorage.setItem(STORAGE_PEOPLE_KEY, JSON.stringify(STATE.peopleIds));
+  } catch {}
+}
+
+/** Скроллит главный horizontal scroll так, чтобы заданный год оказался
+ *  в центре viewport. Вызывается один раз при init. */
+function scrollToCenter(year) {
+  const scrollEl = document.getElementById('canvas-scroll');
+  const yearX = (year - STATE.startYear) * STATE.pxPerYear;
+  const targetLeft = yearX - scrollEl.clientWidth / 2;
+  scrollEl.scrollLeft = Math.max(0, targetLeft);
 }
 
 /** Полный рендер. Вызывается при инициализации, изменении state, resize. */
@@ -323,6 +356,7 @@ function setupSidebar() {
         const i = STATE.peopleIds.indexOf(id);
         if (i >= 0) STATE.peopleIds.splice(i, 1);
         else STATE.peopleIds.push(id);
+        saveSelectedPeople();
         sb.render();
         applyState();
       },
@@ -341,6 +375,7 @@ function setupSidebar() {
         } else {
           STATE.peopleIds = STATE.peopleIds.filter(id => !ids.includes(id));
         }
+        saveSelectedPeople();
         sb.render();
         applyState();
       },
@@ -366,7 +401,10 @@ function setupSidebar() {
 
 (async () => {
   DATA = await loadData();
-  STATE.peopleIds = pickRandomPeople(DATA.people, RANDOM_COUNT, STATE);
+  // Сначала пытаемся восстановить выбор людей из localStorage (если
+  // пользователь заходил раньше). Иначе — 10 рандомных.
+  STATE.peopleIds = loadSelectedPeople()
+                  ?? pickRandomPeople(DATA.people, RANDOM_COUNT, STATE);
   // Стартово все мировые события включены («События: все»)
   STATE.selectedEventIds = new Set(DATA.events.map(e => e.id));
 
@@ -374,6 +412,10 @@ function setupSidebar() {
   renderTimelineMini(document.getElementById('timeline-mini'));
 
   applyState();
+  // Скроллим к центру XX века (1900) при первой загрузке. Дальше
+  // пользователь может скроллить свободно — мы это положение не трогаем.
+  scrollToCenter(DEFAULT_CENTER_YEAR);
+  syncDynamic();
   setupSidebar();
 
   // Hover на event-dot → показ event-caption + connections (delegated)
