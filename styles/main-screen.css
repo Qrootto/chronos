@@ -63,7 +63,11 @@ body {
 
 /* Скролл для Timeflow (горизонтальный + вертикальный для людей).
  * Year scale вынесен ВНЕ этого контейнера в .canvas__bottom-bar (см. ниже),
- * чтобы горизонтальный scrollbar (Windows) не сдвигал layout zoom-а. */
+ * чтобы горизонтальный scrollbar (Windows) не сдвигал layout zoom-а.
+ *
+ * Кастомный тонкий scrollbar (8px) одинаковый на Mac и Windows — без
+ * стилизации Windows показывает жирную белую полосу ~17px высоты,
+ * которая визуально доминирует над year-scale и портит композицию. */
 .canvas__scroll {
   flex: 1;
   overflow-x: auto;
@@ -71,6 +75,22 @@ body {
   position: relative;
   /* отступ до bottom-bar — раньше делали margin-bottom на timeflow-area */
   margin-bottom: 4px;
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--light-16) transparent;
+}
+.canvas__scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.canvas__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.canvas__scroll::-webkit-scrollbar-thumb {
+  background: var(--light-16);
+  border-radius: 4px;
+}
+.canvas__scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--light-32);
 }
 
 .canvas__inner {
