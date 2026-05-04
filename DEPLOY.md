@@ -3,8 +3,10 @@
 ## Где хостится
 
 - **GitHub repo:** https://github.com/Qrootto/chronos (origin/main)
-- **Production URL:** https://coruscating-entremet-9241f5.netlify.app/
+- **Production URL (всегда последний билд):** https://coruscating-entremet-9241f5.netlify.app/
 - **Хостинг:** Netlify, бесплатный план. Подключён к GitHub repo, деплоит main автоматически.
+
+⚠️ **Deploy preview vs production.** Netlify для каждого билда даёт временный URL вида `https://<deploy-hash>--coruscating-entremet-9241f5.netlify.app/`. Это **снимок конкретного коммита**, он не обновляется. Если смотришь не последние правки — ты на preview-URL'е. Production (постоянный) — без префикса с хешем.
 
 ## Как деплоить изменения
 
