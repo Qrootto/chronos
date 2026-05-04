@@ -81,13 +81,36 @@ function buildLeftColumn(person, event) {
   heading.appendChild(buildLifetimeStrip(person, event));
   left.appendChild(heading);
 
-  // Lead: используем event.description.
-  // (В будущем расширим схему: events[i].sections — отдельные подзаголовки.)
+  // Lead — короткий выделенный абзац (event.description).
   if (event.description) {
     const lead = document.createElement('p');
     lead.className = 'popup__lead';
     lead.textContent = event.description;
     left.appendChild(lead);
+  }
+
+  // Sections — подзаголовки с подробным текстом (опционально).
+  // См. data/_schema.js → events[i].sections.
+  if (Array.isArray(event.sections) && event.sections.length > 0) {
+    const text = document.createElement('div');
+    text.className = 'popup__text';
+    for (const sec of event.sections) {
+      const section = document.createElement('section');
+      section.className = 'popup__section';
+
+      const h = document.createElement('h2');
+      h.className = 'popup__section-title';
+      h.textContent = sec.title;
+      section.appendChild(h);
+
+      const p = document.createElement('p');
+      p.className = 'popup__section-body';
+      p.textContent = sec.body;
+      section.appendChild(p);
+
+      text.appendChild(section);
+    }
+    left.appendChild(text);
   }
 
   return left;
