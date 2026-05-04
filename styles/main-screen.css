@@ -61,20 +61,50 @@ body {
   min-width: 0;
 }
 
-/* Скролл для Timeflow (горизонтальный + вертикальный для людей).
- * Year scale вынесен ВНЕ этого контейнера в .canvas__bottom-bar (см. ниже),
- * чтобы горизонтальный scrollbar (Windows) не сдвигал layout zoom-а.
- *
- * Кастомный тонкий scrollbar (8px) одинаковый на Mac и Windows — без
- * стилизации Windows показывает жирную белую полосу ~17px высоты,
- * которая визуально доминирует над year-scale и портит композицию. */
-.canvas__scroll {
+/* Pane для Timeflow (без скролла, контент шире viewport — overflow: hidden).
+ * Сдвиг контента — через transform: translateX(-scrollLeft) на canvas-inner
+ * (синхронизируется со scroll-контейнером в bottom-bar). */
+.canvas__pane {
   flex: 1;
+  position: relative;
+  overflow: hidden;
+  /* отступ до bottom-bar */
+  margin-bottom: 4px;
+}
+
+.canvas__inner {
+  position: relative;
+  height: 100%;
+  /* width задаётся inline JS = (endYear - startYear) * pxPerYear.
+   * transform: translateX(-scrollLeft) задаётся inline JS в syncDynamic. */
+}
+
+.canvas__timeflow-area {
+  position: relative;
+  height: 100%;
+  overflow-x: hidden;
+  /* Vertical scroll для людей, если их много (Header и Year scale остаются). */
+  overflow-y: auto;
+}
+
+/* === Bottom bar: главный horizontal scroll (year-scale + thin scrollbar
+ *    внизу экрана) + Zoom. Scrollbar лежит в самом низу bottom-bar
+ *    под year-scale, не между timeflow и year-scale. === */
+.canvas__bottom-bar {
+  position: relative;
+  flex-shrink: 0;
+  /* 33 (year-area) + 8 (scrollbar height) = 41 */
+  height: 41px;
+}
+
+/* Главный scroll-контейнер: drag thumb работает нативно, scrollLeft
+ * синхронизирует canvas-inner через transform (см. main.js → syncDynamic).
+ * Кастомный тонкий scrollbar (8px) одинаков на Mac и Windows. */
+.canvas__scroll {
+  position: absolute;
+  inset: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  position: relative;
-  /* отступ до bottom-bar — раньше делали margin-bottom на timeflow-area */
-  margin-bottom: 4px;
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--light-16) transparent;
@@ -93,51 +123,15 @@ body {
   background: var(--light-32);
 }
 
-.canvas__inner {
-  position: relative;
-  height: 100%;
-  /* width задаётся inline JS = (endYear - startYear) * pxPerYear.
-   * Без padding: 1850 — самое начало шкалы (left: 0), 1950 — самый конец. */
-}
-
-.canvas__timeflow-area {
-  position: relative;
-  height: 100%;
-  /* Горизонтально скрываем (общий H-скролл — на canvas-scroll).
-   * Вертикально — auto: если людей много, появляется свой Y-скролл,
-   * Header и Year scale при этом остаются на месте. */
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-/* === Bottom bar: Year scale (синхронизируется с canvas-scroll через JS)
- *    + Zoom (позиционируется относительно bottom-bar).
- * Это полоса фиксированной высоты ВНЕ scrollable-контейнера, поэтому
- * Windows-style scrollbar в canvas__scroll не съезжает на zoom. === */
-.canvas__bottom-bar {
-  position: relative;
-  flex-shrink: 0;
-  height: 33px;    /* 22 (year box) + 11 (gap до низа экрана = 14px от bottom-цифры) */
-}
-
-/* Обёртка для year-scale: занимает всю ширину bottom-bar, скрывает overflow.
- * Сам year-scale внутри year-inner шириной = scroll content; смещаем
- * через transform: translateX(-scrollLeft) в JS (см. main.js → syncDynamic). */
-.canvas__year-scroll {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
 .canvas__year-inner {
-  height: 100%;
+  /* 22 (year box) + 11 (gap до низа = 14px от bottom-цифры) */
+  height: 33px;
   /* width задаётся inline JS = (endYear - startYear) * pxPerYear */
-  /* transform задаётся inline JS на каждом scroll'е */
 }
 
 .canvas__zoom {
   position: absolute;
-  /* 8px над bottom-bar (33px). 8px от правого края bottom-bar (= viewport right). */
+  /* 8px над bottom-bar. */
   bottom: calc(100% + 8px);
   right: 8px;
   z-index: 5;

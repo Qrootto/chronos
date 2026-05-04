@@ -72,21 +72,35 @@ function applyState() {
 }
 
 /** Пересчёт динамических вещей: focus в timeline-mini, sticky-имена,
- *  синхронизация Year scale (через transform на canvas-year-inner).
- *  Вызывается на scroll/resize. */
+ *  синхронизация Timeflow с главным scroll-контейнером (через transform
+ *  на canvas-inner). Вызывается на scroll/resize.
+ *
+ *  Главный horizontal scroll сейчас в bottom-bar (#canvas-scroll);
+ *  timeflow-pane — overflow: hidden, движется через transform. */
 function syncDynamic() {
-  const scrollEl    = document.getElementById('canvas-scroll');
-  const timeflow    = document.getElementById('timeflow');
-  const yearInnerEl = document.getElementById('canvas-year-inner');
-  const scrollLeft  = scrollEl.scrollLeft;
-  const viewportPx  = scrollEl.clientWidth;
+  const scrollEl   = document.getElementById('canvas-scroll');
+  const innerEl    = document.getElementById('canvas-inner');
+  const timeflow   = document.getElementById('timeflow');
+  const scrollLeft = scrollEl.scrollLeft;
+  const viewportPx = scrollEl.clientWidth;
 
-  // Year scale теперь вне общего scroll (см. main-screen.css → .canvas__bottom-bar):
-  // двигаем его в обратную сторону scroll'а через transform.
-  yearInnerEl.style.transform = `translateX(${-scrollLeft}px)`;
+  innerEl.style.transform = `translateX(${-scrollLeft}px)`;
 
   updateFocus(STATE, scrollLeft, viewportPx);
   updateStickyNames(timeflow, scrollLeft, viewportPx);
+}
+
+/** Wheel events на timeflow-pane (overflow: hidden) перенаправляем в
+ *  главный horizontal scroll. Обрабатывает обе оси: deltaX (трекпад
+ *  горизонтально) и deltaY (мышь / трекпад вертикально). */
+function setupWheel() {
+  const paneEl   = document.querySelector('.canvas__pane');
+  const scrollEl = document.getElementById('canvas-scroll');
+  paneEl.addEventListener('wheel', (e) => {
+    if (e.deltaX === 0 && e.deltaY === 0) return;
+    e.preventDefault();
+    scrollEl.scrollLeft += (e.deltaX || e.deltaY);
+  }, { passive: false });
 }
 
 function setupPopup() {
@@ -235,6 +249,9 @@ function setupSidebar() {
   // Hover на любую точку Timeflow → подсветить соответствующий год в Year scale
   // (см. MAIN_SCREEN.md → Year scale → Hover на год).
   initYearHover();
+
+  // Wheel events на timeflow-pane → главный horizontal scroll.
+  setupWheel();
 
   // Zoom: +/− меняет pxPerYear по фиксированным шагам, сохраняет центр viewport
   initZoom({

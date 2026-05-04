@@ -35,9 +35,11 @@
       <!-- Sidebar (overlay поверх Header, fixed). Контент рендерится в JS — см. js/sidebar.js. -->
       <aside class="sidebar-overlay" id="sidebar"></aside>
 
-      <!-- Canvas: Timeflow (scrollable) + Bottom bar (Year scale + Zoom, вне scroll) -->
+      <!-- Canvas: Timeflow pane (без скролла) + Bottom bar (главный scroll + zoom).
+           Scrollbar теперь живёт в самом низу экрана, под year-scale, а не
+           между timeflow и year-scale (см. main-screen.css → .canvas__bottom-bar). -->
       <section class="canvas">
-        <div class="canvas__scroll" id="canvas-scroll">
+        <div class="canvas__pane">
           <div class="canvas__inner" id="canvas-inner">
             <div class="canvas__timeflow-area">
               <div class="timeflow" id="timeflow"></div>
@@ -45,11 +47,10 @@
           </div>
         </div>
 
-        <!-- Bottom bar: year-scale (синхронизируется с canvas-scroll через JS)
-             + zoom. Вне scroll-контейнера, чтобы scrollbar (Windows) не съезжал
-             на zoom (см. styles/main-screen.css → .canvas__bottom-bar). -->
+        <!-- Bottom bar: главный horizontal scroll (year-scale + scrollbar внизу)
+             + zoom. canvas-inner синхронизируется через transform в JS. -->
         <div class="canvas__bottom-bar">
-          <div class="canvas__year-scroll">
+          <div class="canvas__scroll" id="canvas-scroll">
             <div class="canvas__year-inner" id="canvas-year-inner">
               <div class="year-scale" id="year-scale"></div>
             </div>
