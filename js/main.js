@@ -328,9 +328,11 @@ function updateCurrentYear(currentYearEl, timeflowEl, year) {
     const label = document.createElement('div');
     label.className = 'current-year__age';
     label.dataset.personId = personId;
-    // Если life-line этого человека уже в hovered (курсор над event-dot
-    // этого же человека) — сразу применяем подсветку возраста.
-    if (line.classList.contains('life-line--hovered')) {
+    // Если life-line этого человека уже в age-hovered state (курсор над
+    // event-dot или над самой линией) — сразу применяем подсветку возраста.
+    // Визуальный hover линии (--hovered, height/color) — отдельная штука,
+    // включается только через event-dot.
+    if (line.classList.contains('life-line--age-hovered')) {
       label.classList.add('current-year__age--hovered');
     }
     label.textContent = formatAge(age);

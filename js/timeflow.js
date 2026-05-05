@@ -414,23 +414,24 @@ function hideCaption(timeflowEl) {
  * Hover на event-dot триггерит:
  *  - caption (event-caption);
  *  - connections (если у события есть связанный человек);
- *  - hovered-state у life-line, которой принадлежит точка (см.
- *    styles/components/life-line.css → .life-line--hovered);
+ *  - visual hovered-state у life-line этого человека (height 5px + цвет
+ *    категории, см. styles/components/life-line.css → .life-line--hovered);
  *  - подсветка возраста этого человека в current-year overlay.
  *
  * Hover на саму life-line (через расширенную hit-area ::before) —
- * только hovered-state и подсветка возраста, без caption/connection. */
+ * ТОЛЬКО подсветка возраста. Visual hover на самой линии НЕ срабатывает. */
 export function attachHoverCaptions(timeflowEl, getData, getState) {
   timeflowEl.addEventListener('mouseover', (e) => {
     const dot = e.target.closest('.event-dot');
     if (dot && !dot.classList.contains('is-sticky-dot')) {
       showCaption(timeflowEl, dot);
       showConnectionsFor(timeflowEl, dot, getData(), getState());
-      setLifeLineHovered(timeflowEl, dot.dataset.personId, true);
+      setLifeLineVisualHover(timeflowEl, dot.dataset.personId, true);
+      setAgeHovered(timeflowEl, dot.dataset.personId, true);
       return;
     }
     const line = e.target.closest('.life-line');
-    if (line) setLifeLineHovered(timeflowEl, line.dataset.personId, true);
+    if (line) setAgeHovered(timeflowEl, line.dataset.personId, true);
   });
   timeflowEl.addEventListener('mouseout', (e) => {
     const dot = e.target.closest('.event-dot');
@@ -439,25 +440,36 @@ export function attachHoverCaptions(timeflowEl, getData, getState) {
       if (related && dot.contains(related)) return;
       hideCaption(timeflowEl);
       hideConnections(timeflowEl);
-      setLifeLineHovered(timeflowEl, dot.dataset.personId, false);
+      setLifeLineVisualHover(timeflowEl, dot.dataset.personId, false);
+      setAgeHovered(timeflowEl, dot.dataset.personId, false);
       return;
     }
     const line = e.target.closest('.life-line');
     if (line) {
       const related = e.relatedTarget;
       if (related && line.contains(related)) return;
-      setLifeLineHovered(timeflowEl, line.dataset.personId, false);
+      setAgeHovered(timeflowEl, line.dataset.personId, false);
     }
   });
 }
 
-/** Тогглим класс .life-line--hovered у линии этого человека.
- *  Также подсвечиваем возраст этого человека в current-year overlay
- *  (см. styles/components/current-year.css → --hovered). */
-function setLifeLineHovered(timeflowEl, personId, on) {
+/** Visual hover для life-line — height 5px + цвет категории. Включается
+ *  только через hover на event-dot этого человека. */
+function setLifeLineVisualHover(timeflowEl, personId, on) {
   if (!personId) return;
   const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
   if (line) line.classList.toggle('life-line--hovered', on);
+}
+
+/** Подсветка возраста для конкретного человека в current-year overlay.
+ *  Включается при hover и на event-dot, и на саму life-line.
+ *  Class .life-line--age-hovered ставится на саму line как persistence-
+ *  flag (без visual эффекта) — чтобы updateCurrentYear после mousemove
+ *  re-render знал, какие age сразу подсветить. */
+function setAgeHovered(timeflowEl, personId, on) {
+  if (!personId) return;
+  const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
+  if (line) line.classList.toggle('life-line--age-hovered', on);
   const age = document.querySelector(`.current-year__age[data-person-id="${personId}"]`);
   if (age) age.classList.toggle('current-year__age--hovered', on);
 }
