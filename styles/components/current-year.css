@@ -46,4 +46,12 @@
   line-height: 1;
   color: var(--light-16);
   white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+/* Возраст становится заметнее, когда life-line этого человека в hovered
+ * состоянии (= курсор над event-dot этого человека).
+ * Класс ставится из js/timeflow.js → setLifeLineHovered. */
+.current-year__age--hovered {
+  color: var(--light-32);
 }

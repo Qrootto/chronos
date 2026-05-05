@@ -327,6 +327,12 @@ function updateCurrentYear(currentYearEl, timeflowEl, year) {
     const age = year - person.born;
     const label = document.createElement('div');
     label.className = 'current-year__age';
+    label.dataset.personId = personId;
+    // Если life-line этого человека уже в hovered (курсор над event-dot
+    // этого же человека) — сразу применяем подсветку возраста.
+    if (line.classList.contains('life-line--hovered')) {
+      label.classList.add('current-year__age--hovered');
+    }
     label.textContent = formatAge(age);
     // Координаты current-year относительно canvas (родитель). Y ось:
     //   life-line.style.top — в координатах canvas-inner (timeflow-area).

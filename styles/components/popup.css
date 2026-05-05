@@ -250,10 +250,12 @@
 }
 
 /* === Правая колонка ===
- * top: 64px от верха попапа (как левая колонка). */
+ * padding-top: 72px (--spacing-4xl). Расчёт: до иконки close (top: 20px,
+ * высота 32px) расстояние 20px; от низа close до фото — те же 20px;
+ * итого 20 + 32 + 20 = 72. */
 .popup__right {
   grid-column: 3;
-  padding-top: var(--spacing-3xl);
+  padding-top: var(--spacing-4xl);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);

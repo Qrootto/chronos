@@ -435,11 +435,15 @@ export function attachHoverCaptions(timeflowEl, getData, getState) {
   });
 }
 
-/** Тогглим класс .life-line--hovered у линии этого человека. */
+/** Тогглим класс .life-line--hovered у линии этого человека.
+ *  Также подсвечиваем возраст этого человека в current-year overlay
+ *  (см. styles/components/current-year.css → --hovered). */
 function setLifeLineHovered(timeflowEl, personId, on) {
   if (!personId) return;
   const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
   if (line) line.classList.toggle('life-line--hovered', on);
+  const age = document.querySelector(`.current-year__age[data-person-id="${personId}"]`);
+  if (age) age.classList.toggle('current-year__age--hovered', on);
 }
 
 /* ===== Connections (см. MAIN_SCREEN.md → Connections) ===== */
