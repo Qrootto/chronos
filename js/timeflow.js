@@ -262,18 +262,19 @@ function renderDefaultConnections(el, state, sortedPeople, rowYs) {
 
       const yB = rowYs[idxB];
       const catB = CATEGORY_CLASS[personB.category] || 'artist';
+      // Линия — прямая вертикальная по центру точек. CSS transform:
+      // translateX(-50%) на .connection центрирует её относительно left.
+      // Отступ CONN_EXIT_OFFSET по вертикали оставлен — линия не лезет
+      // в сам круг точки (а раньше использовался ещё и горизонтально для
+      // дугообразной SVG-линии под 45°).
       const x = yearToX(conn.year, state);
-      // Линия выходит из углов точек (см. MAIN_SCREEN.md → Точки выхода/входа):
-      // нижне-правый верхней + верхне-правый нижней.
       const top = Math.min(yA, yB) + CONN_EXIT_OFFSET;
       const height = Math.abs(yA - yB) - 2 * CONN_EXIT_OFFSET;
-      // x смещаем вправо на тот же offset (правый край).
-      const adjustedX = x + CONN_EXIT_OFFSET;
       const topCat    = (yA <= yB) ? catA : catB;
       const bottomCat = (yA <= yB) ? catB : catA;
 
       el.appendChild(makeConnectionEl({
-        x: adjustedX, top, height, key, topCat, bottomCat,
+        x, top, height, key, topCat, bottomCat,
       }));
     });
   });
@@ -515,7 +516,7 @@ function showConnectionsFor(timeflowEl, dotA, data, state) {
       const topCat    = (dotA_y <= dotB_y) ? catA : catB;
       const bottomCat = (dotA_y <= dotB_y) ? catB : catA;
       const ghostConn = makeConnectionEl({
-        x: dotA_x + CONN_EXIT_OFFSET,
+        x: dotA_x,
         top: yTop, height: yBot - yTop,
         key: null, topCat, bottomCat, hovered: true,
       });
