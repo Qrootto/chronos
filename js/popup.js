@@ -3,7 +3,13 @@
  * openPopup() рендерит контент в .popup-overlay, добавляет .is-open (анимация
  * выезда справа налево) и программно скроллит Timeflow так, чтобы выбранное
  * событие оказалось горизонтально по центру 15vw-просвета слева от попапа.
- * closePopup() убирает .is-open. */
+ * closePopup() убирает .is-open.
+ *
+ * Тексты внутри попапа проходят через fixOrphansInTree — однобуквенные
+ * предлоги/союзы получают non-breaking space, чтобы не оставаться в конце
+ * строки. Применяется ко всем дочерним text nodes overlay'я. */
+
+import { fixOrphansInTree } from './lib/typography.js';
 
 const CATEGORY_CLASS = {
   artist:      'artist',
@@ -55,6 +61,7 @@ export function openPopup(overlayEl, backdropEl, state, data, personId, eventYea
   overlayEl.appendChild(closeBtn);
 
   overlayEl.appendChild(buildPopup(person, event, state, data));
+  fixOrphansInTree(overlayEl);
   overlayEl.classList.add('is-open');
   backdropEl?.classList.add('is-open');
 
@@ -81,6 +88,7 @@ export function openAboutPopup(overlayEl, backdropEl) {
   overlayEl.appendChild(closeBtn);
 
   overlayEl.appendChild(buildAboutPopup());
+  fixOrphansInTree(overlayEl);
   overlayEl.classList.add('is-open');
   backdropEl?.classList.add('is-open');
 }
