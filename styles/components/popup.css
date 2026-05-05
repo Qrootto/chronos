@@ -117,13 +117,13 @@
 }
 
 /* === Левая колонка ===
- * top: 64px от верха попапа; вертикальный скролл, gap 40 между секциями. */
+ * top: 64px от верха попапа; вертикальный скролл, gap 48 между секциями. */
 .popup__left {
   grid-column: 1;
   padding: var(--spacing-3xl) 0 var(--spacing-xl) 0;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: var(--spacing-2xl);
   overflow-x: hidden;
   overflow-y: auto;
   min-width: 0;
@@ -214,7 +214,7 @@
 .popup__text {
   display: flex;
   flex-direction: column;
-  gap: 41px;
+  gap: var(--spacing-2xl);
 }
 
 .popup__section {
@@ -291,7 +291,7 @@
   padding-left: var(--spacing-sm);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--spacing-xs);
 }
 
 .popup__concurrent-dot {

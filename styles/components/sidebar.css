@@ -31,11 +31,11 @@
 }
 
 /* === Верхняя строка с close ===
- * Контейнер той же ширины, padding 20, иконка прижата вправо. */
+ * Контейнер той же ширины, padding 24, иконка прижата вправо. */
 .sidebar__close {
   display: flex;
   justify-content: flex-end;
-  padding: 20px;
+  padding: var(--spacing-lg);
 }
 
 /* === Раскрытый список персон / событий под селектором ===
@@ -55,7 +55,7 @@
 .sidebar__item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-xs);
   font-family: var(--font-family);
   font-weight: var(--font-semibold-14-weight);
   font-size: var(--font-semibold-14-size);
