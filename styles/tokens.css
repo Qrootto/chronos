@@ -13,17 +13,7 @@
 
 :root {
   /* ================================================================
-   * PRIMITIVES — SOLID COLORS
-   * ================================================================ */
-  --red:    #f95b70;
-  --green:  #4dc7a4;
-  --blue:   #3ed6f5;
-  --yellow: #ffdf86;
-  --purple: #de97ff;
-  --orange: #f99032;
-
-  /* ================================================================
-   * PRIMITIVES — BLACK (alpha grades)
+   * PRIMITIVES — BLACK (alpha grades, base #1c1e25)
    * ================================================================ */
   --black-100: #1c1e25;
   --black-80:  #1c1e25cc;
@@ -36,7 +26,7 @@
   --black-4:   #1c1e250a;
 
   /* ================================================================
-   * PRIMITIVES — WHITE (alpha grades)
+   * PRIMITIVES — WHITE (alpha grades, base #ffffff)
    * ================================================================ */
   --white-100: #ffffff;
   --white-80:  #ffffffcc;
@@ -62,10 +52,95 @@
   --light-4:   #c9d5ff0a;
 
   /* ================================================================
-   * PRIMITIVES — DARK (solid shades, NOT alpha)
+   * PRIMITIVES — DARK (alpha grades, base #3B5172)
    * ================================================================ */
-  --dark-100: #384059;
-  --dark-48:  #5a6589;
+  --dark-100: #3b5172;
+  --dark-80:  #3b5172cc;
+  --dark-64:  #3b5172a3;
+  --dark-48:  #3b51727a;
+  --dark-32:  #3b517252;
+  --dark-24:  #3b51723d;
+  --dark-16:  #3b517229;
+  --dark-8:   #3b517214;
+  --dark-4:   #3b51720a;
+
+  /* ================================================================
+   * PRIMITIVES — RED (alpha grades, base #f95b70)
+   * ================================================================ */
+  --red-100: #f95b70;
+  --red-80:  #f95b70cc;
+  --red-64:  #f95b70a3;
+  --red-48:  #f95b707a;
+  --red-32:  #f95b7052;
+  --red-24:  #f95b703d;
+  --red-16:  #f95b7029;
+  --red-8:   #f95b7014;
+  --red-4:   #f95b700a;
+
+  /* ================================================================
+   * PRIMITIVES — GREEN (alpha grades, base #4dc7a4)
+   * ================================================================ */
+  --green-100: #4dc7a4;
+  --green-80:  #4dc7a4cc;
+  --green-64:  #4dc7a4a3;
+  --green-48:  #4dc7a47a;
+  --green-32:  #4dc7a452;
+  --green-24:  #4dc7a43d;
+  --green-16:  #4dc7a429;
+  --green-8:   #4dc7a414;
+  --green-4:   #4dc7a40a;
+
+  /* ================================================================
+   * PRIMITIVES — BLUE (alpha grades, base #3ed6f5)
+   * ================================================================ */
+  --blue-100: #3ed6f5;
+  --blue-80:  #3ed6f5cc;
+  --blue-64:  #3ed6f5a3;
+  --blue-48:  #3ed6f57a;
+  --blue-32:  #3ed6f552;
+  --blue-24:  #3ed6f53d;
+  --blue-16:  #3ed6f529;
+  --blue-8:   #3ed6f514;
+  --blue-4:   #3ed6f50a;
+
+  /* ================================================================
+   * PRIMITIVES — YELLOW (alpha grades, base #ffdf86)
+   * ================================================================ */
+  --yellow-100: #ffdf86;
+  --yellow-80:  #ffdf86cc;
+  --yellow-64:  #ffdf86a3;
+  --yellow-48:  #ffdf867a;
+  --yellow-32:  #ffdf8652;
+  --yellow-24:  #ffdf863d;
+  --yellow-16:  #ffdf8629;
+  --yellow-8:   #ffdf8614;
+  --yellow-4:   #ffdf860a;
+
+  /* ================================================================
+   * PRIMITIVES — PURPLE (alpha grades, base #b697ff)
+   * ================================================================ */
+  --purple-100: #b697ff;
+  --purple-80:  #b697ffcc;
+  --purple-64:  #b697ffa3;
+  --purple-48:  #b697ff7a;
+  --purple-32:  #b697ff52;
+  --purple-24:  #b697ff3d;
+  --purple-16:  #b697ff29;
+  --purple-8:   #b697ff14;
+  --purple-4:   #b697ff0a;
+
+  /* ================================================================
+   * PRIMITIVES — TOXIC (alpha grades, base #c7ef42)
+   * ================================================================ */
+  --toxic-100: #c7ef42;
+  --toxic-80:  #c7ef42cc;
+  --toxic-64:  #c7ef42a3;
+  --toxic-48:  #c7ef427a;
+  --toxic-32:  #c7ef4252;
+  --toxic-24:  #c7ef423d;
+  --toxic-16:  #c7ef4229;
+  --toxic-8:   #c7ef4214;
+  --toxic-4:   #c7ef420a;
 
   /* ================================================================
    * PRIMITIVES — BRAND
@@ -101,21 +176,26 @@
   --surface-icon-button-hovered:     var(--light-8);
 
   /* Категории людей */
-  --surface-person-politic:      var(--red);
-  --surface-person-scientist:    var(--green);
-  --surface-person-businessman:  var(--blue);
-  --surface-person-artist:       var(--yellow);
-  --surface-person-writer:       var(--purple);
-  --surface-person-musician:     var(--orange);
+  --surface-person-politic:      var(--red-100);
+  --surface-person-scientist:    var(--green-100);
+  --surface-person-businessman:  var(--blue-100);
+  --surface-person-artist:       var(--yellow-100);
+  --surface-person-writer:       var(--purple-100);
+  --surface-person-musician:     var(--toxic-100);
 
   /* Checkbox */
   --surface-checkbox:           var(--light-24);
   --surface-checkbox-hovered:   var(--light-32);
   --surface-checkbox-active:    var(--brand);
 
-  /* Lifeline (линии жизни) */
-  --surface-lifeline:           var(--dark-100);
-  --surface-lifeline-hovered:   var(--dark-48);
+  /* Lifeline (линии жизни) — default цвет.
+   * Hover-цвет берётся из категории человека через CSS-переменную
+   * --lifeline-hovered-color (см. styles/components/life-line.css). */
+  --surface-lifeline:           var(--dark-48);
+
+  /* Век: разделитель (вертикальная линия) и подпись «XX» сверху. */
+  --surface-century:            var(--red-64);
+  --text-century:               var(--red-64);
 
   /* Категория при ховере (карточка в сайдбаре) */
   --surface-category-hovered:   var(--light-4);
@@ -123,7 +203,7 @@
   /* ================================================================
    * SEMANTIC — BORDER
    * ================================================================ */
-  --border-lineend:                  var(--red);     /* красная метка "сейчас" */
+  --border-lineend:                  var(--red-100); /* красная метка "сейчас" */
   --border-category:                 var(--light-8);
   --border-checkbox:                 var(--light-16);
   --border-checkbox-hovered:         var(--light-24);
@@ -133,8 +213,10 @@
    * управлять цветом независимо от других вариантов event. */
   --surface-event-tick-default:      var(--light-24);
   --surface-event-tick-hovered:      var(--light-32);
-  /* Дивайдер века (event--secondary, всегда виден с persistent caption). */
-  --surface-event-century:           var(--purple);
+  /* Старый токен дивайдера века (заменён на --surface-century /
+   * --text-century выше). Оставлен временно для обратной совместимости —
+   * попадёт в список к удалению как неиспользуемый. */
+  --surface-event-century:           var(--purple-100);
   /* Линия связи между событиями двух людей — default цвет (без hover). */
   --connection-default:              var(--light-24);
   --border-event-secondary:          var(--light-48);

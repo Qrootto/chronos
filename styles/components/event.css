@@ -98,12 +98,12 @@
   background: var(--surface-event-tick-hovered);
 }
 
-/* === Secondary — дивайдер между веками. 1px purple. Без hover. ===
- * Метка века = persistent caption внутри (см. event__caption--persistent
- * ниже + JS добавляет её как ребёнка дивайдера). */
+/* === Secondary — дивайдер между веками. 1px красный полупрозрачный.
+ * Без hover. Метка века = persistent caption внутри (см.
+ * event__caption--persistent ниже + JS добавляет её как ребёнка дивайдера). */
 .event--secondary {
   width: 1px;
-  background: var(--surface-event-century);
+  background: var(--surface-century);
 }
 
 /* === Подпись над event-блоком ===
@@ -134,8 +134,8 @@
 .event:hover > .event__caption,
 .event__caption--persistent { display: block; }
 
-/* Persistent caption (метка века) — purple-цвет, как сам century-divider. */
-.event__caption--persistent { color: var(--surface-event-century); }
+/* Persistent caption (метка века «XX»). Цвет = --text-century. */
+.event__caption--persistent { color: var(--text-century); }
 
 /* Persistent caption на время hover другого события скрывается,
  * если перекрывается. Класс .is-suppressed навешивается из JS. */

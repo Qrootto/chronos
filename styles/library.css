@@ -110,6 +110,33 @@ body::-webkit-scrollbar-thumb:hover {
   max-width: 720px;
 }
 
+/* Сворачиваемый supersection (используется для блока «Примитивы»). */
+.lib-supersection__collapsible {
+  /* details сама по себе — без декора. */
+}
+.lib-supersection__summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-2xs) 0;
+  user-select: none;
+}
+.lib-supersection__summary::-webkit-details-marker { display: none; }
+.lib-supersection__summary::before {
+  content: '▸';
+  font-size: 18px;
+  color: var(--text-primary-hovered);
+  transition: transform 0.15s ease;
+}
+.lib-supersection__collapsible[open] > .lib-supersection__summary::before {
+  transform: rotate(90deg);
+}
+.lib-supersection__summary > .lib-supersection__title {
+  margin-bottom: 0;
+}
+
 .lib-section {
   margin-bottom: var(--spacing-3xl);
 }

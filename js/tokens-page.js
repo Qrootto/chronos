@@ -38,34 +38,39 @@ function resolveColor(varName) {
 /** Категоризация токенов по префиксу/паттерну. */
 function categorize(props) {
   const groups = {
-    'Solid colors': [],
-    'Black (alpha grades)': [],
-    'White (alpha grades)': [],
-    'Light (alpha grades)': [],
-    'Dark': [],
-    'Brand': [],
-    'Text': [],
-    'Surface': [],
-    'Border': [],
-    'Radius': [],
-    'Spacing': [],
-    'Typography': [],
+    'Black':  [], 'White':  [], 'Light': [], 'Dark':   [],
+    'Red':    [], 'Green':  [], 'Blue':  [], 'Yellow': [], 'Purple': [], 'Toxic': [],
+    'Brand':  [],
+    'Text':   [], 'Surface': [], 'Border': [],
+    'Radius': [], 'Spacing': [], 'Typography': [],
   };
-  const solidNames = new Set(['--red', '--green', '--blue', '--yellow', '--purple']);
 
+  // Все яркие палитры — name начинается с --<color>- и имеет числовой суффикс.
+  const PALETTE_PREFIXES = {
+    '--black-':  'Black',
+    '--white-':  'White',
+    '--light-':  'Light',
+    '--dark-':   'Dark',
+    '--red-':    'Red',
+    '--green-':  'Green',
+    '--blue-':   'Blue',
+    '--yellow-': 'Yellow',
+    '--purple-': 'Purple',
+    '--toxic-':  'Toxic',
+  };
+
+  outer:
   for (const [name, value] of Object.entries(props)) {
-    if (solidNames.has(name)) groups['Solid colors'].push([name, value]);
-    else if (name.startsWith('--black-')) groups['Black (alpha grades)'].push([name, value]);
-    else if (name.startsWith('--white-')) groups['White (alpha grades)'].push([name, value]);
-    else if (name.startsWith('--light-')) groups['Light (alpha grades)'].push([name, value]);
-    else if (name.startsWith('--dark-')) groups['Dark'].push([name, value]);
-    else if (name.startsWith('--brand-')) groups['Brand'].push([name, value]);
-    else if (name.startsWith('--text-')) groups['Text'].push([name, value]);
+    for (const [prefix, group] of Object.entries(PALETTE_PREFIXES)) {
+      if (name.startsWith(prefix)) { groups[group].push([name, value]); continue outer; }
+    }
+    if (name === '--brand' || name.startsWith('--brand-')) groups['Brand'].push([name, value]);
+    else if (name.startsWith('--text-'))    groups['Text'].push([name, value]);
     else if (name.startsWith('--surface-')) groups['Surface'].push([name, value]);
-    else if (name.startsWith('--border-')) groups['Border'].push([name, value]);
-    else if (name.startsWith('--radius-')) groups['Radius'].push([name, value]);
+    else if (name.startsWith('--border-'))  groups['Border'].push([name, value]);
+    else if (name.startsWith('--radius-'))  groups['Radius'].push([name, value]);
     else if (name.startsWith('--spacing-')) groups['Spacing'].push([name, value]);
-    else if (name.startsWith('--font-')) groups['Typography'].push([name, value]);
+    else if (name.startsWith('--font-'))    groups['Typography'].push([name, value]);
   }
   return groups;
 }
@@ -231,13 +236,31 @@ function renderGroup(root, title, entries, type) {
   root.appendChild(section);
 }
 
-function renderSupersection(root, title, sub, items) {
+/** Создаёт supersection. Если collapsible=true — оборачивает контент в
+ *  <details>, чтобы блок можно было скрывать (пункт 4.8). */
+function renderSupersection(root, title, sub, items, { collapsible = false } = {}) {
   const wrapper = document.createElement('section');
   wrapper.className = 'lib-supersection';
-  wrapper.append(elem('h2', 'lib-supersection__title', title));
-  if (sub) wrapper.append(elem('p', 'lib-supersection__sub', sub));
+
+  let body;
+  if (collapsible) {
+    const details = document.createElement('details');
+    details.className = 'lib-supersection__collapsible';
+    const summary = document.createElement('summary');
+    summary.className = 'lib-supersection__summary';
+    summary.append(elem('h2', 'lib-supersection__title', title));
+    details.appendChild(summary);
+    if (sub) details.append(elem('p', 'lib-supersection__sub', sub));
+    body = details;
+    wrapper.appendChild(details);
+  } else {
+    wrapper.append(elem('h2', 'lib-supersection__title', title));
+    if (sub) wrapper.append(elem('p', 'lib-supersection__sub', sub));
+    body = wrapper;
+  }
+
   for (const [groupTitle, entries, type] of items) {
-    renderGroup(wrapper, groupTitle, entries, type);
+    renderGroup(body, groupTitle, entries, type);
   }
   root.appendChild(wrapper);
 }
@@ -248,15 +271,21 @@ function render() {
   const groups = categorize(props);
 
   renderSupersection(root, 'Примитивы',
-    'Палитра базовых значений: чистые цвета и градации прозрачности. На них ссылаются семантические токены.',
+    'Палитра базовых значений: цвета с градациями прозрачности. На них ссылаются семантические токены.',
     [
-      ['Solid colors', groups['Solid colors'],         'color'],
-      ['Brand',        groups['Brand'],                'palette'],
-      ['Light',        groups['Light (alpha grades)'], 'palette'],
-      ['Black',        groups['Black (alpha grades)'], 'palette'],
-      ['White',        groups['White (alpha grades)'], 'palette'],
-      ['Dark',         groups['Dark'],                 'palette'],
-    ]
+      ['Brand',  groups['Brand'],  'palette'],
+      ['Black',  groups['Black'],  'palette'],
+      ['White',  groups['White'],  'palette'],
+      ['Light',  groups['Light'],  'palette'],
+      ['Dark',   groups['Dark'],   'palette'],
+      ['Red',    groups['Red'],    'palette'],
+      ['Green',  groups['Green'],  'palette'],
+      ['Blue',   groups['Blue'],   'palette'],
+      ['Yellow', groups['Yellow'], 'palette'],
+      ['Purple', groups['Purple'], 'palette'],
+      ['Toxic',  groups['Toxic'],  'palette'],
+    ],
+    { collapsible: true },
   );
 
   renderSupersection(root, 'Семантические токены',
