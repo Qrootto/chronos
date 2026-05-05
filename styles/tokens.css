@@ -145,7 +145,7 @@
   /* ================================================================
    * PRIMITIVES — BRAND
    * ================================================================ */
-  --brand: #13ac7b;
+  --brand: #8856fd;
 
   /* ================================================================
    * SEMANTIC — TEXT
@@ -251,8 +251,8 @@
   --font-h1-line-height:    1.1;
   --font-h1-letter-spacing: 0;
 
-  /* Inter Regular 24 — h2 (подзаголовки в попапе) */
-  --font-h2-weight:         400;
+  /* Inter Light 24 — h2 (подзаголовки в попапе) */
+  --font-h2-weight:         300;
   --font-h2-size:           24px;
   --font-h2-line-height:    22px;
   --font-h2-letter-spacing: 0;
