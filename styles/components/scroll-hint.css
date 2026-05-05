@@ -7,9 +7,9 @@
  * Позиция: 8px над year-scale (= над bottom-bar 41px) → bottom: 49px;
  * 8px от правого края экрана. Не блокирует клики (pointer-events: none).
  *
- * Размеры подобраны под zoom (см. styles/components/zoom.css): высота 18px,
- * padding 2px по вертикали / 4px по горизонтали, тёмный фон, радиус
- * --radius-xxxl (pill).
+ * Размеры: высота 18px, padding 2px по вертикали / 8px по горизонтали
+ * (горизонтальный шире чем у zoom — текст просторнее), тёмный фон,
+ * радиус --radius-xxxl (pill).
  *
  * Иконка слева — маленький скруглённый прямоугольник, плавно колышется
  * вверх-вниз (амплитуда 6px), как бы изображая колесо мыши. */
@@ -22,7 +22,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   height: 18px;
-  padding: var(--spacing-3xs) var(--spacing-2xs);
+  padding: var(--spacing-3xs) var(--spacing-xs);
   background: var(--surface-bg);
   border-radius: var(--radius-xxxl);
   font-family: var(--font-family);

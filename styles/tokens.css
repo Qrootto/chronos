@@ -104,17 +104,17 @@
   --blue-4:   #3ed6f50a;
 
   /* ================================================================
-   * PRIMITIVES — YELLOW (alpha grades, base #ffdf86)
+   * PRIMITIVES — YELLOW (alpha grades, base #feac39)
    * ================================================================ */
-  --yellow-100: #ffdf86;
-  --yellow-80:  #ffdf86cc;
-  --yellow-64:  #ffdf86a3;
-  --yellow-48:  #ffdf867a;
-  --yellow-32:  #ffdf8652;
-  --yellow-24:  #ffdf863d;
-  --yellow-16:  #ffdf8629;
-  --yellow-8:   #ffdf8614;
-  --yellow-4:   #ffdf860a;
+  --yellow-100: #feac39;
+  --yellow-80:  #feac39cc;
+  --yellow-64:  #feac39a3;
+  --yellow-48:  #feac397a;
+  --yellow-32:  #feac3952;
+  --yellow-24:  #feac393d;
+  --yellow-16:  #feac3929;
+  --yellow-8:   #feac3914;
+  --yellow-4:   #feac390a;
 
   /* ================================================================
    * PRIMITIVES — PURPLE (alpha grades, base #b697ff)
