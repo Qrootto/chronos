@@ -279,54 +279,18 @@ function renderDefaultConnections(el, state, sortedPeople, rowYs) {
   });
 }
 
-/** Создаёт SVG-connection с quadratic-Bezier дугой глубины 15px. */
+/** Создаёт connection — вертикальную линию gradient (top color → bottom).
+ *  По умолчанию 1px; при hover становится 3px (см. connection.css). */
 function makeConnectionEl({ x, top, height, key, topCat, bottomCat, hovered = false }) {
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const ARC_DEPTH = 15;            // глубина дуги от прямой в середине
-  const SVG_W = ARC_DEPTH * 2 + 2; // ширина SVG: 30 (control offset) + запас 2
-
-  const svg = document.createElementNS(SVG_NS, 'svg');
-  svg.setAttribute('class', 'connection' + (hovered ? ' connection--hovered' : ''));
-  svg.setAttribute('viewBox', `0 0 ${SVG_W} ${height}`);
-  svg.setAttribute('width', SVG_W);
-  svg.setAttribute('height', height);
-  svg.style.left   = (x - 0.5) + 'px';
-  svg.style.top    = top + 'px';
-  if (key) svg.dataset.connKey = key;
-
-  // Path: M 0 0 Q 30 (h/2) 0 h — прямая в (0..0), control справа (30, h/2)
-  const d = `M 0 0 Q ${ARC_DEPTH * 2} ${height / 2} 0 ${height}`;
-
-  // Default path
-  const pathDefault = document.createElementNS(SVG_NS, 'path');
-  pathDefault.setAttribute('class', 'connection__path-default');
-  pathDefault.setAttribute('d', d);
-  svg.appendChild(pathDefault);
-
-  // Hovered path + gradient definition
-  const gradientId = 'conn-grad-' + (key || `${topCat}-${bottomCat}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`).replace(/[|]/g, '_');
-  const defs = document.createElementNS(SVG_NS, 'defs');
-  const lg = document.createElementNS(SVG_NS, 'linearGradient');
-  lg.setAttribute('id', gradientId);
-  lg.setAttribute('x1', '0'); lg.setAttribute('y1', '0');
-  lg.setAttribute('x2', '0'); lg.setAttribute('y2', '1');
-  const stop1 = document.createElementNS(SVG_NS, 'stop');
-  stop1.setAttribute('offset', '0');
-  stop1.setAttribute('stop-color', `var(--surface-person-${topCat})`);
-  const stop2 = document.createElementNS(SVG_NS, 'stop');
-  stop2.setAttribute('offset', '1');
-  stop2.setAttribute('stop-color', `var(--surface-person-${bottomCat})`);
-  lg.appendChild(stop1); lg.appendChild(stop2);
-  defs.appendChild(lg);
-  svg.appendChild(defs);
-
-  const pathHovered = document.createElementNS(SVG_NS, 'path');
-  pathHovered.setAttribute('class', 'connection__path-hovered');
-  pathHovered.setAttribute('d', d);
-  pathHovered.setAttribute('stroke', `url(#${gradientId})`);
-  svg.appendChild(pathHovered);
-
-  return svg;
+  const el = document.createElement('div');
+  el.className = 'connection' + (hovered ? ' connection--hovered' : '');
+  el.style.left   = x + 'px';
+  el.style.top    = top + 'px';
+  el.style.height = height + 'px';
+  el.style.setProperty('--conn-top',    `var(--surface-person-${topCat})`);
+  el.style.setProperty('--conn-bottom', `var(--surface-person-${bottomCat})`);
+  if (key) el.dataset.connKey = key;
+  return el;
 }
 
 /* ===== Hover на event-dot — показывает event-caption =====

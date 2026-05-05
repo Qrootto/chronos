@@ -18,6 +18,14 @@ function catCls(category) {
   return CATEGORY_CLASS[category] || 'artist';
 }
 
+/* Сохраняем последние ссылки на overlay/backdrop, чтобы внутри попапа
+ * (например, при клике на имя в «В это же время») можно было заново
+ * вызвать openPopup без таскания ссылок через всю иерархию. */
+let _lastOverlayEl  = null;
+let _lastBackdropEl = null;
+let _lastState = null;
+let _lastData  = null;
+
 /** Рисует контент попапа в overlayEl, синхронно показывает backdrop, применяет
  *  .is-open. backdropEl — `.popup-backdrop` (затемняющий слой под попапом). */
 export function openPopup(overlayEl, backdropEl, state, data, personId, eventYear) {
@@ -25,6 +33,13 @@ export function openPopup(overlayEl, backdropEl, state, data, personId, eventYea
   if (!person) return;
   const event = (person.events || []).find(e => e.year === eventYear);
   if (!event) return;
+
+  // Запоминаем для re-open изнутри попапа (кликабельные имена в
+  // «В это же время»).
+  _lastOverlayEl = overlayEl;
+  _lastBackdropEl = backdropEl;
+  _lastState = state;
+  _lastData  = data;
 
   overlayEl.innerHTML = '';
 
@@ -251,9 +266,17 @@ function buildConcurrentItem(person, event) {
   dot.className = `popup__concurrent-dot popup__concurrent-dot--${cat}`;
   item.appendChild(dot);
 
-  const name = document.createElement('div');
+  // Имя — button: hover сдвигает на 4px вправо (см. popup.css),
+  // click открывает попап события этого человека.
+  const name = document.createElement('button');
+  name.type = 'button';
   name.className = `popup__concurrent-name popup__concurrent-name--${cat}`;
   name.textContent = person.name;
+  name.addEventListener('click', () => {
+    if (_lastOverlayEl && _lastState && _lastData) {
+      openPopup(_lastOverlayEl, _lastBackdropEl, _lastState, _lastData, person.id, event.year);
+    }
+  });
   item.appendChild(name);
 
   const desc = document.createElement('div');

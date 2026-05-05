@@ -305,10 +305,25 @@
 }
 
 .popup__concurrent-name {
+  /* Кликабельная кнопка-ссылка: при hover плавно сдвигается вправо на 4px,
+   * при клике открывается попап события этого человека в том же году
+   * (см. js/popup.js → buildConcurrentItem). */
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
   font-weight: 600;
   font-size: 14px;
   line-height: 1;
   /* color задаётся модификатором категории */
+  transition: transform 0.15s ease;
+}
+.popup__concurrent-name:hover {
+  transform: translateX(var(--spacing-2xs));
 }
 
 .popup__concurrent-desc {

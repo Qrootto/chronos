@@ -1,29 +1,30 @@
-/* Connection — дугообразная 1px-линия между двумя event-dot'ами связанных
- * людей. См. MAIN_SCREEN.md → Connections.
+/* Connection — вертикальная gradient-линия между двумя event-dot'ами
+ * связанных людей. См. MAIN_SCREEN.md → Connections.
  *
- * Реализация: SVG-path с quadratic Bezier — control point на 30px правее
- * прямой даёт дугу глубиной 15px в середине (`Q controlX,midY endX,endY`).
+ * Реализация: <div> с background linear-gradient (цвет верхнего события
+ * → цвет нижнего). Центр по горизонтали сохраняется через
+ * transform: translateX(-50%) — при изменении ширины 1px → 3px центр
+ * остаётся на той же x-координате.
+ *
+ * Цвета задаются inline через CSS-переменные --conn-top / --conn-bottom
+ * (значения категорий двух связанных людей).
  *
  * Состояния:
- *   default  — stroke `--connection-default` (light/24). Видна всегда.
- *   hovered  — stroke gradient (top→bottom) — переключение через `<defs>`
- *              + два path'а (default + hovered), CSS hide/show. */
+ *   default  — width 1px, gradient. Видна всегда.
+ *   hovered  — width 3px (линия растёт симметрично из центра наружу). */
 
 .connection {
   position: absolute;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    var(--conn-top, var(--connection-default)),
+    var(--conn-bottom, var(--connection-default))
+  );
   pointer-events: none;
-  overflow: visible;             /* SVG чуть шире bbox path'а — не клипаем */
+  transform: translateX(-50%);
+  transition: width 0.15s ease;
 }
-.connection__path-default {
-  stroke: var(--connection-default);
-  fill: none;
-  stroke-width: 1;
+.connection.connection--hovered {
+  width: 3px;
 }
-.connection__path-hovered {
-  display: none;
-  fill: none;
-  stroke-width: 1;
-  /* stroke = url(#g-${key}) задаётся inline в SVG */
-}
-.connection.connection--hovered .connection__path-default { display: none; }
-.connection.connection--hovered .connection__path-hovered { display: block; }
