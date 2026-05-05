@@ -12,7 +12,7 @@
   gap: var(--spacing-xs);
   width: 288px;
   height: 56px;
-  padding: 16px 20px;
+  padding: var(--spacing-md) 20px;
   background: transparent;
   border: 0;
   border-top: 1px solid var(--border-category);
@@ -42,7 +42,7 @@
 }
 
 .selector__count {
-  margin-left: 4px;
+  margin-left: var(--spacing-2xs);
   color: var(--text-primary);
 }
 

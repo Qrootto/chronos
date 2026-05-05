@@ -47,7 +47,7 @@
   -webkit-backdrop-filter: blur(4px);
   display: grid;
   grid-template-columns: 2fr 48px 1fr;
-  padding-left: 32px;
+  padding-left: var(--spacing-xl);
   font-family: var(--font-family);
   color: var(--text-white);
 }
@@ -76,8 +76,8 @@
   -webkit-backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
-  gap: 64px;
-  padding: 64px 32px 32px 32px;
+  gap: var(--spacing-3xl);
+  padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
   font-family: var(--font-family);
   color: var(--text-white);
   overflow-y: auto;
@@ -120,7 +120,7 @@
  * top: 64px от верха попапа; вертикальный скролл, gap 40 между секциями. */
 .popup__left {
   grid-column: 1;
-  padding: 64px 0 32px 0;
+  padding: var(--spacing-3xl) 0 var(--spacing-xl) 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -133,7 +133,7 @@
 .popup__heading {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: var(--spacing-xl);
 }
 
 .popup__title {
@@ -220,7 +220,7 @@
 .popup__section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--spacing-sm);
 }
 
 .popup__section-title {
@@ -244,10 +244,10 @@
  * top: 64px от верха попапа (как левая колонка). */
 .popup__right {
   grid-column: 3;
-  padding-top: 64px;
+  padding-top: var(--spacing-3xl);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
   min-width: 0;
 }
 
@@ -267,13 +267,13 @@
 .popup__concurrent {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-md);
   width: 287px;     /* по Figma 8097:3872 */
   max-width: 100%;
 }
 
 .popup__concurrent-title {
-  padding-left: 12px;
+  padding-left: var(--spacing-sm);
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
@@ -283,12 +283,12 @@
 .popup__concurrent-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--spacing-lg);
 }
 
 .popup__concurrent-item {
   position: relative;
-  padding-left: 12px;
+  padding-left: var(--spacing-sm);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -317,7 +317,7 @@
   line-height: 18px;
   color: var(--text-white);
   opacity: 0.8;
-  padding-right: 12px;
+  padding-right: var(--spacing-sm);
 }
 
 /* Цвета категорий */

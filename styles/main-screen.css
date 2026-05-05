@@ -69,7 +69,7 @@ body {
   position: relative;
   overflow: hidden;
   /* отступ до bottom-bar */
-  margin-bottom: 4px;
+  margin-bottom: var(--spacing-2xs);
 }
 
 .canvas__inner {
