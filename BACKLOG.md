@@ -32,6 +32,12 @@
 ### Timeline-mini в шапке
 - **Расхождение с Figma 8053:2012:** в Figma компонент имеет высоту 32px и ширину 405px (для 4 веков), у нас 36px и 445px. Fade в Figma — только на полоске time (32×20), у нас — через всю высоту. Привести к Figma при финальной полировке Header.
 
+### Sticky captions при vertical scroll
+- При вертикальном скролле Timeflow (когда людей много) **названия мировых событий и метка века XX должны оставаться видимыми сверху** — т.е. верхняя ~30px полоса с captions должна «прилипать» к top of viewport.
+- Текущие captions — `position: absolute; top: -20px` внутри своих event-блоков (`.event--secondary` для XX, `.event` для остальных). При scroll они уезжают вверх вместе с event'ом.
+- Решение: **структурный рефакторинг** — вынести captions из event-блоков в отдельный `<div class="timeflow__captions-bar">` с `position: sticky; top: 0`. Captions позиционируются по x-координате года. JS-rendering и hover-логика (показ/скрытие caption на hover event-dot, `is-suppressed` при перекрытии) — переписать.
+- Простой CSS-подход (sticky прямо на caption внутри absolute event) **не работает чисто** — caption в дефолте смещён на `top: -20px`, sticky-расчёт от parent flow пересчитает позицию, caption «прыгнет» вниз. Хрупкие трюки с transform хуже структурного решения.
+
 ### Анимации
 - **Полировка анимаций по всему сайту** — сделать их максимально плавными и приятными. Касается появления event-caption и connection при hover, slide-in/out sidebar, scroll-by-zoom переходов, любых state-переходов.
 
