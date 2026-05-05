@@ -76,9 +76,12 @@
   background: var(--surface-popup-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-3xl);
+  /* Block layout (не flex column) — нужен чтобы overflow-y: auto
+   * работал предсказуемо: при длинном тексте появляется вертикальный
+   * scrollbar. Раньше flex column ломал scroll при содержимом, чуть
+   * выше viewport. Отступ между логотипом и текстом — через
+   * margin-top на popup__about-text вместо gap. */
+  display: block;
   padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
   font-family: var(--font-family);
   color: var(--text-primary);
@@ -86,15 +89,16 @@
 }
 
 .popup__logo {
+  display: block;
   width: 209px;
   height: 37px;
-  flex-shrink: 0;
-  /* Цвет SVG задан внутри файла (--brand). Если нужно перекрасить —
+  /* Цвет SVG задан внутри файла. Если нужно перекрасить —
    * используем mask + currentColor; пока оставляем как есть. */
 }
 
 .popup__about-text {
   width: 66.67%;
+  margin-top: var(--spacing-3xl);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
@@ -267,13 +271,17 @@
   background-repeat: no-repeat;
 }
 
-/* === «В это же время» === */
+/* === «В это же время» ===
+ * Блок сдвинут влево на --spacing-sm (12px), чтобы при padding-left:
+ * --spacing-sm на title и item *тексты* выровнялись с левым краем
+ * фотографии выше, а *точки* (left: 0 от item) выступали левее. */
 .popup__concurrent {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
   width: 287px;     /* по Figma 8097:3872 */
   max-width: 100%;
+  margin-left: calc(-1 * var(--spacing-sm));
 }
 
 .popup__concurrent-title {
