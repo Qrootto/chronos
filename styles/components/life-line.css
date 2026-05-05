@@ -22,6 +22,20 @@
   transition: height 0.15s ease, background-color 0.15s ease;
 }
 
+/* Расширенная hit-area: сама линия 3px тонкая, в неё сложно попасть курсором.
+ * ::before добавляет по 8px запаса сверху и снизу — итого ~19px hover-зона.
+ * Это нужно чтобы hover на life-line реагировал — он подсвечивает возраст
+ * этого человека в current-year overlay (см. js/timeflow.js → attach-
+ * HoverCaptions, setLifeLineHovered). */
+.life-line::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  bottom: -8px;
+}
+
 .life-line--politic     { --lifeline-hovered-color: var(--surface-person-politic); }
 .life-line--writer      { --lifeline-hovered-color: var(--surface-person-writer); }
 .life-line--artist      { --lifeline-hovered-color: var(--surface-person-artist); }

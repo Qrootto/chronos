@@ -408,30 +408,46 @@ function hideCaption(timeflowEl) {
             .forEach(p => p.classList.remove('is-suppressed'));
 }
 
-/** Подключает делегированные обработчики hover на event-dot.
+/** Подключает делегированные обработчики hover на event-dot и life-line.
  * Вызывается один раз при инициализации.
  *
  * Hover на event-dot триггерит:
  *  - caption (event-caption);
  *  - connections (если у события есть связанный человек);
  *  - hovered-state у life-line, которой принадлежит точка (см.
- *    styles/components/life-line.css → .life-line--hovered). */
+ *    styles/components/life-line.css → .life-line--hovered);
+ *  - подсветка возраста этого человека в current-year overlay.
+ *
+ * Hover на саму life-line (через расширенную hit-area ::before) —
+ * только hovered-state и подсветка возраста, без caption/connection. */
 export function attachHoverCaptions(timeflowEl, getData, getState) {
   timeflowEl.addEventListener('mouseover', (e) => {
     const dot = e.target.closest('.event-dot');
-    if (!dot || dot.classList.contains('is-sticky-dot')) return;
-    showCaption(timeflowEl, dot);
-    showConnectionsFor(timeflowEl, dot, getData(), getState());
-    setLifeLineHovered(timeflowEl, dot.dataset.personId, true);
+    if (dot && !dot.classList.contains('is-sticky-dot')) {
+      showCaption(timeflowEl, dot);
+      showConnectionsFor(timeflowEl, dot, getData(), getState());
+      setLifeLineHovered(timeflowEl, dot.dataset.personId, true);
+      return;
+    }
+    const line = e.target.closest('.life-line');
+    if (line) setLifeLineHovered(timeflowEl, line.dataset.personId, true);
   });
   timeflowEl.addEventListener('mouseout', (e) => {
     const dot = e.target.closest('.event-dot');
-    if (!dot || dot.classList.contains('is-sticky-dot')) return;
-    const related = e.relatedTarget;
-    if (related && dot.contains(related)) return;
-    hideCaption(timeflowEl);
-    hideConnections(timeflowEl);
-    setLifeLineHovered(timeflowEl, dot.dataset.personId, false);
+    if (dot && !dot.classList.contains('is-sticky-dot')) {
+      const related = e.relatedTarget;
+      if (related && dot.contains(related)) return;
+      hideCaption(timeflowEl);
+      hideConnections(timeflowEl);
+      setLifeLineHovered(timeflowEl, dot.dataset.personId, false);
+      return;
+    }
+    const line = e.target.closest('.life-line');
+    if (line) {
+      const related = e.relatedTarget;
+      if (related && line.contains(related)) return;
+      setLifeLineHovered(timeflowEl, line.dataset.personId, false);
+    }
   });
 }
 

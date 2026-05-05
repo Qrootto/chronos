@@ -1,11 +1,20 @@
 /* Checkbox 16×16.
  * Default  — приглушённый фон + бордер.
  * Hovered  — оба чуть ярче.
- * Checked  (=Active в Figma) — заливка brand, белая галочка внутри.
- * Deselect — заливка brand, внутри горизонтальная линия 2px (вместо галочки).
- *            Используется когда выбраны не все элементы группы (см. чекбокс «Все»). */
+ * Checked  (=Active в Figma) — заливка цветом группы (категории), белая
+ *            галочка внутри. Если категория не задана (например, чекбокс
+ *            события) — fallback на --surface-checkbox-active (--brand).
+ * Deselect — то же что checked, но горизонтальная линия вместо галочки.
+ *            Используется когда выбраны не все элементы группы (чекбокс «Все»).
+ *
+ * Цвет активного состояния задаётся через CSS-переменную
+ * --checkbox-active-color, которую переопределяют модификаторы категории
+ * .checkbox--politic / --writer / --artist / --scientist / --businessman /
+ * --musician (см. js/sidebar.js → makeCheckboxList, добавляет класс по
+ * cat.cssCls группы). */
 
 .checkbox {
+  --checkbox-active-color: var(--surface-checkbox-active);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +30,13 @@
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
+.checkbox--politic     { --checkbox-active-color: var(--surface-person-politic); }
+.checkbox--writer      { --checkbox-active-color: var(--surface-person-writer); }
+.checkbox--artist      { --checkbox-active-color: var(--surface-person-artist); }
+.checkbox--scientist   { --checkbox-active-color: var(--surface-person-scientist); }
+.checkbox--businessman { --checkbox-active-color: var(--surface-person-businessman); }
+.checkbox--musician    { --checkbox-active-color: var(--surface-person-musician); }
+
 .checkbox:hover,
 .checkbox--hovered {
   background: var(--surface-checkbox-hovered);
@@ -30,8 +46,8 @@
 .checkbox--checked,
 .checkbox[aria-checked="true"],
 .checkbox--deselect {
-  background: var(--surface-checkbox-active);
-  border-color: var(--surface-checkbox-active);
+  background: var(--checkbox-active-color);
+  border-color: var(--checkbox-active-color);
 }
 
 /* Deselect — горизонтальная линия 2px, отступы 3px от краёв чекбокса

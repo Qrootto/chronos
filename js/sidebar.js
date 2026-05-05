@@ -75,7 +75,7 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
       if (openKey === cat.key) {
         sidebar.appendChild(makePersonList(
           inCat, callbacks.isPersonSelected, callbacks.onTogglePerson,
-          callbacks.onToggleAllPeople,
+          callbacks.onToggleAllPeople, cat.cssCls,
         ));
       }
     }
@@ -127,21 +127,24 @@ function makeSelector({ catCss, label, count, expanded, onClick }) {
   return btn;
 }
 
-function makePersonList(people, isSelected, onToggle, onToggleAll) {
+function makePersonList(people, isSelected, onToggle, onToggleAll, catCss) {
   return makeCheckboxList(
     people.map(p => ({ id: p.id, label: p.name })),
-    isSelected, onToggle, onToggleAll,
+    isSelected, onToggle, onToggleAll, catCss,
   );
 }
 
 function makeEventList(events, isSelected, onToggle, onToggleAll) {
   return makeCheckboxList(
     events.map(e => ({ id: e.id, label: e.name })),
-    isSelected, onToggle, onToggleAll,
+    isSelected, onToggle, onToggleAll, null,
   );
 }
 
-function makeCheckboxList(items, isSelected, onToggle, onToggleAll) {
+/** catCss — css-имя категории ('politic'/'writer'/...) для подкраски
+ *  активных/частично-активных чекбоксов в цвет группы. null — события
+ *  (используется дефолтный --surface-checkbox-active). */
+function makeCheckboxList(items, isSelected, onToggle, onToggleAll, catCss) {
   const list = document.createElement('div');
   list.className = 'sidebar__list';
 
@@ -156,6 +159,7 @@ function makeCheckboxList(items, isSelected, onToggle, onToggleAll) {
 
     const cb = document.createElement('span');
     cb.className = 'checkbox';
+    if (catCss) cb.classList.add(`checkbox--${catCss}`);
     if (allOn) {
       cb.classList.add('checkbox--checked');
       cb.innerHTML = ICON_CHECK;
@@ -180,6 +184,7 @@ function makeCheckboxList(items, isSelected, onToggle, onToggleAll) {
 
     const cb = document.createElement('span');
     cb.className = 'checkbox';
+    if (catCss) cb.classList.add(`checkbox--${catCss}`);
     if (isSelected(it.id)) {
       cb.classList.add('checkbox--checked');
       cb.innerHTML = ICON_CHECK;
