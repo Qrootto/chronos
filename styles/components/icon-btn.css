@@ -22,7 +22,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-m);
-  color: var(--text-white);
+  color: var(--surface-icon);
 }
 .icon-btn--ghost:hover,
 .icon-btn--ghost.icon-btn--hovered {
@@ -38,7 +38,7 @@
 .icon-btn--action {
   width: 24px;
   height: 24px;
-  color: var(--text-white);
+  color: var(--surface-icon);
 }
 .icon-btn--action:hover,
 .icon-btn--action.icon-btn--hovered {

@@ -162,7 +162,6 @@
    * ================================================================ */
   --surface-bg:                var(--black-100); /* фон страницы */
   --surface-bg-secondary:      var(--light-48);
-  --surface-bg-tertiary:       var(--light-24);
   --surface-popup-bg:          #18191d;          /* фон попапа (отличается от surface-bg) */
   --surface-darkener:          var(--black-64);  /* затемняющий слой под попапом */
   --surface-header:            var(--light-8);   /* шапка */
@@ -172,7 +171,6 @@
   /* Иконки */
   --surface-icon:                    var(--white-100);
   --surface-icon-secondary:          var(--light-64);
-  --surface-icon-secondary-hovered:  var(--light-80);
   --surface-icon-button-hovered:     var(--light-8);
 
   /* Категории людей */
@@ -213,14 +211,8 @@
    * управлять цветом независимо от других вариантов event. */
   --surface-event-tick-default:      var(--light-24);
   --surface-event-tick-hovered:      var(--light-32);
-  /* Старый токен дивайдера века (заменён на --surface-century /
-   * --text-century выше). Оставлен временно для обратной совместимости —
-   * попадёт в список к удалению как неиспользуемый. */
-  --surface-event-century:           var(--purple-100);
   /* Линия связи между событиями двух людей — default цвет (без hover). */
   --connection-default:              var(--light-24);
-  --border-event-secondary:          var(--light-48);
-  --border-event-secondary-hovered:  var(--light-80);
   --border-focus:                    var(--light-64);
 
   /* ================================================================
