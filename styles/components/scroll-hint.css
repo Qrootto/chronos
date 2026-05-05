@@ -1,22 +1,29 @@
-/* Scroll hint — подсказка «shift + scroll» в левом нижнем углу.
+/* Scroll hint — подсказка «shift + scroll» в правом нижнем углу.
  *
  * Появляется ТОЛЬКО когда есть вертикальный scroll (timeflowArea.scrollHeight
  * > clientHeight). Контролируется из js/main.js → updateScrollHint, вызывается
  * в applyState и при resize.
  *
- * Позиция: над bottom-bar (41px) + 4px = bottom 45px от низа canvas;
- * левый край — 4px от левого края canvas. Не блокирует клики (pointer-events: none).
+ * Позиция: 8px над year-scale (= над bottom-bar 41px) → bottom: 49px;
+ * 8px от правого края экрана. Не блокирует клики (pointer-events: none).
+ *
+ * Размеры подобраны под zoom (см. styles/components/zoom.css): высота 22px,
+ * padding 4px со всех сторон, тёмный фон, радиус --radius-xxxl (pill).
  *
  * Иконка слева — маленький скруглённый прямоугольник, плавно колышется
  * вверх-вниз (амплитуда 6px), как бы изображая колесо мыши. */
 
 .scroll-hint {
   position: absolute;
-  bottom: 45px;
-  left: 4px;
-  display: flex;
+  bottom: 49px;
+  right: 8px;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  height: 22px;
+  padding: var(--spacing-2xs);
+  background: var(--surface-bg);
+  border-radius: var(--radius-xxxl);
   font-family: var(--font-family);
   font-size: 12px;
   line-height: 1;
@@ -34,7 +41,7 @@
   width: 6px;
   height: 12px;
   background: var(--surface-icon-secondary);
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   animation: scroll-hint-bob 1.5s ease-in-out infinite;
 }
 

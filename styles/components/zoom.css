@@ -1,6 +1,10 @@
-/* Zoom — контрол масштабирования таймлайна (контейнер 128×22).
+/* Zoom — контрол масштабирования таймлайна (контейнер 128×22, pill).
  * Слева кнопка minus, в центре трек со ступенями и thumb,
  * справа кнопка plus. Работает как scrubber видеоредактора.
+ *
+ * Фон --surface-bg — чтобы компонент выделялся над содержимым Timeflow,
+ * над которым он висит. Padding 4px со всех сторон от кнопок,
+ * скругление --radius-xxxl (pill при высоте 22px).
  *
  * Кнопки plus/minus используют icon-btn--pill. */
 
@@ -10,7 +14,9 @@
   gap: var(--spacing-2xs);
   width: 128px;
   height: 22px;
-  padding: 0 var(--spacing-2xs);
+  padding: var(--spacing-2xs);
+  background: var(--surface-bg);
+  border-radius: var(--radius-xxxl);
   vertical-align: middle;
 }
 

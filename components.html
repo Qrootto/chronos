@@ -696,6 +696,41 @@
         </details>
       </section>
 
+      <!-- ============== SCROLL HINT ============== -->
+      <section class="ks-component" data-component="scroll-hint">
+        <h2 class="ks-component__title">Scroll hint</h2>
+        <p class="ks-component__desc">
+          Подсказка «shift + scroll» в правом нижнем углу экрана. Появляется
+          только когда контент выше viewport (есть вертикальный скролл).
+          Размеры подобраны под Zoom: 22px высоты, padding 4px, тёмный фон,
+          radius --radius-xxxl. Слева анимированная иконка-«колёсико»
+          (6×12px скруглённый прямоугольник, плавно движется ±3px вверх-вниз).
+          Управляется из <code>js/main.js → updateScrollHint</code> в
+          <code>syncDynamic</code>; на странице рендерится через
+          <code>position: absolute</code>, demo ниже без позиционирования.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 200px;">
+            <div class="ks-state__label">Visible</div>
+            <div class="ks-state__demo">
+              <div class="scroll-hint" style="position: static;">
+                <div class="scroll-hint__icon"></div>
+                <span>shift + scroll</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="scroll-hint"&gt;
+  &lt;div class="scroll-hint__icon"&gt;&lt;/div&gt;
+  &lt;span&gt;shift + scroll&lt;/span&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
       <!-- ============== TIME ============== -->
       <section class="ks-component" data-component="time">
         <h2 class="ks-component__title">Time</h2>
