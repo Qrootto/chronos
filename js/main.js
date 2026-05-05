@@ -13,7 +13,7 @@ import { renderYearScale, yearAtX, setHoveredYear } from './year-scale.js';
 import { renderTimelineMini, updateFocus } from './timeline-mini.js';
 import { initZoom, scrollLeftToKeepCenter } from './zoom.js';
 import { initSidebar } from './sidebar.js';
-import { openPopup, closePopup } from './popup.js';
+import { openPopup, closePopup, openAboutPopup } from './popup.js';
 
 const STATE = {
   startYear: 1850,
@@ -206,6 +206,7 @@ function setupPopup() {
   const overlayEl  = document.getElementById('popup-overlay');
   const backdropEl = document.getElementById('popup-backdrop');
   const timeflow   = document.getElementById('timeflow');
+  const infoBtn    = document.querySelector('.header__info');
 
   // Click на event-dot → openPopup
   timeflow.addEventListener('click', (e) => {
@@ -215,6 +216,11 @@ function setupPopup() {
     const year     = +dot.dataset.eventYear;
     if (!personId || !year) return;
     openPopup(overlayEl, backdropEl, STATE, DATA, personId, year);
+  });
+
+  // Click на кнопку «i» в шапке → about-попап (та же шторка, другой контент).
+  infoBtn?.addEventListener('click', () => {
+    openAboutPopup(overlayEl, backdropEl);
   });
 
   // Esc → closePopup

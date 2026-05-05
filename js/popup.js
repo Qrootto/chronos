@@ -51,6 +51,50 @@ export function closePopup(overlayEl, backdropEl) {
   backdropEl?.classList.remove('is-open');
 }
 
+/** Рисует попап «О проекте» в overlayEl (та же шторка-overlay, что и для
+ *  событий, но другой контент: логотип + текстовый блок). Поведение open/
+ *  close идентичное (slide-in справа, клик по backdrop / Esc — закрыть). */
+export function openAboutPopup(overlayEl, backdropEl) {
+  overlayEl.innerHTML = '';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'icon-btn icon-btn--ghost popup__close';
+  closeBtn.type = 'button';
+  closeBtn.setAttribute('aria-label', 'Закрыть');
+  closeBtn.innerHTML = ICON_CLOSE;
+  closeBtn.addEventListener('click', () => closePopup(overlayEl, backdropEl));
+  overlayEl.appendChild(closeBtn);
+
+  overlayEl.appendChild(buildAboutPopup());
+  overlayEl.classList.add('is-open');
+  backdropEl?.classList.add('is-open');
+}
+
+function buildAboutPopup() {
+  const popup = document.createElement('div');
+  popup.className = 'popup popup--about';
+
+  const logo = document.createElement('img');
+  logo.className = 'popup__logo';
+  logo.src = '/assets/Logo.svg';
+  logo.alt = 'Past Simple';
+  popup.appendChild(logo);
+
+  const text = document.createElement('div');
+  text.className = 'popup__about-text';
+  text.innerHTML = ABOUT_HTML;
+  popup.appendChild(text);
+
+  return popup;
+}
+
+const ABOUT_HTML = `
+  <p>Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, вроде бы между ними пропасть, а на самом деле был промежуток, когда оба жили в одно время. Или вот мы читаем про Первую мировую войну и весь фокус на ней. Но хочется получить более объёмную картину: а кто из известных писателей жил во время этой войны, а кто из учёных, а сколько им тогда было лет? Может кто-то из них даже был знаком друг с другом лично.</p>
+  <p>Этот проект создан для того, чтобы наглядно показать все эти взаимосвязи и получить более полное представление о времени, которое нам интересно. Интерактивная карта времени, добавляющая контекста к изучению истории.</p>
+  <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но этот промежуток будет расширяться в будущем. Известные люди тоже будут добавляться, вы, кстати, можете предложить тех, кого бы вам хотелось здесь увидеть. Сделайте это через форму, которая вот там, чуть ниже. Через эту же форму вы можете написать что можно улучшить, убрать или добавить. Я буду рад любой обратной связи.</p>
+  <p>Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+`;
+
 const ICON_CLOSE = `<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
 </svg>`;
