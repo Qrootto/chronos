@@ -43,7 +43,7 @@
 
 .selector__count {
   margin-left: var(--spacing-2xs);
-  color: var(--text-primary);
+  color: var(--text-tertiary);
 }
 
 .selector__chevron {

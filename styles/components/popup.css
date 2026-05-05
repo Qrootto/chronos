@@ -49,7 +49,9 @@
   grid-template-columns: 2fr 48px 1fr;
   padding-left: var(--spacing-xl);
   font-family: var(--font-family);
-  color: var(--text-white);
+  /* Все тексты внутри попапа — --text-primary, кроме h1/h2 (явно --text-white)
+   * и имён персонажей в «В это же время» (яркий цвет категории). */
+  color: var(--text-primary);
 }
 
 /* Кнопка close в правом верхнем углу попапа: 20px от верха и от правого края. */
@@ -79,7 +81,7 @@
   gap: var(--spacing-3xl);
   padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
   font-family: var(--font-family);
-  color: var(--text-white);
+  color: var(--text-primary);
   overflow-y: auto;
 }
 
@@ -97,7 +99,7 @@
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 .popup__about-text p {
@@ -108,7 +110,7 @@
 }
 
 .popup__about-text a {
-  color: var(--text-white);
+  color: var(--text-primary);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -159,7 +161,7 @@
   font-weight: 500;     /* Inter Medium */
   font-size: 14px;
   line-height: 1;
-  color: var(--text-white);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 .popup__lifetime-year--event {
@@ -203,11 +205,11 @@
 /* === Lead — краткое описание года === */
 .popup__lead {
   margin: 0;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 34px;
-  color: var(--text-white);
-  opacity: 0.8;
+  font-weight:    var(--font-lead-weight);
+  font-size:      var(--font-lead-size);
+  line-height:    var(--font-lead-line-height);
+  letter-spacing: var(--font-lead-letter-spacing);
+  color: var(--text-primary);
 }
 
 /* === Text — набор секций с подзаголовками === */
@@ -224,20 +226,22 @@
 }
 
 .popup__section-title {
+  /* h2 — оставляем --text-white по запросу пользователя. */
   margin: 0;
-  font-weight: 600;     /* Inter SemiBold */
-  font-size: 24px;
-  line-height: 22px;
+  font-weight:    var(--font-h2-weight);
+  font-size:      var(--font-h2-size);
+  line-height:    var(--font-h2-line-height);
+  letter-spacing: var(--font-h2-letter-spacing);
   color: var(--text-white);
 }
 
 .popup__section-body {
   margin: 0;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 26px;
-  color: var(--text-white);
-  opacity: 0.8;
+  font-weight:    var(--font-body-weight);
+  font-size:      var(--font-body-size);
+  line-height:    var(--font-body-line-height);
+  letter-spacing: var(--font-body-letter-spacing);
+  color: var(--text-primary);
 }
 
 /* === Правая колонка ===
@@ -277,7 +281,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 .popup__concurrent-list {
@@ -330,8 +334,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: var(--text-white);
-  opacity: 0.8;
+  color: var(--text-primary);
   padding-right: var(--spacing-sm);
 }
 

@@ -48,7 +48,7 @@
   font-weight: var(--font-semibold-14-weight);
   font-size: 12px;
   line-height: 1;
-  color: var(--text-primary);
+  color: var(--text-tertiary);
   white-space: nowrap;
   pointer-events: none;
 }

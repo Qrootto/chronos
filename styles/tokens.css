@@ -150,10 +150,11 @@
   /* ================================================================
    * SEMANTIC — TEXT
    * ================================================================ */
-  --text-primary:           var(--light-24);  /* приглушённый */
+  --text-primary:           var(--light-100); /* основной контрастный текст */
   --text-primary-hovered:   var(--light-48);
-  --text-primary-active:    var(--light-100); /* контрастный */
+  --text-primary-active:    var(--light-100); /* совпадает с --text-primary */
   --text-secondary:         var(--light-64);  /* hint-подписи и пр. */
+  --text-tertiary:          var(--light-24);  /* приглушённый (бывший --text-primary) */
   --text-white:             var(--white-100);
   --text-black:             var(--black-100);
 
@@ -250,16 +251,16 @@
   --font-h1-line-height:    1.1;
   --font-h1-letter-spacing: 0;
 
-  /* Inter SemiBold 24 — h2 (подзаголовки в попапе) */
-  --font-h2-weight:         600;
+  /* Inter Medium 24 — h2 (подзаголовки в попапе) */
+  --font-h2-weight:         500;
   --font-h2-size:           24px;
   --font-h2-line-height:    22px;
   --font-h2-letter-spacing: 0;
 
-  /* Inter Regular 24 — lead (краткое описание года под таймлайном) */
-  --font-lead-weight:         400;
+  /* Inter Light 24 — lead (краткое описание года под таймлайном) */
+  --font-lead-weight:         300;
   --font-lead-size:           24px;
-  --font-lead-line-height:    30px;
+  --font-lead-line-height:    34px;
   --font-lead-letter-spacing: 0;
 
   /* Inter Regular 16 — body (основной текст в попапе) */

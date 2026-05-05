@@ -27,7 +27,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--text-primary);
+  background: var(--text-tertiary);
   transition: background 0.15s ease, width 0.15s ease, height 0.15s ease;
 }
 
@@ -40,7 +40,7 @@
   font-weight: var(--font-semibold-14-weight);
   font-size: 10px;
   line-height: 1;
-  color: var(--text-primary);
+  color: var(--text-tertiary);
   white-space: nowrap;
   transition: color 0.15s ease, font-size 0.15s ease, top 0.15s ease;
 }
