@@ -123,11 +123,11 @@ const ABOUT_HTML = `
 
     <div class="popup__about-pair">
       <figure class="popup__about-figure">
-        <div class="popup__about-image popup__about-image--tolstoy" role="img" aria-label="Лев Толстой"></div>
+        <div class="popup__about-image"><img src="/assets/about/tolstoy.png" alt="Лев Толстой"></div>
         <figcaption>Лев Толстой</figcaption>
       </figure>
       <figure class="popup__about-figure">
-        <div class="popup__about-image popup__about-image--mickey" role="img" aria-label="Микки Маус"></div>
+        <div class="popup__about-image"><img src="/assets/about/mickey.png" alt="Микки Маус"></div>
         <figcaption>Микки Маус</figcaption>
       </figure>
     </div>
@@ -146,7 +146,7 @@ const ABOUT_HTML = `
       </form>
 
       <div class="popup__about-outro">
-        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я скажу вам большое спасибо.</p>
+        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
       </div>
     </div>
 

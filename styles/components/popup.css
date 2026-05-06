@@ -171,24 +171,22 @@
   text-align: center;
   flex: 0 0 auto;
 }
+/* Обёртка для <img> с overflow: hidden — позволяет зумить img на 110%
+ * через transform: scale, чтобы серая каёмка по периметру PNG
+ * (часть самого файла) обрезалась за пределы. */
 .popup__about-image {
   display: block;
   width: 25vw;
   aspect-ratio: 1;
-  /* background-size: 110% — image зумится на 10% от контейнера.
-   * Это обрезает 5% края с каждой стороны и убирает серую каёмку
-   * (часть самого png-файла Толстого), которая иначе видна по
-   * периметру. */
-  background-size: 110%;
-  background-position: center;
-  background-repeat: no-repeat;
+  overflow: hidden;
   margin-bottom: var(--spacing-md);
 }
-.popup__about-image--tolstoy {
-  background-image: url('/assets/about/tolstoy.png');
-}
-.popup__about-image--mickey {
-  background-image: url('/assets/about/mickey.png');
+.popup__about-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
 }
 .popup__about-figure figcaption {
   font-family: var(--font-h1-family);
