@@ -173,7 +173,9 @@
   display: block;
   width: 25vw;
   aspect-ratio: 1;
-  background: var(--surface-bg-secondary);
+  /* Без background-color — если у фото прозрачные края (как у png),
+   * через них просвечивает фон попапа --surface-popup-bg, без голубой
+   * «рамки». */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
