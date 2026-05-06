@@ -180,15 +180,10 @@ function initLogoHover(headingEl) {
     const letter = e.target.closest('.popup__about-heading-letter');
     if (!letter) return;
     const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
-    // Моментальная смена цвета — отключаем transition.
-    letter.style.transition = 'none';
+    // И смена цвета, и возврат — резкие, без transition.
     letter.style.color = `var(${color})`;
     clearTimeout(letter._restoreTimer);
-    letter._restoreTimer = setTimeout(() => {
-      // Возврат к default через CSS-transition (color 0.6s ease).
-      letter.style.transition = '';
-      letter.style.color = '';
-    }, 1000);
+    letter._restoreTimer = setTimeout(() => { letter.style.color = ''; }, 1000);
   });
 }
 
