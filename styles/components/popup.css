@@ -87,76 +87,98 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: block;
-  padding: 0;
+  padding: 0 0 var(--spacing-3xl);
   font-family: var(--font-family);
-  color: var(--text-primary);
+  color: var(--text-white);
   overflow-y: auto;
 }
 
+/* Логотип «past simple» — огромный display-heading.
+ * Padding-top 164px фиксированный, padding-side 6.25vw (= 80px при
+ * viewport 1280) — пропорциональные отступы при resize. Отдельные
+ * letter-span'ы для hover-эффекта (см. js/popup.js → initLogoHover). */
 .popup__about-heading {
   margin: 0;
-  padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-2xl);
+  padding: 164px calc(80 / 1280 * 100vw) 0;
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
-  font-size: clamp(120px, 18vw, 280px);
+  /* Размер чтобы заполнить почти всю ширину viewport. */
+  font-size: clamp(80px, 22vw, 360px);
   line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--text-white);
+  text-align: center;
+}
+
+.popup__about-heading-letter {
+  display: inline-block;
+  transition: color 0.6s ease;
 }
 
 .popup__about-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 var(--spacing-3xl);
+  padding: var(--spacing-3xl) var(--spacing-3xl) 0;
 }
 
-/* Long-form тексты (lead) — правая половина viewport. */
+/* Long-form тексты (lead). Начинаются от 40% от левого края — справа от
+ * центра. Цвет --text-white (чистый белый, не голубой --text-primary). */
 .popup__about-intro,
-.popup__about-bridge {
-  width: 50%;
-  margin-left: auto;
+.popup__about-bridge,
+.popup__about-outro {
+  margin-left: 40%;
   margin-bottom: var(--spacing-3xl);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
-  color: var(--text-primary);
-}
-
-/* Mission — крупный текст-лозунг на всю ширину. */
-.popup__about-mission {
-  margin: 0 0 var(--spacing-3xl);
-  font-weight: 400;
-  font-size: clamp(36px, 4vw, 56px);
-  line-height: 1.15;
   color: var(--text-white);
 }
+.popup__about-outro p {
+  margin: 0 0 var(--spacing-md);
+}
+.popup__about-outro p:last-child {
+  margin-bottom: 0;
+}
 
-/* Pair: два изображения. */
+/* Mission — крупный лозунг шрифтом Wildfire, по центру. */
+.popup__about-mission {
+  margin: 0 0 var(--spacing-3xl);
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-white);
+  text-align: center;
+}
+
+/* Pair: два изображения. Между ними gap = 25vw, размер
+ * пропорциональный viewport. */
 .popup__about-pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-2xl);
-  max-width: 800px;
-  margin: 0 auto var(--spacing-3xl);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 25vw;
+  margin: 0 0 var(--spacing-3xl);
 }
 .popup__about-figure {
   margin: 0;
   text-align: center;
+  flex: 0 0 auto;
 }
 .popup__about-image {
   display: block;
-  width: 100%;
+  width: 25vw;
   aspect-ratio: 1;
   background: var(--surface-bg-secondary);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: var(--radius-l);
   margin-bottom: var(--spacing-md);
 }
 .popup__about-image--tolstoy {
-  background-image: url('/assets/about/tolstoy.jpg');
+  background-image: url('/assets/about/tolstoy.png');
 }
 .popup__about-image--mickey {
   background-image: url('/assets/about/mickey.png');
@@ -164,31 +186,18 @@
 .popup__about-figure figcaption {
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
-  font-size: clamp(28px, 3vw, 48px);
+  font-size: clamp(28px, 3vw, 56px);
   line-height: 1;
   color: var(--text-white);
 }
 
-/* Bottom: 2 колонки. */
-.popup__about-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: var(--spacing-3xl);
-  margin-bottom: var(--spacing-3xl);
-}
-
-/* Form */
+/* Form: 400px фиксированной ширины. Без заголовка. Кнопка — на всю ширину. */
 .popup__about-form {
+  width: 400px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-}
-.popup__about-form-title {
-  margin: 0 0 var(--spacing-xs);
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 1.3;
-  color: var(--text-white);
 }
 .popup__about-input,
 .popup__about-textarea {
@@ -212,16 +221,15 @@
   border-color: var(--brand);
 }
 .popup__about-textarea {
-  resize: vertical;
+  resize: none;
   min-height: 140px;
 }
 .popup__about-submit {
-  align-self: flex-start;
   background: var(--brand);
   color: var(--text-white);
   border: 0;
   border-radius: var(--radius-m);
-  padding: var(--spacing-md) var(--spacing-xl);
+  padding: var(--spacing-md);
   font-family: var(--font-family);
   font-weight: 500;
   font-size: 16px;
@@ -242,32 +250,34 @@
 .popup__about-form-status[data-state="success"] { color: var(--green-100); }
 .popup__about-form-status[data-state="error"]   { color: var(--red-100); }
 
-/* Outro */
-.popup__about-outro {
-  font-weight:    var(--font-lead-weight);
-  font-size:      var(--font-lead-size);
-  line-height:    var(--font-lead-line-height);
-  letter-spacing: var(--font-lead-letter-spacing);
-  color: var(--text-primary);
+/* Подпись автора: прилеплена к низу viewport. body-s. Слова «Артём
+ * Ермолаев» — жёлтые и кликабельные (ссылка на ermolaev.space). */
+.popup__about-signature {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-family);
+  font-weight:    var(--font-body-s-weight);
+  font-size:      var(--font-body-s-size);
+  line-height:    var(--font-body-s-line-height);
+  letter-spacing: var(--font-body-s-letter-spacing);
+  color: var(--text-white);
+  z-index: 5;
 }
-.popup__about-outro p {
-  margin: 0 0 var(--spacing-md);
+.popup__about-signature a {
+  color: var(--yellow-100);
+  text-decoration: none;
+  transition: text-decoration 0.15s ease;
 }
-.popup__about-outro p:last-child {
-  margin-bottom: 0;
-}
-.popup__about-outro a {
-  color: var(--text-primary);
+.popup__about-signature a:hover {
   text-decoration: underline;
-  text-underline-offset: 4px;
-  transition: color 0.15s ease;
-}
-.popup__about-outro a:hover {
-  color: var(--surface-person-writer);
 }
 
 /* Floating pointer — подсказка «форма ниже». Прилеплен к нижнему-левому
- * углу viewport. Логика «куда ведёт стрелка» — TODO (см. SESSION). */
+ * углу viewport. Логика «куда ведёт стрелка» — TODO (пользователь
+ * расскажет позже). */
 .popup__about-pointer {
   position: fixed;
   bottom: var(--spacing-lg);
