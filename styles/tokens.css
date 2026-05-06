@@ -11,6 +11,19 @@
  * токены обновляются автоматически.
  */
 
+/* Inter Variable — self-hosted (без Google Fonts CDN, чтобы не передавать
+ * IP пользователей третьим сторонам — это считается передачей
+ * персональных данных по 152-ФЗ и GDPR).
+ * Один variable-файл покрывает все веса 100–900 (~352 KB). */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/InterVariable.woff2') format('woff2-variations'),
+       url('/assets/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* ================================================================
    * PRIMITIVES — BLACK (alpha grades, base #1c1e25)
