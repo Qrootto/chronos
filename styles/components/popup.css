@@ -138,9 +138,9 @@
   color: var(--text-white);
 }
 .popup__about-intro {
-  /* 80 (--spacing-5xl) + 40 = 120px от низа логотипа. Этот сдвиг
-   * автоматически опускает все блоки ниже (Q2 во втором пакете). */
-  margin-top: calc(var(--spacing-5xl) + 40px);
+  /* 80 (--spacing-5xl) + 80 = 160px от низа логотипа. Этот сдвиг
+   * автоматически опускает все блоки ниже. */
+  margin-top: calc(var(--spacing-5xl) + 80px);
   margin-bottom: 0;
 }
 .popup__about-intro p {
