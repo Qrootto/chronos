@@ -24,6 +24,16 @@
   font-display: swap;
 }
 
+/* Wildfire (BBKV) — display-шрифт для h1 (имена в попапе и крупные
+ * акценты в about). Купленный, не share. */
+@font-face {
+  font-family: 'Wildfire';
+  src: url('/assets/fonts/Wildfire.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* ================================================================
    * PRIMITIVES — BLACK (alpha grades, base #1c1e25)
@@ -259,9 +269,10 @@
    * ================================================================ */
   --font-family: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Inter Regular 48 — h1 в попапах (имя персонажа) */
+  /* Wildfire 64 — h1 в попапах (имя персонажа) и крупные акценты в about. */
+  --font-h1-family:         'Wildfire', var(--font-family);
   --font-h1-weight:         400;
-  --font-h1-size:           48px;
+  --font-h1-size:           64px;
   --font-h1-line-height:    1.1;
   --font-h1-letter-spacing: 0;
 
@@ -300,7 +311,7 @@
  * UTILITY — TYPOGRAPHY
  * ================================================================== */
 .text-h1 {
-  font-family:    var(--font-family);
+  font-family:    var(--font-h1-family);
   font-weight:    var(--font-h1-weight);
   font-size:      var(--font-h1-size);
   line-height:    var(--font-h1-line-height);

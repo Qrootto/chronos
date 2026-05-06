@@ -145,9 +145,11 @@
 
 .popup__title {
   margin: 0;
-  font-weight: 400;     /* Inter Regular */
-  font-size: 40px;
-  line-height: 1.1;
+  font-family:    var(--font-h1-family);
+  font-weight:    var(--font-h1-weight);
+  font-size:      var(--font-h1-size);
+  line-height:    var(--font-h1-line-height);
+  letter-spacing: var(--font-h1-letter-spacing);
   color: var(--text-white);
 }
 
