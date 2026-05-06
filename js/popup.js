@@ -116,7 +116,10 @@ const ABOUT_HTML = `
   <h1 class="popup__about-heading">past simple</h1>
 
   <div class="popup__about-container">
-    <p class="popup__about-intro">Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, сходу кажется, что они из разных эпох, а на самом деле оба жили в одно время. Ну ладно, всего 9 лет, но жили же! Или вот мы читаем про Первую мировую войну и в голове картины боёв, окопы, взрывы. Но война происходила не везде в мире (хоть и мировая, ну да). Параллельно с окопами и взрывами в Петрограде, например, выставлялся Малевич со своим «Чёрным квадратом». А Эйнштейн в это же время закончил общую теорию относительности. А как вам то, что Мария Кюри открыла радиоактивность в разгар золотой лихорадки?</p>
+    <div class="popup__about-intro">
+      <p>Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, сходу кажется, что они из разных эпох, а на самом деле оба жили в одно время. Ну ладно, всего 9 лет, но жили же!</p>
+      <p>Или вот мы читаем про Первую мировую войну и в голове картины боёв, окопы, взрывы. Но война происходила не везде в мире (хоть и мировая, ну да). Параллельно с окопами и взрывами в Петрограде, например, выставлялся Малевич со своим «Чёрным квадратом». А Эйнштейн в это же время закончил общую теорию относительности.</p>
+    </div>
 
     <div class="popup__about-pair">
       <figure class="popup__about-figure">
@@ -133,22 +136,22 @@ const ABOUT_HTML = `
 
     <p class="popup__about-mission">Наглядно показать взаимосвязи людей и событий в истории. Дать больше контекста, чтобы лучше представить время, которое нам интересно.</p>
 
-    <div class="popup__about-outro">
-      <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я скажу вам большое спасибо.</p>
+    <div class="popup__about-bottom">
+      <form class="popup__about-form" novalidate>
+        <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
+        <input class="popup__about-input" type="email" name="email" placeholder="Email — если хочешь, чтобы я ответил">
+        <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
+        <button class="popup__about-submit" type="submit">Отправить</button>
+        <div class="popup__about-form-status" data-state="" hidden></div>
+      </form>
+
+      <div class="popup__about-outro">
+        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я скажу вам большое спасибо.</p>
+      </div>
     </div>
 
-    <form class="popup__about-form" novalidate>
-      <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
-      <input class="popup__about-input" type="email" name="email" placeholder="Email — если хочешь, чтобы я ответил">
-      <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
-      <button class="popup__about-submit" type="submit">Отправить</button>
-      <div class="popup__about-form-status" data-state="" hidden></div>
-    </form>
+    <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
   </div>
-
-  <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
-
-  <div class="popup__about-pointer">↓ форма обратной связи ниже</div>
 `;
 
 /* Hover-эффект на логотипе «past simple»: при наведении на букву она
@@ -177,9 +180,15 @@ function initLogoHover(headingEl) {
     const letter = e.target.closest('.popup__about-heading-letter');
     if (!letter) return;
     const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
+    // Моментальная смена цвета — отключаем transition.
+    letter.style.transition = 'none';
     letter.style.color = `var(${color})`;
     clearTimeout(letter._restoreTimer);
-    letter._restoreTimer = setTimeout(() => { letter.style.color = ''; }, 1000);
+    letter._restoreTimer = setTimeout(() => {
+      // Возврат к default через CSS-transition (color 0.6s ease).
+      letter.style.transition = '';
+      letter.style.color = '';
+    }, 1000);
   });
 }
 

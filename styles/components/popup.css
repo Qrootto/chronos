@@ -87,7 +87,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: block;
-  padding: 0 0 var(--spacing-3xl);
+  padding: 0 0 var(--spacing-6xl);
   font-family: var(--font-family);
   color: var(--text-white);
   overflow-y: auto;
@@ -102,65 +102,67 @@
   padding: 164px calc(80 / 1280 * 100vw) 0;
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
-  /* Размер чтобы заполнить почти всю ширину viewport. */
   font-size: clamp(80px, 22vw, 360px);
   line-height: 0.95;
   letter-spacing: -0.02em;
   color: var(--text-white);
   text-align: center;
+  /* Курсор остаётся стрелкой (без I-beam над текстом). */
+  cursor: default;
 }
 
+/* Каждая буква — span. На hover JS моментально красит её в случайный
+ * цвет (style.transition: none); через 1 сек тот же JS снимает inline
+ * transition и color → буква плавно возвращается к --text-white по
+ * правилу ниже (transition: color 0.6s ease). */
 .popup__about-heading-letter {
   display: inline-block;
   transition: color 0.6s ease;
+  cursor: default;
 }
 
 .popup__about-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: var(--spacing-3xl) var(--spacing-3xl) 0;
+  padding: 0 var(--spacing-3xl);
 }
 
-/* Long-form тексты (lead). Начинаются от 40% от левого края — справа от
- * центра. Цвет --text-white (чистый белый, не голубой --text-primary). */
+/* Long-form тексты (lead). Начинаются от 40% от левого края, цвет
+ * --text-white. Отступы между блоками — --spacing-6xl (140px). */
 .popup__about-intro,
 .popup__about-bridge,
 .popup__about-outro {
   margin-left: 40%;
-  margin-bottom: var(--spacing-3xl);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
   color: var(--text-white);
 }
-.popup__about-outro p {
-  margin: 0 0 var(--spacing-md);
+.popup__about-intro {
+  margin-top: var(--spacing-5xl);   /* 80px от низа логотипа */
+  margin-bottom: 0;
 }
-.popup__about-outro p:last-child {
+.popup__about-intro p {
+  margin: 0;
+}
+/* Пустая строка между абзацами = одна lead-line-height. */
+.popup__about-intro p + p {
+  margin-top: var(--font-lead-line-height);
+}
+.popup__about-bridge {
+  margin-top: var(--spacing-6xl);   /* 140px от пары фото */
   margin-bottom: 0;
 }
 
-/* Mission — крупный лозунг шрифтом Wildfire, по центру. */
-.popup__about-mission {
-  margin: 0 0 var(--spacing-3xl);
-  font-family: var(--font-h1-family);
-  font-weight: var(--font-h1-weight);
-  font-size: clamp(36px, 5vw, 72px);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--text-white);
-  text-align: center;
-}
-
-/* Pair: два изображения. Между ними gap = 25vw, размер
- * пропорциональный viewport. */
+/* Pair: два изображения side-by-side. */
 .popup__about-pair {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 25vw;
-  margin: 0 0 var(--spacing-3xl);
+  /* Расстояние между фото — 20vw (раньше было 25vw, сократили на 20%). */
+  gap: 20vw;
+  margin: var(--spacing-6xl) 0 0;   /* 140px от текста выше */
 }
 .popup__about-figure {
   margin: 0;
@@ -186,19 +188,53 @@
 .popup__about-figure figcaption {
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
-  font-size: clamp(28px, 3vw, 56px);
+  font-size: 24px;
   line-height: 1;
   color: var(--text-white);
 }
 
-/* Form: 400px фиксированной ширины. Без заголовка. Кнопка — на всю ширину. */
+/* Mission — крупный лозунг шрифтом Wildfire, по центру.
+ * Отступ 140px от bridge сверху. */
+.popup__about-mission {
+  margin: var(--spacing-6xl) 0 0;
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-white);
+  text-align: center;
+}
+
+/* Bottom-секция: слева форма, справа outro (последний абзац).
+ * Верхние границы выровнены, gap между ними 15vw. Form скейлится по
+ * ширине, max 400px. Outro заполняет правую часть. */
+.popup__about-bottom {
+  display: flex;
+  align-items: flex-start;
+  gap: 15vw;
+  margin-top: var(--spacing-6xl);   /* 140px от mission */
+}
+
 .popup__about-form {
-  width: 400px;
-  max-width: 100%;
+  flex: 0 1 400px;
+  max-width: 400px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
+
+.popup__about-bottom .popup__about-outro {
+  flex: 1 1 auto;
+  margin-left: 0;   /* у outro здесь не работает «40% от левого края»,
+                       позиция задаётся через flex + gap */
+  min-width: 0;
+}
+.popup__about-outro p {
+  margin: 0;
+}
+
 .popup__about-input,
 .popup__about-textarea {
   background: var(--light-8);
@@ -250,21 +286,17 @@
 .popup__about-form-status[data-state="success"] { color: var(--green-100); }
 .popup__about-form-status[data-state="error"]   { color: var(--red-100); }
 
-/* Подпись автора: прилеплена к низу viewport. body-s. Слова «Артём
- * Ермолаев» — жёлтые и кликабельные (ссылка на ermolaev.space). */
+/* Подпись автора — в самом низу страницы (не fixed bottom).
+ * 140px от последнего блока, body-s, по центру. */
 .popup__about-signature {
-  position: fixed;
-  bottom: var(--spacing-lg);
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
+  margin: var(--spacing-6xl) 0 0;
+  text-align: center;
   font-family: var(--font-family);
   font-weight:    var(--font-body-s-weight);
   font-size:      var(--font-body-s-size);
   line-height:    var(--font-body-s-line-height);
   letter-spacing: var(--font-body-s-letter-spacing);
   color: var(--text-white);
-  z-index: 5;
 }
 .popup__about-signature a {
   color: var(--yellow-100);
@@ -273,19 +305,6 @@
 }
 .popup__about-signature a:hover {
   text-decoration: underline;
-}
-
-/* Floating pointer — подсказка «форма ниже». Прилеплен к нижнему-левому
- * углу viewport. Логика «куда ведёт стрелка» — TODO (пользователь
- * расскажет позже). */
-.popup__about-pointer {
-  position: fixed;
-  bottom: var(--spacing-lg);
-  left: var(--spacing-lg);
-  font-size: 14px;
-  color: var(--text-secondary);
-  pointer-events: none;
-  z-index: 5;
 }
 
 /* === Левая колонка ===
