@@ -87,8 +87,10 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: block;
-  /* 32px от низа страницы до подписи (Q5 в правках). */
-  padding: 0 0 var(--spacing-xl);
+  /* Padding-bottom = 0. Известный баг WebKit: padding-bottom на
+   * scroll-контейнере не учитывается scrollbar'ом. 32px gap до низа
+   * страницы задан через margin-bottom на signature. */
+  padding: 0;
   font-family: var(--font-family);
   color: var(--text-white);
   overflow-y: auto;
@@ -173,10 +175,11 @@
   display: block;
   width: 25vw;
   aspect-ratio: 1;
-  /* Без background-color — если у фото прозрачные края (как у png),
-   * через них просвечивает фон попапа --surface-popup-bg, без голубой
-   * «рамки». */
-  background-size: cover;
+  /* background-size: 110% — image зумится на 10% от контейнера.
+   * Это обрезает 5% края с каждой стороны и убирает серую каёмку
+   * (часть самого png-файла Толстого), которая иначе видна по
+   * периметру. */
+  background-size: 110%;
   background-position: center;
   background-repeat: no-repeat;
   margin-bottom: var(--spacing-md);
@@ -293,11 +296,13 @@
 .popup__about-form-status[data-state="error"]   { color: var(--red-100); }
 
 /* Подпись автора — в самом низу страницы (не fixed bottom).
- * 140px от bottom-секции, body-s. Левый край совпадает с колонкой
- * абзацев (margin-left: 40%). До низа страницы — 32px (padding-bottom
- * на .popup--about). */
+ * 180px от bottom-секции (--spacing-6xl) сверху. Левый край совпадает
+ * с колонкой абзацев (margin-left: 40%).
+ * margin-bottom: 32px — это и есть отступ до низа страницы. Делается
+ * через margin-bottom (а не padding-bottom на .popup--about), потому
+ * что WebKit не учитывает padding-bottom в scrollable container. */
 .popup__about-signature {
-  margin: var(--spacing-6xl) 0 0 40%;
+  margin: var(--spacing-6xl) 0 var(--spacing-xl) 40%;
   text-align: left;
   font-family: var(--font-family);
   font-weight:    var(--font-body-s-weight);
