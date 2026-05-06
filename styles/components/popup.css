@@ -14,6 +14,11 @@
   transform: translateX(100%);
   transition: transform 0.3s ease;
 }
+
+/* About-попап открывается на всю ширину экрана. */
+.popup-overlay--about {
+  width: 100vw;
+}
 .popup-overlay.is-open {
   transform: translateX(0);
 }
@@ -64,12 +69,16 @@
 }
 
 /* === About-вариант попапа ===
- * Открывается по клику на кнопку i в шапке. Та же шторка справа, но
- * содержимое — логотип + текст «о проекте» + (в будущем) форма обратной
- * связи. Структура попроще: один блок-колонка с большими отступами.
- *
- * Логотип — 64px от верха, 32px от левого края.
- * Текст — 64px от низа логотипа, ширина 2/3 попапа, шрифт lead. */
+ * Открывается по клику на «i» в шапке. Открывается на всю ширину экрана
+ * (см. .popup-overlay--about), длинный скроллируемый. Структура:
+ *  - Огромный display-heading «past simple» (Wildfire) на всю ширину
+ *  - Длинный intro-текст с примерами (правая половина viewport)
+ *  - Pair: два изображения (Толстой + Микки Маус) side-by-side
+ *  - Bridge-текст (правая половина)
+ *  - Mission — крупный текст-лозунг (на всю ширину)
+ *  - Bottom: 2 колонки — слева форма обратной связи (Web3Forms), справа outro + автограф
+ *  - Floating pointer внизу слева — подсказка про форму */
+
 .popup--about {
   position: relative;
   width: 100%;
@@ -77,29 +86,36 @@
   background: var(--surface-popup-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  /* Block layout (не flex column) — нужен чтобы overflow-y: auto
-   * работал предсказуемо: при длинном тексте появляется вертикальный
-   * scrollbar. Раньше flex column ломал scroll при содержимом, чуть
-   * выше viewport. Отступ между логотипом и текстом — через
-   * margin-top на popup__about-text вместо gap. */
   display: block;
-  padding: var(--spacing-3xl) var(--spacing-xl) var(--spacing-xl) var(--spacing-xl);
+  padding: 0;
   font-family: var(--font-family);
   color: var(--text-primary);
   overflow-y: auto;
 }
 
-.popup__logo {
-  display: block;
-  width: 209px;
-  height: 37px;
-  /* Цвет SVG задан внутри файла. Если нужно перекрасить —
-   * используем mask + currentColor; пока оставляем как есть. */
+.popup__about-heading {
+  margin: 0;
+  padding: var(--spacing-3xl) var(--spacing-3xl) var(--spacing-2xl);
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(120px, 18vw, 280px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text-white);
 }
 
-.popup__about-text {
-  width: 66.67%;
-  margin-top: var(--spacing-3xl);
+.popup__about-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-3xl);
+}
+
+/* Long-form тексты (lead) — правая половина viewport. */
+.popup__about-intro,
+.popup__about-bridge {
+  width: 50%;
+  margin-left: auto;
+  margin-bottom: var(--spacing-3xl);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
@@ -107,20 +123,159 @@
   color: var(--text-primary);
 }
 
-.popup__about-text p {
-  margin: 0 0 var(--font-lead-line-height) 0;
-}
-.popup__about-text p:last-child {
-  margin-bottom: 0;
+/* Mission — крупный текст-лозунг на всю ширину. */
+.popup__about-mission {
+  margin: 0 0 var(--spacing-3xl);
+  font-weight: 400;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.15;
+  color: var(--text-white);
 }
 
-.popup__about-text a {
+/* Pair: два изображения. */
+.popup__about-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  max-width: 800px;
+  margin: 0 auto var(--spacing-3xl);
+}
+.popup__about-figure {
+  margin: 0;
+  text-align: center;
+}
+.popup__about-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--surface-bg-secondary);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: var(--radius-l);
+  margin-bottom: var(--spacing-md);
+}
+.popup__about-image--tolstoy {
+  background-image: url('/assets/about/tolstoy.jpg');
+}
+.popup__about-image--mickey {
+  background-image: url('/assets/about/mickey.png');
+}
+.popup__about-figure figcaption {
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1;
+  color: var(--text-white);
+}
+
+/* Bottom: 2 колонки. */
+.popup__about-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: var(--spacing-3xl);
+  margin-bottom: var(--spacing-3xl);
+}
+
+/* Form */
+.popup__about-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+.popup__about-form-title {
+  margin: 0 0 var(--spacing-xs);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--text-white);
+}
+.popup__about-input,
+.popup__about-textarea {
+  background: var(--light-8);
+  border: 1px solid var(--border-category);
+  border-radius: var(--radius-m);
+  padding: var(--spacing-md);
+  color: var(--text-white);
+  font-family: var(--font-family);
+  font-size: 16px;
+  line-height: 1.4;
+  transition: border-color 0.15s ease;
+}
+.popup__about-input::placeholder,
+.popup__about-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+.popup__about-input:focus,
+.popup__about-textarea:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+.popup__about-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+.popup__about-submit {
+  align-self: flex-start;
+  background: var(--brand);
+  color: var(--text-white);
+  border: 0;
+  border-radius: var(--radius-m);
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.popup__about-submit:hover {
+  opacity: 0.85;
+}
+.popup__about-submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.popup__about-form-status {
+  font-size: 14px;
+  line-height: 1.4;
+}
+.popup__about-form-status[data-state="success"] { color: var(--green-100); }
+.popup__about-form-status[data-state="error"]   { color: var(--red-100); }
+
+/* Outro */
+.popup__about-outro {
+  font-weight:    var(--font-lead-weight);
+  font-size:      var(--font-lead-size);
+  line-height:    var(--font-lead-line-height);
+  letter-spacing: var(--font-lead-letter-spacing);
+  color: var(--text-primary);
+}
+.popup__about-outro p {
+  margin: 0 0 var(--spacing-md);
+}
+.popup__about-outro p:last-child {
+  margin-bottom: 0;
+}
+.popup__about-outro a {
   color: var(--text-primary);
   text-decoration: underline;
   text-underline-offset: 4px;
+  transition: color 0.15s ease;
 }
-.popup__about-text a:hover {
-  color: var(--surface-person-writer);  /* фиолетовый, совпадает с логотипом */
+.popup__about-outro a:hover {
+  color: var(--surface-person-writer);
+}
+
+/* Floating pointer — подсказка «форма ниже». Прилеплен к нижнему-левому
+ * углу viewport. Логика «куда ведёт стрелка» — TODO (см. SESSION). */
+.popup__about-pointer {
+  position: fixed;
+  bottom: var(--spacing-lg);
+  left: var(--spacing-lg);
+  font-size: 14px;
+  color: var(--text-secondary);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* === Левая колонка ===

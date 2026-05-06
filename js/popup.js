@@ -47,6 +47,8 @@ export function openPopup(overlayEl, backdropEl, state, data, personId, eventYea
   _lastState = state;
   _lastData  = data;
 
+  // Снимаем модификатор about, если попап ранее открывался как about.
+  overlayEl.classList.remove('popup-overlay--about');
   overlayEl.innerHTML = '';
 
   // Close — кладём прямо в overlay (а не внутрь .popup-grid), чтобы
@@ -73,11 +75,14 @@ export function closePopup(overlayEl, backdropEl) {
   backdropEl?.classList.remove('is-open');
 }
 
-/** Рисует попап «О проекте» в overlayEl (та же шторка-overlay, что и для
- *  событий, но другой контент: логотип + текстовый блок). Поведение open/
- *  close идентичное (slide-in справа, клик по backdrop / Esc — закрыть). */
+/** Рисует попап «О проекте» в overlayEl. Та же шторка-overlay, что и для
+ *  событий, но контент полностью другой: огромный display-heading,
+ *  длинный intro с примерами, два изображения side-by-side, форма
+ *  обратной связи (Web3Forms). Поведение open/close идентичное. */
 export function openAboutPopup(overlayEl, backdropEl) {
   overlayEl.innerHTML = '';
+  // About открывается на 100vw (см. styles/components/popup.css → --about).
+  overlayEl.classList.add('popup-overlay--about');
 
   const closeBtn = document.createElement('button');
   closeBtn.className = 'icon-btn icon-btn--ghost popup__close';
@@ -96,27 +101,105 @@ export function openAboutPopup(overlayEl, backdropEl) {
 function buildAboutPopup() {
   const popup = document.createElement('div');
   popup.className = 'popup popup--about';
+  popup.innerHTML = ABOUT_HTML;
 
-  const logo = document.createElement('img');
-  logo.className = 'popup__logo';
-  logo.src = '/assets/Logo.svg';
-  logo.alt = 'Past Simple';
-  popup.appendChild(logo);
-
-  const text = document.createElement('div');
-  text.className = 'popup__about-text';
-  text.innerHTML = ABOUT_HTML;
-  popup.appendChild(text);
+  const form = popup.querySelector('.popup__about-form');
+  if (form) form.addEventListener('submit', handleAboutFormSubmit);
 
   return popup;
 }
 
 const ABOUT_HTML = `
-  <p>Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, вроде бы между ними пропасть, а на самом деле был промежуток, когда оба жили в одно время. Или вот мы читаем про Первую мировую войну и весь фокус на ней. Но хочется получить более объёмную картину: а кто из известных писателей жил во время этой войны, а кто из учёных, а сколько им тогда было лет? Может кто-то из них даже был знаком друг с другом лично.</p>
-  <p>Этот проект создан для того, чтобы наглядно показать все эти взаимосвязи и получить более полное представление о времени, которое нам интересно. Интерактивная карта времени, добавляющая контекста к изучению истории.</p>
-  <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но этот промежуток будет расширяться в будущем. Известные люди тоже будут добавляться, вы, кстати, можете предложить тех, кого бы вам хотелось здесь увидеть. Сделайте это через форму, которая вот там, чуть ниже. Через эту же форму вы можете написать что можно улучшить, убрать или добавить. Я буду рад любой обратной связи.</p>
-  <p>Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+  <h1 class="popup__about-heading">past simple</h1>
+
+  <div class="popup__about-container">
+    <p class="popup__about-intro">Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, сходу кажется, что они из разных эпох, а на самом деле оба жили в одно время. Ну ладно, всего 9 лет, но жили же! Или вот мы читаем про Первую мировую войну и в голове картины боёв, окопы, взрывы. Но война происходила не везде в мире (хоть и мировая, ну да). Параллельно с окопами и взрывами в Петрограде, например, выставлялся Малевич со своим «Чёрным квадратом». А Эйнштейн в это же время закончил общую теорию относительности. А как вам то, что Мария Кюри открыла радиоактивность в разгар золотой лихорадки?</p>
+
+    <div class="popup__about-pair">
+      <figure class="popup__about-figure">
+        <div class="popup__about-image popup__about-image--tolstoy" role="img" aria-label="Лев Толстой"></div>
+        <figcaption>Лев Толстой</figcaption>
+      </figure>
+      <figure class="popup__about-figure">
+        <div class="popup__about-image popup__about-image--mickey" role="img" aria-label="Микки Маус"></div>
+        <figcaption>Микки Маус</figcaption>
+      </figure>
+    </div>
+
+    <p class="popup__about-bridge">Даже с хорошим воображением в голове сложно проводить все эти параллели, чтобы сложилась полная картинка. Past Simple создан как раз для этого.</p>
+
+    <p class="popup__about-mission">Наглядно показать взаимосвязи людей и событий в истории. Дать больше контекста, чтобы лучше представить время, которое нам интересно.</p>
+
+    <div class="popup__about-bottom">
+      <form class="popup__about-form" novalidate>
+        <h2 class="popup__about-form-title">Рассказать об ошибке или предложить улучшение</h2>
+        <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
+        <input class="popup__about-input" type="email" name="email" placeholder="Email" required>
+        <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
+        <button class="popup__about-submit" type="submit">Отправить</button>
+        <div class="popup__about-form-status" data-state="" hidden></div>
+      </form>
+
+      <div class="popup__about-outro">
+        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
+        <p>*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup__about-pointer">↓ форма обратной связи ниже</div>
 `;
+
+const WEB3FORMS_KEY = '16fe08cd-d2a5-4013-a200-1484b82f7149';
+
+async function handleAboutFormSubmit(e) {
+  e.preventDefault();
+  const form    = e.currentTarget;
+  const status  = form.querySelector('.popup__about-form-status');
+  const submit  = form.querySelector('.popup__about-submit');
+  const origLbl = submit.textContent;
+
+  status.hidden = true;
+  status.dataset.state = '';
+
+  if (!form.checkValidity()) {
+    status.textContent = 'Заполните все поля корректно.';
+    status.dataset.state = 'error';
+    status.hidden = false;
+    return;
+  }
+
+  submit.disabled  = true;
+  submit.textContent = 'Отправка…';
+
+  const data = new FormData(form);
+  data.append('access_key', WEB3FORMS_KEY);
+  data.append('subject', 'Past Simple — обратная связь');
+  data.append('from_name', 'past-simple.ru');
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data,
+    });
+    const result = await response.json();
+    if (result.success) {
+      status.textContent = 'Спасибо! Сообщение отправлено.';
+      status.dataset.state = 'success';
+      form.reset();
+    } else {
+      status.textContent = result.message || 'Что-то пошло не так. Попробуйте позже.';
+      status.dataset.state = 'error';
+    }
+  } catch {
+    status.textContent = 'Ошибка сети. Попробуйте позже.';
+    status.dataset.state = 'error';
+  } finally {
+    status.hidden = false;
+    submit.disabled = false;
+    submit.textContent = origLbl;
+  }
+}
 
 const ICON_CLOSE = `<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
