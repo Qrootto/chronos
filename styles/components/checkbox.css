@@ -70,11 +70,27 @@
 .checkbox svg {
   width: 12px;
   height: 12px;
-  opacity: 0;
-  transition: opacity 0.15s ease;
 }
 
-.checkbox--checked svg,
-.checkbox[aria-checked="true"] svg {
-  opacity: 1;
+/* Анимация «рисования» галочки. Polyline в SVG имеет pathLength="100"
+ * (нормализация длины), поэтому stroke-dasharray:100 = весь путь.
+ *
+ * Sidebar полностью пересоздаёт DOM на каждый toggle (см. js/sidebar.js),
+ * поэтому transition между классами не сработает — элемент рождается уже
+ * в нужном состоянии. Анимацию проигрываем только на чекбоксах,
+ * у которых JS поставил .checkbox--just-checked (т.е. это та галочка,
+ * которую только что переключили). Все остальные checked-чекбоксы рендерятся
+ * сразу в нарисованном виде без анимации. */
+@keyframes draw-check {
+  from { stroke-dashoffset: 100; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.checkbox svg polyline {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;   /* финальное состояние — видно после анимации/у уже выбранных */
+}
+
+.checkbox--just-checked svg polyline {
+  animation: draw-check var(--motion-duration-base) var(--motion-ease-out);
 }

@@ -35,3 +35,25 @@
  * Значения 10/8/1 не из основной шкалы — компонент-специфичные. */
 .event-caption--right { border-radius: 8px 10px 10px 1px; }
 .event-caption--left  { border-radius: 10px 8px 1px 10px; }
+
+/* «Вырастание» при появлении.
+ *   --right (caption справа от точки, стрелка снизу-слева) → растёт слева направо.
+ *   --left  (caption слева от точки, стрелка снизу-справа) → растёт справа налево.
+ * Применяется только к hover-caption'ам (класс .is-hover-caption). Каждый
+ * hover создаёт свежий элемент в DOM, так что keyframe играет один раз
+ * на каждый показ. fill-mode:both чтобы перед стартом анимации (пока
+ * visibility:hidden измеряет размеры) уже было «закрытое» состояние. */
+@keyframes event-caption-grow-right {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes event-caption-grow-left {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+.event-caption.is-hover-caption.event-caption--right {
+  animation: event-caption-grow-right var(--motion-duration-base) var(--motion-ease-out) both;
+}
+.event-caption.is-hover-caption.event-caption--left {
+  animation: event-caption-grow-left var(--motion-duration-base) var(--motion-ease-out) both;
+}

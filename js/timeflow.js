@@ -58,9 +58,21 @@ function centuryDividers(state) {
   return result;
 }
 
+// Трэкаем person.id, отрисованных в прошлый рендер — чтобы при следующем
+// рендере fade-in (.life-line--enter) ставить только на ВНОВЬ добавленных
+// людей, а не на всех. Render полностью пересоздаёт DOM, сами по себе
+// «новые» элементы детектируются только сравнением ID.
+let lastPersonIds = new Set();
+
 /** Главный рендер. Очищает контейнер и рисует все элементы Timeflow заново. */
 export function renderTimeflow(el, state, people, worldEvents = []) {
   el.innerHTML = '';
+
+  // Какие персонажи появились впервые относительно прошлого рендера.
+  const currentIds = new Set(people.map(p => p.id));
+  const newIds = new Set();
+  for (const id of currentIds) if (!lastPersonIds.has(id)) newIds.add(id);
+  lastPersonIds = currentIds;
 
   // Координаты для всех вертикальных event-блоков:
   //   top = 23 (низ метки века = 19, +4 gap)
@@ -183,6 +195,7 @@ export function renderTimeflow(el, state, people, worldEvents = []) {
 
     const line = document.createElement('div');
     line.className = 'life-line life-line--' + cat;
+    if (newIds.has(person.id)) line.classList.add('life-line--enter');
     line.style.left  = lineLeft + 'px';
     line.style.top   = lifeLineTop + 'px';
     line.style.width = lineWidth + 'px';

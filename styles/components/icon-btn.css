@@ -14,7 +14,15 @@
   background: transparent;
   border: 0;
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  /* Default = mouseout — медленное «потухание» подсветки фона/цвета. */
+  transition: background var(--motion-duration-xslow) var(--motion-ease-out),
+              color var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.icon-btn:hover,
+.icon-btn.icon-btn--hovered {
+  /* Hover override — мгновенно загорается. */
+  transition: background var(--motion-duration-fast) var(--motion-ease-out),
+              color var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 /* === Ghost (burger / info) ============================== */
@@ -66,4 +74,68 @@
   width: 14px;
   height: 14px;
   display: block;
+}
+
+/* === Burger (3 strips) =================================
+ * Hover: top/bottom вытягиваются длиннее, middle сужается.
+ * Default-state — медленно возвращается; hover-state — мгновенно.
+ * Анимируем width + x, чтобы строчки расходились симметрично. */
+.burger-bar {
+  transition: width var(--motion-duration-xslow) var(--motion-ease-out),
+              x var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.icon-btn:hover .burger-bar,
+.icon-btn--hovered .burger-bar {
+  transition: width var(--motion-duration-base) var(--motion-ease-spring),
+              x var(--motion-duration-base) var(--motion-ease-spring);
+}
+.icon-btn:hover .burger-bar--top,
+.icon-btn:hover .burger-bar--bot,
+.icon-btn--hovered .burger-bar--top,
+.icon-btn--hovered .burger-bar--bot {
+  /* 16px → 18px, x:8 → 7 (центр остаётся в 16). */
+  width: 18px;
+  x: 7px;
+}
+.icon-btn:hover .burger-bar--mid,
+.icon-btn--hovered .burger-bar--mid {
+  /* 16px → 13px, x:8 → 9.5. */
+  width: 13px;
+  x: 9.5px;
+}
+
+/* === Info (i) — точка подпрыгивает над стержнем ============ */
+.i-dot {
+  transform-origin: 15.5px 9.5px;
+  transition: transform var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.icon-btn:hover .i-dot,
+.icon-btn--hovered .i-dot {
+  /* «Подпрыгивает» — поднимается на 2px и возвращается. Использован
+   * @keyframes одноразовый: при hover проигрываем bounce. После окончания
+   * keyframe точка возвращается в исходное положение (вне ховера translate=0). */
+  animation: i-dot-bounce var(--motion-duration-slow) var(--motion-ease-spring);
+}
+@keyframes i-dot-bounce {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+/* === Close (X) — растёт на hover, сжимается на :active =====
+ * Применяется к close-кнопкам в popup'е и sidebar'е (родительский
+ * контейнер .sidebar__close — обёртка для close-кнопки в сайдбаре). */
+.popup__close svg,
+.sidebar__close .icon-btn svg {
+  transition: transform var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.popup__close:hover svg,
+.sidebar__close .icon-btn:hover svg {
+  transform: scale(1.15);
+  transition: transform var(--motion-duration-base) var(--motion-ease-spring);
+}
+.popup__close:active svg,
+.sidebar__close .icon-btn:active svg {
+  transform: scale(0.9);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
 }

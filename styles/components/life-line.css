@@ -19,7 +19,11 @@
   height: 3px;
   background: var(--surface-lifeline);
   border-right: 1px solid var(--border-lineend);
-  transition: height 0.15s ease, background-color 0.15s ease;
+  /* Default = mouseout — медленное «потухание» (≈1с) при уходе курсора с
+   * event-dot. Класс --hovered ставит JS, не сам :hover на линии. */
+  transition: height var(--motion-duration-xslow) var(--motion-ease-out),
+              background-color var(--motion-duration-xslow) var(--motion-ease-out),
+              transform var(--motion-duration-xslow) var(--motion-ease-out);
 }
 
 /* Расширенная hit-area: сама линия 3px тонкая, в неё сложно попасть курсором.
@@ -49,4 +53,20 @@
   /* Линия растёт симметрично от центра: 3px → 5px = +2 высота, поэтому
    * сдвигаем на -1 вверх. Inline top остаётся, transform складывается поверх. */
   transform: translateY(-1px);
+  /* Hover override — мгновенная подсветка при наведении на event-dot.
+   * Шлейфа нет, есть только при mouseout (см. default-селектор выше). */
+  transition: height var(--motion-duration-fast) var(--motion-ease-out),
+              background-color var(--motion-duration-fast) var(--motion-ease-out),
+              transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+/* Fade-in новой линии при добавлении человека в Timeflow.
+ * Добавляется JS'ом классом .life-line--enter; через transitionend
+ * убирается. Длительность = base. */
+@keyframes life-line-fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.life-line--enter {
+  animation: life-line-fade-in var(--motion-duration-slow) var(--motion-ease-out);
 }

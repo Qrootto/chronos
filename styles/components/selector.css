@@ -25,12 +25,15 @@
   line-height: var(--font-semibold-14-line-height);
   letter-spacing: 0.7px;
   text-transform: uppercase;
-  transition: background 0.15s ease;
+  /* Default = mouseout — медленное «потухание» подсветки фона. */
+  transition: background var(--motion-duration-xslow) var(--motion-ease-out);
 }
 
 .selector:hover,
 .selector--hovered {
   background: var(--surface-category-hovered);
+  /* Hover override — мгновенно зажигается при наведении. */
+  transition: background var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 /* Имя по натуральной ширине — счётчик прилипает к нему через 4px gap.

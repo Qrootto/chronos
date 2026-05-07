@@ -22,15 +22,35 @@ const ICON_CHEVRON = `<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http:/
   <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0004 9.0001C12.2562 9.0002 12.5123 9.0979 12.7074 9.2931L16.7065 13.2931C17.097 13.6836 17.097 14.3166 16.7065 14.7072C16.3159 15.0975 15.6829 15.0976 15.2924 14.7072L11.9994 11.4142L8.7074 14.7072C8.3169 15.0977 7.6839 15.0977 7.2934 14.7072C6.9029 14.3166 6.9029 13.6836 7.2934 13.2931L11.2924 9.2941C11.3413 9.2452 11.3941 9.2018 11.4496 9.1652C11.5605 9.0919 11.6829 9.0431 11.809 9.0187C11.8722 9.0065 11.9363 9.0001 12.0004 9.0001Z"/>
 </svg>`;
 
+// pathLength="100" нормализует длину пути → CSS-анимация рисования галочки
+// через stroke-dasharray:100 / stroke-dashoffset:100→0 (см. checkbox.css).
 const ICON_CHECK = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <polyline points="2.8 7.8 6.5 11.5 13.2 4.3"/>
+  <polyline points="2.8 7.8 6.5 11.5 13.2 4.3" pathLength="100"/>
 </svg>`;
 
 export function initSidebar(el, getData, getOpenKey, callbacks) {
+  // Запоминаем выбранных людей/события из прошлого render — чтобы при
+  // следующем render отметить именно те чекбоксы, которые только что были
+  // переключены, и проиграть на них draw-анимацию (.checkbox--just-checked).
+  // Без этого DOM пересоздаётся целиком и анимация запускается на ВСЕХ
+  // checked-чекбоксах одновременно — выглядит как «волна», но пользователь
+  // ожидает анимацию только на той галочке, которую кликнули.
+  let prevPeople = new Set();
+  let prevEvents = new Set();
+
   function render() {
     el.innerHTML = '';
     const data = getData();
     const openKey = getOpenKey();
+
+    // Текущее множество выбранных — для diff с прошлым рендером.
+    const currPeople = new Set(data.people.filter(p => callbacks.isPersonSelected(p.id)).map(p => p.id));
+    const currEvents = new Set(data.events.filter(e => callbacks.isEventSelected(e.id)).map(e => e.id));
+    // newly = current ∖ previous (только что переключённые в checked).
+    const newlyCheckedPeople = new Set([...currPeople].filter(id => !prevPeople.has(id)));
+    const newlyCheckedEvents = new Set([...currEvents].filter(id => !prevEvents.has(id)));
+    prevPeople = currPeople;
+    prevEvents = currEvents;
 
     const sidebar = document.createElement('div');
     sidebar.className = 'sidebar';
@@ -58,7 +78,7 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
     if (openKey === EVENTS_GROUP_KEY) {
       sidebar.appendChild(makeEventList(
         data.events, callbacks.isEventSelected, callbacks.onToggleEvent,
-        callbacks.onToggleAllEvents,
+        callbacks.onToggleAllEvents, newlyCheckedEvents,
       ));
     }
 
@@ -75,7 +95,7 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
       if (openKey === cat.key) {
         sidebar.appendChild(makePersonList(
           inCat, callbacks.isPersonSelected, callbacks.onTogglePerson,
-          callbacks.onToggleAllPeople, cat.cssCls,
+          callbacks.onToggleAllPeople, cat.cssCls, newlyCheckedPeople,
         ));
       }
     }
@@ -127,24 +147,27 @@ function makeSelector({ catCss, label, count, expanded, onClick }) {
   return btn;
 }
 
-function makePersonList(people, isSelected, onToggle, onToggleAll, catCss) {
+function makePersonList(people, isSelected, onToggle, onToggleAll, catCss, justChecked) {
   return makeCheckboxList(
     people.map(p => ({ id: p.id, label: p.name })),
-    isSelected, onToggle, onToggleAll, catCss,
+    isSelected, onToggle, onToggleAll, catCss, justChecked,
   );
 }
 
-function makeEventList(events, isSelected, onToggle, onToggleAll) {
+function makeEventList(events, isSelected, onToggle, onToggleAll, justChecked) {
   return makeCheckboxList(
     events.map(e => ({ id: e.id, label: e.name })),
-    isSelected, onToggle, onToggleAll, null,
+    isSelected, onToggle, onToggleAll, null, justChecked,
   );
 }
 
 /** catCss — css-имя категории ('politic'/'writer'/...) для подкраски
  *  активных/частично-активных чекбоксов в цвет группы. null — события
- *  (используется дефолтный --surface-checkbox-active). */
-function makeCheckboxList(items, isSelected, onToggle, onToggleAll, catCss) {
+ *  (используется дефолтный --surface-checkbox-active).
+ *  justChecked — Set id'шников, у которых поставить класс
+ *  .checkbox--just-checked → проиграется CSS-анимация рисования галочки.
+ *  Отсутствие = ни на ком не рисуем (например, при первом open-е sidebar). */
+function makeCheckboxList(items, isSelected, onToggle, onToggleAll, catCss, justChecked) {
   const list = document.createElement('div');
   list.className = 'sidebar__list';
 
@@ -162,6 +185,14 @@ function makeCheckboxList(items, isSelected, onToggle, onToggleAll, catCss) {
     if (catCss) cb.classList.add(`checkbox--${catCss}`);
     if (allOn) {
       cb.classList.add('checkbox--checked');
+      // Если все элементы стали checked одновременно (toggle "Все") — это и
+      // есть «только что переключено» для всех id'шников: тогда пользователь
+      // ожидает увидеть рисующиеся галочки на всех чекбоксах группы.
+      // Для чекбокса самой "Все" анимацию проигрываем тоже — он только что
+      // стал checked.
+      if (justChecked && items.some(it => justChecked.has(it.id))) {
+        cb.classList.add('checkbox--just-checked');
+      }
       cb.innerHTML = ICON_CHECK;
     } else if (partial) {
       cb.classList.add('checkbox--deselect');
@@ -187,6 +218,9 @@ function makeCheckboxList(items, isSelected, onToggle, onToggleAll, catCss) {
     if (catCss) cb.classList.add(`checkbox--${catCss}`);
     if (isSelected(it.id)) {
       cb.classList.add('checkbox--checked');
+      if (justChecked && justChecked.has(it.id)) {
+        cb.classList.add('checkbox--just-checked');
+      }
       cb.innerHTML = ICON_CHECK;
     }
     item.appendChild(cb);

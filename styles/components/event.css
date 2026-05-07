@@ -17,7 +17,9 @@
   vertical-align: top;
   position: relative;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  /* Default = mouseout — медленное «потухание» подсветки колонны. */
+  transition: background var(--motion-duration-xslow) var(--motion-ease-out),
+              border-color var(--motion-duration-xslow) var(--motion-ease-out);
 }
 
 /* === Несколько лет / Один год — широкие полосы с градиентом ===
@@ -63,6 +65,9 @@
     var(--light-4) 75%,
     var(--light-16)
   );
+  /* Hover override — мгновенно загорается при наведении. */
+  transition: background var(--motion-duration-fast) var(--motion-ease-out),
+              border-color var(--motion-duration-fast) var(--motion-ease-out);
 }
 .event--several-years:hover::before,
 .event--several-years.event--hovered::before,
@@ -73,6 +78,25 @@
 .event--one-year:hover::after,
 .event--one-year.event--hovered::after {
   background: var(--border-event-hovered);
+}
+/* Бортики ::before/::after — slow fade-out по умолчанию,
+ * fast при hover (через override на родителе фон сменяется быстро,
+ * но цвет бортиков транзитится сам — задаём отдельно). */
+.event--several-years::before,
+.event--several-years::after,
+.event--one-year::before,
+.event--one-year::after {
+  transition: background var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.event--several-years:hover::before,
+.event--several-years:hover::after,
+.event--several-years.event--hovered::before,
+.event--several-years.event--hovered::after,
+.event--one-year:hover::before,
+.event--one-year:hover::after,
+.event--one-year.event--hovered::before,
+.event--one-year.event--hovered::after {
+  transition: background var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 .event--one-year { width: 30px; }
@@ -96,6 +120,8 @@
 .event--less-than-year:hover,
 .event--less-than-year.event--hovered {
   background: var(--surface-event-tick-hovered);
+  /* Hover override — мгновенно загорается. */
+  transition: background var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 /* === Secondary — дивайдер между веками. 1px красный полупрозрачный.

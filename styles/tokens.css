@@ -260,9 +260,11 @@
   --motion-duration-fast:    150ms;  /* hover, color, мини-state */
   --motion-duration-base:    250ms;  /* появление, layout-shift */
   --motion-duration-slow:    400ms;  /* большие переходы (попап slide-in) */
+  --motion-duration-xslow:   1000ms; /* «шлейф» при mouseout, плавное затухание */
 
   /* Easing-кривые */
   --motion-ease-out:         cubic-bezier(0.2, 0, 0, 1);     /* вход — стандарт */
+  --motion-ease-in:          cubic-bezier(0.7, 0, 0.84, 0);  /* slow→fast (попап open) */
   --motion-ease-in-out:      cubic-bezier(0.4, 0, 0.2, 1);   /* двусторонние state-переходы */
   --motion-ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);  /* лёгкий bounce/overshoot */
 
