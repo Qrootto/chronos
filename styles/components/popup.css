@@ -22,9 +22,9 @@
 }
 .popup-overlay.is-open {
   transform: translateX(0);
-  /* Открытие — ease-in (slow→fast): первые миллисекунды сдвигается чуть-чуть,
-   * потом быстро «врезается». Создаёт ощущение веса. */
-  transition: transform var(--motion-duration-slow) var(--motion-ease-in);
+  /* Открытие — ease-out: быстро стартует, мягко тормозит у края.
+   * (Раньше пробовали ease-in slow→fast — слишком «врезается».) */
+  transition: transform var(--motion-duration-slow) var(--motion-ease-out);
 }
 
 /* Затемняющий слой под попапом (см. MAIN_SCREEN.md → Popup → Затемнение). */
@@ -41,8 +41,8 @@
 .popup-backdrop.is-open {
   opacity: 1;
   pointer-events: auto;
-  /* Открытие — ease-in, синхронно с overlay. */
-  transition: opacity var(--motion-duration-slow) var(--motion-ease-in);
+  /* Открытие — ease-out, синхронно с overlay. */
+  transition: opacity var(--motion-duration-slow) var(--motion-ease-out);
 }
 
 /* === Контейнер ===
