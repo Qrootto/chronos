@@ -3,7 +3,11 @@
  * взаимодействия, поэтому показываем приглашение открыть на десктопе
  * + кнопку «О проекте», которая открывает существующий about-попап.
  *
- * По умолчанию скрыта; делается visible через @media в main-screen.css. */
+ * По умолчанию скрыта; @media ниже включает display: flex на мобилке.
+ * ВАЖНО: @media лежит в этом же файле, а не в main-screen.css —
+ * Vite в проде сортирует <link>-теги по graph dependencies и
+ * components.css загружается ПОСЛЕ main-screen.css, из-за чего
+ * `display: none` отсюда затирал `display: flex` из main-screen. */
 
 .mobile-stub {
   display: none;
@@ -85,4 +89,13 @@
 .mobile-stub__cta:active {
   opacity: 0.7;
   transition: opacity var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+/* Включаем стаб на узких экранах. Парные правила display:none/.header
+ * и .main-canvas — в main-screen.css (там они не конфликтуют, потому
+ * что в components.css ничего не задаёт display этим элементам). */
+@media (max-width: 767px) {
+  .mobile-stub {
+    display: flex;
+  }
 }

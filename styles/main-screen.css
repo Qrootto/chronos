@@ -148,17 +148,15 @@ body {
   height: 100%;
 }
 
-/* === Mobile stub (см. styles/components/mobile-stub.css) ===
- * На ширине < 768px показываем заглушку вместо основного UI.
- * Десктопный таймлайн не приспособлен для touch, поэтому скрываем
- * .header / .main-canvas целиком. About-попап продолжает работать
- * (открывается из стаба) — popup-overlay/backdrop не скрываем. */
+/* === Mobile (< 768px): скрываем десктопный UI ===
+ * Сам стаб (.mobile-stub → display: flex) включается из своего файла
+ * styles/components/mobile-stub.css — в одном файле с default'ом
+ * `.mobile-stub { display: none }`, чтобы избежать конфликта порядка
+ * cascade'а после Vite-бандлинга. Здесь только то, что не пересекается
+ * с components.css (header / main-canvas). About-попап продолжает работать. */
 @media (max-width: 767px) {
   .header,
   .main-canvas {
     display: none;
-  }
-  .mobile-stub {
-    display: flex;
   }
 }
