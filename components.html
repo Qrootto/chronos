@@ -1225,6 +1225,44 @@
         </details>
       </section>
 
+      <!-- ===== Mobile stub ===== -->
+      <section class="ks-component" data-component="mobile-stub">
+        <h2 class="ks-component__title">Mobile stub</h2>
+        <p class="ks-component__desc">
+          Заглушка на ширине &lt; 768px (см. <code>@media</code> в
+          <code>main-screen.css</code>). Скрывает основной UI и показывает
+          приглашение открыть на десктопе + кнопку «О проекте» (открывает
+          существующий about-попап).
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state" style="min-width: 360px;">
+            <div class="ks-state__label">Превью (масштабировано)</div>
+            <!-- В demo разрешаем .mobile-stub отображаться через override
+                 display:flex и подменяем position:fixed на static, чтобы
+                 заглушка не перекрыла страницу /components. -->
+            <div class="ks-state__demo" style="padding: 0; display: block; min-height: 480px;">
+              <div class="mobile-stub" style="display: flex; position: relative; inset: auto; min-height: 480px;">
+                <h1 class="mobile-stub__heading">past simple</h1>
+                <p class="mobile-stub__lead">Интерактивный таймлайн истории</p>
+                <p class="mobile-stub__hint">Который удобно изучать на большом экране, поэтому откройте пожалуйста сайт на компьютере или планшете</p>
+                <button class="mobile-stub__cta" type="button">О проекте</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;div class="mobile-stub"&gt;
+  &lt;h1 class="mobile-stub__heading"&gt;past simple&lt;/h1&gt;
+  &lt;p class="mobile-stub__lead"&gt;Интерактивный таймлайн истории&lt;/p&gt;
+  &lt;p class="mobile-stub__hint"&gt;...&lt;/p&gt;
+  &lt;button class="mobile-stub__cta" type="button"&gt;О проекте&lt;/button&gt;
+&lt;/div&gt;</pre>
+        </details>
+      </section>
+
 
     </main>
     <script type="module" src="/js/components-page.js"></script>

@@ -103,9 +103,6 @@ function buildAboutPopup() {
   popup.className = 'popup popup--about';
   popup.innerHTML = ABOUT_HTML;
 
-  const heading = popup.querySelector('.popup__about-heading');
-  if (heading) initLogoHover(heading);
-
   const form = popup.querySelector('.popup__about-form');
   if (form) form.addEventListener('submit', handleAboutFormSubmit);
 
@@ -113,8 +110,6 @@ function buildAboutPopup() {
 }
 
 const ABOUT_HTML = `
-  <h1 class="popup__about-heading">past simple</h1>
-
   <div class="popup__about-container">
     <div class="popup__about-intro">
       <p>Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, сходу кажется, что они из разных эпох, а на самом деле оба жили в одно время. Ну ладно, всего 9 лет, но жили же!</p>
@@ -134,56 +129,21 @@ const ABOUT_HTML = `
 
     <p class="popup__about-mission">Наглядно показать взаимосвязи людей и событий в истории. Дать больше контекста, чтобы лучше представить время, которое нам интересно.</p>
 
-    <div class="popup__about-bottom">
-      <form class="popup__about-form" novalidate>
-        <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
-        <input class="popup__about-input" type="email" name="email" placeholder="Email — если хочешь, чтобы я ответил">
-        <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
-        <button class="popup__about-submit" type="submit">Отправить</button>
-        <div class="popup__about-form-status" data-state="" hidden></div>
-      </form>
-
-      <div class="popup__about-outro">
-        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
-      </div>
+    <div class="popup__about-outro">
+      <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
     </div>
+
+    <form class="popup__about-form" novalidate>
+      <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
+      <input class="popup__about-input" type="email" name="email" placeholder="Email — если хочешь, чтобы я ответил">
+      <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
+      <button class="popup__about-submit" type="submit">Отправить</button>
+      <div class="popup__about-form-status" data-state="" hidden></div>
+    </form>
 
     <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
   </div>
 `;
-
-/* Hover-эффект на логотипе «past simple»: при наведении на букву она
- * красится в случайный цвет из палитры на ~600мс, потом возвращается
- * обратно. Создаёт «шлейф» при движении курсора по логотипу.
- * См. https://pureemaison.com — там аналогичный эффект на
- * «voir tous les projets». */
-const LOGO_COLORS = [
-  '--red-100', '--green-100', '--blue-100',
-  '--yellow-100', '--purple-100', '--toxic-100',
-];
-
-function initLogoHover(headingEl) {
-  // Разбиваем текст на отдельные letter-span'ы (с сохранением пробелов).
-  const text = headingEl.textContent;
-  headingEl.textContent = '';
-  for (const ch of text) {
-    const span = document.createElement('span');
-    span.className = 'popup__about-heading-letter';
-    span.textContent = ch;
-    if (ch === ' ') span.style.whiteSpace = 'pre';
-    headingEl.appendChild(span);
-  }
-
-  headingEl.addEventListener('mouseover', (e) => {
-    const letter = e.target.closest('.popup__about-heading-letter');
-    if (!letter) return;
-    const color = LOGO_COLORS[Math.floor(Math.random() * LOGO_COLORS.length)];
-    // И смена цвета, и возврат — резкие, без transition.
-    letter.style.color = `var(${color})`;
-    clearTimeout(letter._restoreTimer);
-    letter._restoreTimer = setTimeout(() => { letter.style.color = ''; }, 1000);
-  });
-}
 
 const WEB3FORMS_KEY = '16fe08cd-d2a5-4013-a200-1484b82f7149';
 

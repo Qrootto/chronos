@@ -1,0 +1,88 @@
+/* Mobile stub — заглушка на ширине < 768px (см. CLAUDE.md / SESSION).
+ * Сам интерактивный таймлайн не помещается и не предполагает touch-
+ * взаимодействия, поэтому показываем приглашение открыть на десктопе
+ * + кнопку «О проекте», которая открывает существующий about-попап.
+ *
+ * По умолчанию скрыта; делается visible через @media в main-screen.css. */
+
+.mobile-stub {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;     /* выше main UI, ниже popup'ов (290/300) */
+  background: var(--surface-bg);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2xl);
+  text-align: center;
+  color: var(--text-primary-active);
+  font-family: var(--font-family);
+}
+
+/* Логотип «past simple» — крупный заголовок Wildfire.
+ * На каждую букву JS навешивает span'ы с классом
+ * .mobile-stub__heading-letter (см. js/main.js → initLogoAutoColors),
+ * чтобы периодически случайные буквы зажигались случайным цветом
+ * на 1 секунду — авто-«шлейф» без курсора. */
+.mobile-stub__heading {
+  margin: 0 0 var(--spacing-xl);
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(72px, 22vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text-white);
+}
+.mobile-stub__heading-letter {
+  display: inline-block;
+  /* Смена цвета и возврат к белому — резкие, без transition (как в исходном
+   * desktop hover-эффекте). Множественные буквы окрашены одновременно
+   * из-за наложения 1-секундных таймеров — это и есть «шлейф». */
+}
+
+/* Lead — крупное приглашение. По размеру совпадает с hint ниже,
+ * но белым (hint — приглушённый). */
+.mobile-stub__lead {
+  margin: 0 0 var(--spacing-md);
+  font-size: var(--font-body-size);
+  font-weight: var(--font-body-weight);
+  line-height: var(--font-body-line-height);
+  color: var(--text-white);
+  max-width: 480px;
+}
+
+.mobile-stub__hint {
+  margin: 0;
+  font-size: var(--font-body-size);
+  font-weight: var(--font-body-weight);
+  line-height: var(--font-body-line-height);
+  color: var(--text-primary-hovered);
+  max-width: 480px;
+}
+
+/* «О проекте» — текст-ссылка шрифтом Wildfire, прибита к низу
+ * экрана с отступом 32px (--spacing-xl). По клику открывается
+ * about-попап (см. js/main.js → mobile-stub-about handler). */
+.mobile-stub__cta {
+  position: absolute;
+  left: 50%;
+  bottom: var(--spacing-xl);
+  transform: translateX(-50%);
+  background: transparent;
+  border: 0;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--text-white);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.mobile-stub__cta:hover,
+.mobile-stub__cta:active {
+  opacity: 0.7;
+  transition: opacity var(--motion-duration-fast) var(--motion-ease-out);
+}

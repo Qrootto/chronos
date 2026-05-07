@@ -147,3 +147,18 @@ body {
   width: 100%;
   height: 100%;
 }
+
+/* === Mobile stub (см. styles/components/mobile-stub.css) ===
+ * На ширине < 768px показываем заглушку вместо основного UI.
+ * Десктопный таймлайн не приспособлен для touch, поэтому скрываем
+ * .header / .main-canvas целиком. About-попап продолжает работать
+ * (открывается из стаба) — popup-overlay/backdrop не скрываем. */
+@media (max-width: 767px) {
+  .header,
+  .main-canvas {
+    display: none;
+  }
+  .mobile-stub {
+    display: flex;
+  }
+}

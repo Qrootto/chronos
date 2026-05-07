@@ -14,6 +14,7 @@ import { renderTimelineMini, updateFocus } from './timeline-mini.js';
 import { initZoom, scrollLeftToKeepCenter } from './zoom.js';
 import { initSidebar } from './sidebar.js';
 import { openPopup, closePopup, openAboutPopup } from './popup.js';
+import { initLogoAutoColors } from './lib/logo-letters.js';
 
 const STATE = {
   startYear: 1850,
@@ -220,6 +221,13 @@ function setupPopup() {
 
   // Click на кнопку «i» в шапке → about-попап (та же шторка, другой контент).
   infoBtn?.addEventListener('click', () => {
+    openAboutPopup(overlayEl, backdropEl);
+  });
+
+  // Кнопка «О проекте» в mobile-stub'е → тот же about-попап.
+  // На мобильном UI весь .header скрыт (см. media query в main-screen.css),
+  // поэтому infoBtn отсутствует — стаб служит единственной точкой входа.
+  document.getElementById('mobile-stub-about')?.addEventListener('click', () => {
     openAboutPopup(overlayEl, backdropEl);
   });
 
@@ -449,6 +457,14 @@ function setupSidebar() {
 
   // Click на event-dot → попап (см. MAIN_SCREEN.md → Popup)
   setupPopup();
+
+  // Mobile-stub: авто-цвета на буквах лого «past simple». На десктопе
+  // блок скрыт через @media в main-screen.css — setInterval всё равно
+  // тикает, но менять цвет невидимым буквам безвредно (~250ms × 6 цветов).
+  const mobileLogo = document.querySelector('.mobile-stub__heading');
+  if (mobileLogo) {
+    initLogoAutoColors(mobileLogo, { letterClass: 'mobile-stub__heading-letter' });
+  }
 
   // Hover на любую точку Timeflow → подсветить соответствующий год в Year scale
   // (см. MAIN_SCREEN.md → Year scale → Hover на год).

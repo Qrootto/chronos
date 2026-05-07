@@ -104,6 +104,15 @@
       </section>
     </main>
 
+    <!-- Mobile stub: показывается на ширине < 768px (см. main-screen.css
+         media query). About-попап подключается через id="mobile-stub-about". -->
+    <div class="mobile-stub">
+      <h1 class="mobile-stub__heading">past simple</h1>
+      <p class="mobile-stub__lead">Интерактивный таймлайн истории</p>
+      <p class="mobile-stub__hint">Который удобно изучать на большом экране, поэтому откройте пожалуйста сайт на компьютере или планшете</p>
+      <button class="mobile-stub__cta" type="button" id="mobile-stub-about">О проекте</button>
+    </div>
+
     <!-- Backdrop под попапом (затемнение) + сам popup-overlay (шторка). -->
     <div class="popup-backdrop" id="popup-backdrop"></div>
     <div class="popup-overlay" id="popup-overlay"></div>
