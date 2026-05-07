@@ -222,6 +222,30 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: var(--radius-xs);
 }
 
+/* motion preview — точка ездит туда-обратно по треку, демонстрирует
+ * характер duration/easing-токена. */
+.lib-card__motion-track {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  background: var(--light-8);
+  border-radius: 12px;
+}
+.lib-card__motion-thumb {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  background: var(--brand);
+  border-radius: 50%;
+}
+@keyframes lib-motion-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100% - 16px - 8px)); }
+}
+
 /* typography preview */
 .lib-card__type-sample {
   color: var(--text-primary-active);

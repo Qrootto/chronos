@@ -42,7 +42,7 @@ function categorize(props) {
     'Red':    [], 'Green':  [], 'Blue':  [], 'Yellow': [], 'Purple': [], 'Toxic': [],
     'Brand':  [],
     'Text':   [], 'Surface': [], 'Border': [],
-    'Radius': [], 'Spacing': [], 'Typography': [],
+    'Radius': [], 'Spacing': [], 'Typography': [], 'Motion': [],
   };
 
   // Все яркие палитры — name начинается с --<color>- и имеет числовой суффикс.
@@ -71,6 +71,7 @@ function categorize(props) {
     else if (name.startsWith('--radius-'))  groups['Radius'].push([name, value]);
     else if (name.startsWith('--spacing-')) groups['Spacing'].push([name, value]);
     else if (name.startsWith('--font-'))    groups['Typography'].push([name, value]);
+    else if (name.startsWith('--motion-'))  groups['Motion'].push([name, value]);
   }
   return groups;
 }
@@ -110,6 +111,37 @@ function makeRadiusCard(name, value) {
   box.className = 'lib-card__radius-box';
   box.style.borderRadius = `var(${name})`;
   preview.appendChild(box);
+  card.append(
+    preview,
+    elem('div', 'lib-card__name', name),
+    elem('div', 'lib-card__value', value),
+  );
+  return card;
+}
+
+/** Карточка motion-токена. Превью — точка, ездящая туда-обратно по треку.
+ *  Длительность и easing — из самого токена (либо подставляются дефолты,
+ *  чтобы характер другого токена был виден). */
+function makeMotionCard(name, value) {
+  const card = document.createElement('div');
+  card.className = 'lib-card';
+  const preview = document.createElement('div');
+  preview.className = 'lib-card__preview';
+
+  const track = document.createElement('div');
+  track.className = 'lib-card__motion-track';
+  const thumb = document.createElement('div');
+  thumb.className = 'lib-card__motion-thumb';
+  // Длительность ms-токена применяется напрямую; для easing-токена берём
+  // фикс 1.2s — чтобы кривая «играла» заметно.
+  if (name.includes('duration')) {
+    thumb.style.animation = `lib-motion-slide var(${name}) ease-in-out infinite alternate`;
+  } else {
+    thumb.style.animation = `lib-motion-slide 1.2s var(${name}) infinite alternate`;
+  }
+  track.appendChild(thumb);
+  preview.appendChild(track);
+
   card.append(
     preview,
     elem('div', 'lib-card__name', name),
@@ -227,6 +259,7 @@ function renderGroup(root, title, entries, type) {
       switch (type) {
         case 'radius':  card = makeRadiusCard(name, value); break;
         case 'spacing': card = makeSpacingCard(name, value); break;
+        case 'motion':  card = makeMotionCard(name, value); break;
         default:        card = makeColorCard(name, value); break;
       }
       grid.appendChild(card);
@@ -297,6 +330,7 @@ function render() {
       ['Radius',     groups['Radius'],     'radius'],
       ['Spacing',    groups['Spacing'],    'spacing'],
       ['Typography', groups['Typography'], 'typography'],
+      ['Motion',     groups['Motion'],     'motion'],
     ]
   );
 }

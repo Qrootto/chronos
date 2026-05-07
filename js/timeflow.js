@@ -143,13 +143,16 @@ export function renderTimeflow(el, state, people, worldEvents = []) {
 
   // 4. Линии жизни, имена, точки событий.
   // Вертикальные позиции — равномерно по доступной высоте.
-  // clientHeight = текущая высота Timeflow (canvas__timeflow-area).
-  const H = el.clientHeight || 600;
+  //
+  // ВАЖНО: H = clientHeight у scroll-контейнера (.canvas__timeflow-area),
+  // не у самого .timeflow. Иначе при уменьшении количества людей старый
+  // min-height на timeflow задерживает H в большом значении, и rowYs
+  // распределяются по «старой» высоте, scroll не пропадает.
+  // Также сбрасываем min-height у timeflow до измерения, как страховку.
+  el.style.minHeight = '';
+  const scrollArea = el.parentElement;   // .canvas__timeflow-area
+  const H = (scrollArea && scrollArea.clientHeight) || el.clientHeight || 600;
 
-  // Если контент людей шире viewport (scroll по вертикали), увеличиваем
-  // min-height .timeflow до этого нужного значения. Это влияет на
-  // events.height = calc(100% - 31px) — они тоже растягиваются до низа
-  // фактического контента, а не только до visible viewport.
   // Сортируем по категории (см. CATEGORY_ORDER), внутри категории сохраняем
   // относительный порядок входа (стабильно — для предсказуемости вывода).
   const sortedPeople = [...people].sort((a, b) =>
@@ -159,7 +162,8 @@ export function renderTimeflow(el, state, people, worldEvents = []) {
 
   // Полная высота контента: либо viewport (если все люди влезают), либо
   // последний row + небольшой запас. Применяем как min-height — events
-  // через calc(100% - 31px) автоматически тянутся до низа.
+  // через calc(100% - 31px) автоматически тянутся до низа фактического
+  // контента, а не только до visible viewport.
   const lastRowY = rowYs.length ? rowYs[rowYs.length - 1] : 0;
   const contentH = Math.max(H, lastRowY + 10);
   el.style.minHeight = contentH + 'px';
