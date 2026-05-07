@@ -195,6 +195,7 @@
   /* Иконки */
   --surface-icon:                    var(--white-100);
   --surface-icon-secondary:          var(--light-64);
+  --surface-icon-tertiary:           var(--black-100);  /* для иконок на ярком фоне */
   --surface-icon-button-hovered:     var(--light-8);
 
   /* Категории людей */

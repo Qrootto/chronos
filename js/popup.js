@@ -124,11 +124,9 @@ const ABOUT_HTML = `
     <div class="popup__about-pair">
       <figure class="popup__about-figure">
         <div class="popup__about-image"><img src="/assets/about/tolstoy.png" alt="Лев Толстой"></div>
-        <figcaption>Лев Толстой</figcaption>
       </figure>
       <figure class="popup__about-figure">
         <div class="popup__about-image"><img src="/assets/about/mickey.png" alt="Микки Маус"></div>
-        <figcaption>Микки Маус</figcaption>
       </figure>
     </div>
 

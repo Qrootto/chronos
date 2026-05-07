@@ -25,7 +25,9 @@
   border-radius: var(--radius-s);
   background: var(--surface-checkbox);
   border: 1px solid var(--border-checkbox);
-  color: var(--text-white);
+  /* Галочка SVG (stroke=currentColor) — цветом фона сайта на ярком
+   * залитом active-фоне категории. */
+  color: var(--surface-icon-tertiary);
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
@@ -51,7 +53,8 @@
 }
 
 /* Deselect — горизонтальная линия 2px, отступы 3px от краёв чекбокса
- * (16 − 2*3 = 10px ширина), скруглённые края. */
+ * (16 − 2*3 = 10px ширина), скруглённые края. Цвет — фон сайта
+ * (surface-icon-tertiary), как и галочка. */
 .checkbox--deselect::after {
   content: '';
   position: absolute;
@@ -60,7 +63,7 @@
   top: 50%;
   height: 2px;
   margin-top: -1px;
-  background: var(--text-white);
+  background: var(--surface-icon-tertiary);
   border-radius: 1px;
 }
 
