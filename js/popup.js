@@ -109,9 +109,6 @@ function buildAboutPopup() {
   const heading = popup.querySelector('.popup__about-heading');
   if (heading) initLogoHover(heading);
 
-  const form = popup.querySelector('.popup__about-form');
-  if (form) form.addEventListener('submit', handleAboutFormSubmit);
-
   return popup;
 }
 
@@ -138,20 +135,17 @@ const ABOUT_HTML = `
     <p class="popup__about-mission">Наглядно показать взаимосвязи людей и событий в истории. Дать больше контекста, чтобы лучше представить время, которое нам интересно.</p>
 
     <div class="popup__about-bottom">
-      <form class="popup__about-form" novalidate>
-        <input class="popup__about-input" type="text" name="name" placeholder="Ваше имя" required>
-        <input class="popup__about-input" type="email" name="email" placeholder="Email — если хочешь, чтобы я ответил">
-        <textarea class="popup__about-textarea" name="message" placeholder="Напишите что-нибудь" required></textarea>
-        <button class="popup__about-submit" type="submit">Отправить</button>
-        <div class="popup__about-form-status" data-state="" hidden></div>
-      </form>
+      <p class="popup__about-contact">Если нашли ошибку или у вас есть предложение по улучшению сервиса, напишите мне на <a href="mailto:deezayner@yandex.ru">почту</a>.</p>
 
       <div class="popup__about-outro">
         <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
       </div>
     </div>
 
-    <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+    <div class="popup__about-footer">
+      <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+      <a class="popup__about-policy" href="/privacy.html">Политика конфиденциальности</a>
+    </div>
   </div>
 `;
 
@@ -186,57 +180,6 @@ function initLogoHover(headingEl) {
     clearTimeout(letter._restoreTimer);
     letter._restoreTimer = setTimeout(() => { letter.style.color = ''; }, 1000);
   });
-}
-
-const WEB3FORMS_KEY = '16fe08cd-d2a5-4013-a200-1484b82f7149';
-
-async function handleAboutFormSubmit(e) {
-  e.preventDefault();
-  const form    = e.currentTarget;
-  const status  = form.querySelector('.popup__about-form-status');
-  const submit  = form.querySelector('.popup__about-submit');
-  const origLbl = submit.textContent;
-
-  status.hidden = true;
-  status.dataset.state = '';
-
-  if (!form.checkValidity()) {
-    status.textContent = 'Заполните все поля корректно.';
-    status.dataset.state = 'error';
-    status.hidden = false;
-    return;
-  }
-
-  submit.disabled  = true;
-  submit.textContent = 'Отправка…';
-
-  const data = new FormData(form);
-  data.append('access_key', WEB3FORMS_KEY);
-  data.append('subject', 'Past Simple — обратная связь');
-  data.append('from_name', 'past-simple.ru');
-
-  try {
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: data,
-    });
-    const result = await response.json();
-    if (result.success) {
-      status.textContent = 'Спасибо! Сообщение отправлено.';
-      status.dataset.state = 'success';
-      form.reset();
-    } else {
-      status.textContent = result.message || 'Что-то пошло не так. Попробуйте позже.';
-      status.dataset.state = 'error';
-    }
-  } catch {
-    status.textContent = 'Ошибка сети. Попробуйте позже.';
-    status.dataset.state = 'error';
-  } finally {
-    status.hidden = false;
-    submit.disabled = false;
-    submit.textContent = origLbl;
-  }
 }
 
 const ICON_CLOSE = `<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

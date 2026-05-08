@@ -218,8 +218,7 @@
 }
 
 /* Bottom-секция: 2-колоночный grid 40% / 60%.
- * - Левая колонка (40%) — форма, max 400px, min 348px, жмётся к левому
- *   краю колонки (justify-self: start).
+ * - Левая колонка (40%) — текст-приглашение с mailto-ссылкой.
  * - Правая колонка (60%) — outro (последний абзац). Его левый край
  *   автоматически совпадает с margin-left: 40% у intro/bridge.
  * Верхние границы выровнены через align-items: start. */
@@ -227,18 +226,28 @@
   display: grid;
   grid-template-columns: 40% 60%;
   align-items: start;
-  margin-top: var(--spacing-6xl);   /* 140px от mission */
+  margin-top: var(--spacing-6xl);   /* 180px от mission */
 }
 
-.popup__about-form {
+/* Контактный абзац (mailto:) — слева. По размеру совпадает с подписью
+ * автора в footer (body-s, 14px). */
+.popup__about-contact {
   grid-column: 1;
-  justify-self: start;
-  width: 100%;
-  max-width: 400px;
-  min-width: 348px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  margin: 0;
+  padding-right: var(--spacing-xl);
+  font-weight:    var(--font-body-s-weight);
+  font-size:      var(--font-body-s-size);
+  line-height:    var(--font-body-s-line-height);
+  letter-spacing: var(--font-body-s-letter-spacing);
+  color: var(--text-white);
+}
+.popup__about-contact a {
+  color: var(--yellow-100);
+  text-decoration: none;
+  transition: text-decoration 0.15s ease;
+}
+.popup__about-contact a:hover {
+  text-decoration: underline;
 }
 
 .popup__about-bottom .popup__about-outro {
@@ -250,65 +259,21 @@
   margin: 0;
 }
 
-.popup__about-input,
-.popup__about-textarea {
-  background: var(--light-8);
-  border: 1px solid var(--border-category);
-  border-radius: var(--radius-m);
-  padding: var(--spacing-md);
-  color: var(--text-white);
-  font-family: var(--font-family);
-  font-size: 16px;
-  line-height: 1.4;
-  transition: border-color 0.15s ease;
-}
-.popup__about-input::placeholder,
-.popup__about-textarea::placeholder {
-  color: var(--text-tertiary);
-}
-.popup__about-input:focus,
-.popup__about-textarea:focus {
-  outline: none;
-  border-color: var(--brand);
-}
-.popup__about-textarea {
-  resize: none;
-  min-height: 140px;
-}
-.popup__about-submit {
-  background: var(--brand);
-  color: var(--text-white);
-  border: 0;
-  border-radius: var(--radius-m);
-  padding: var(--spacing-md);
-  font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 16px;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-.popup__about-submit:hover {
-  opacity: 0.85;
-}
-.popup__about-submit:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-.popup__about-form-status {
-  font-size: 14px;
-  line-height: 1.4;
-}
-.popup__about-form-status[data-state="success"] { color: var(--green-100); }
-.popup__about-form-status[data-state="error"]   { color: var(--red-100); }
-
-/* Подпись автора — в самом низу страницы (не fixed bottom).
- * 180px от bottom-секции (--spacing-6xl) сверху. Левый край совпадает
- * с колонкой абзацев (margin-left: 40%).
- * margin-bottom: 32px — это и есть отступ до низа страницы. Делается
- * через margin-bottom (а не padding-bottom на .popup--about), потому
- * что WebKit не учитывает padding-bottom в scrollable container. */
-.popup__about-signature {
+/* Footer about: подпись автора слева, ссылка на политику конфиденциальности
+ * справа. Контейнер занимает то же положение, что раньше signature
+ * (margin-left: 40%), но теперь это flex с justify-content: space-between.
+ * margin-bottom: 32px — это отступ до низа страницы (через margin, а не
+ * padding-bottom на .popup--about, из-за WebKit-бага со scroll-контейнером). */
+.popup__about-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--spacing-lg);
   margin: var(--spacing-6xl) 0 var(--spacing-xl) 40%;
+}
+
+.popup__about-signature {
+  margin: 0;
   text-align: left;
   font-family: var(--font-family);
   font-weight:    var(--font-body-s-weight);
@@ -324,6 +289,21 @@
 }
 .popup__about-signature a:hover {
   text-decoration: underline;
+}
+
+.popup__about-policy {
+  flex-shrink: 0;
+  font-family: var(--font-family);
+  font-weight:    var(--font-body-s-weight);
+  font-size:      var(--font-body-s-size);
+  line-height:    var(--font-body-s-line-height);
+  color: var(--text-primary-hovered);
+  text-decoration: none;
+  transition: color var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.popup__about-policy:hover {
+  color: var(--text-primary-active);
+  transition: color var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 /* === Левая колонка ===
@@ -372,9 +352,7 @@
     margin-top: var(--spacing-5xl);
   }
   /* Bottom: вместо 2-колоночного grid 40/60 — стек вертикально.
-   * outro идёт ПЕРВЫМ (HTML-порядок form→outro переопределяем через
-   * grid-template-areas / order). Чтобы не возиться с reorder, проще
-   * на мобиле убрать grid и положить flex-column с обратным порядком. */
+   * outro идёт ПЕРВЫМ, contact (mailto) — ниже. Через `order` на flex'е. */
   .popup__about-bottom {
     display: flex;
     flex-direction: column;
@@ -385,16 +363,14 @@
     margin-left: 8%;
     margin-right: 8%;
   }
-  .popup__about-form {
+  .popup__about-contact {
     order: 2;
-    width: 84%;
-    max-width: 600px;
-    min-width: 0;            /* перебиваем десктопный min-width: 348px */
-    margin: var(--spacing-5xl) auto 0;
-    justify-self: auto;
+    margin: var(--spacing-5xl) 8% 0 8%;
+    padding-right: 0;       /* перебиваем десктопный padding-right */
   }
-  /* Signature: те же 8% поля, верхний отступ меньше. */
-  .popup__about-signature {
+  /* Footer: на десктопе flex с подписью слева и политикой справа.
+   * На мобиле тот же layout, но 8% поля от viewport, gap чуть меньше. */
+  .popup__about-footer {
     margin-left: 8%;
     margin-right: 8%;
     margin-top: var(--spacing-5xl);

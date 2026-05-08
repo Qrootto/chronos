@@ -1,0 +1,78 @@
+/* Privacy policy — отдельная страница /privacy.html.
+ * Простой текстовый layout: max-width 720px, центрирован, без UI-хрома.
+ * Подключается через components.css. */
+
+.privacy-body {
+  margin: 0;
+  background: var(--surface-bg);
+  color: var(--text-white);
+  font-family: var(--font-family);
+  font-weight: var(--font-body-weight);
+  font-size: var(--font-body-size);
+  line-height: var(--font-body-line-height);
+}
+
+.privacy {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+}
+
+.privacy__back {
+  display: inline-block;
+  margin-bottom: var(--spacing-2xl);
+  color: var(--text-primary-hovered);
+  text-decoration: none;
+  font-size: var(--font-body-s-size);
+  transition: color var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.privacy__back:hover {
+  color: var(--text-primary-active);
+  transition: color var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+.privacy__title {
+  margin: 0 0 var(--spacing-2xs);
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: 48px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-white);
+}
+
+.privacy__date {
+  margin: 0 0 var(--spacing-2xl);
+  color: var(--text-primary-hovered);
+  font-size: var(--font-body-s-size);
+}
+
+.privacy h2 {
+  margin: var(--spacing-2xl) 0 var(--spacing-md);
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--text-white);
+}
+
+.privacy p {
+  margin: 0 0 var(--spacing-md);
+}
+
+.privacy ul {
+  margin: 0 0 var(--spacing-md);
+  padding-left: var(--spacing-lg);
+}
+.privacy li {
+  margin-bottom: var(--spacing-2xs);
+}
+
+.privacy a {
+  color: var(--yellow-100);
+  text-decoration: none;
+  transition: text-decoration 0.15s ease;
+}
+.privacy a:hover {
+  text-decoration: underline;
+}

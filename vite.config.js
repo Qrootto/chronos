@@ -5,9 +5,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        tokens: resolve(__dirname, 'tokens.html'),
+        main:       resolve(__dirname, 'index.html'),
+        tokens:     resolve(__dirname, 'tokens.html'),
         components: resolve(__dirname, 'components.html'),
+        privacy:    resolve(__dirname, 'privacy.html'),
       },
     },
   },
