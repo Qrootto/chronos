@@ -75,6 +75,7 @@
   z-index: 10;
 }
 
+
 /* === About-вариант попапа ===
  * Открывается по клику на «i» в шапке. Открывается на всю ширину экрана
  * (см. .popup-overlay--about), длинный скроллируемый. Структура:
@@ -103,44 +104,64 @@
   overflow-y: auto;
 }
 
-.popup__about-container {
-  max-width: 1280px;
-  /* padding-top компенсирует отсутствие h1: раньше heading давал 80px
-   * сверху + 80px margin-top у intro = ~160px. Сейчас контейнер сам
-   * держит 80px, intro — свои 80px. */
-  padding: var(--spacing-5xl) var(--spacing-3xl) 0;
-  margin: 0 auto;
+/* Логотип «past simple» — огромный display-heading.
+ * Padding-top 164px фиксированный, padding-side 6.25vw (= 80px при
+ * viewport 1280) — пропорциональные отступы при resize. Отдельные
+ * letter-span'ы для hover-эффекта (см. js/popup.js → initLogoHover). */
+.popup__about-heading {
+  margin: 0;
+  padding: 164px calc(80 / 1280 * 100vw) 0;
+  font-family: var(--font-h1-family);
+  font-weight: var(--font-h1-weight);
+  font-size: clamp(80px, 22vw, 360px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--text-white);
+  text-align: center;
+  /* Курсор остаётся стрелкой (без I-beam над текстом). */
+  cursor: default;
 }
 
-/* Long-form тексты (lead). Колонка центрирована с отступами 8% по бокам
- * (= ширина текста 84% от .popup__about-container). Шрифт чуть меньше lead'а.
- * Отступы между блоками — --spacing-5xl (80px). */
+/* Каждая буква — span. И смена цвета на hover, и возврат к default
+ * через 1 сек — резкие, без transition. */
+.popup__about-heading-letter {
+  display: inline-block;
+  cursor: default;
+}
+
+.popup__about-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-3xl);
+}
+
+/* Long-form тексты (lead). Начинаются от 40% от левого края, цвет
+ * --text-white. Отступы между блоками — --spacing-6xl (140px). */
 .popup__about-intro,
 .popup__about-bridge,
 .popup__about-outro {
-  margin-left: 8%;
-  margin-right: 8%;
+  margin-left: 40%;
   font-weight:    var(--font-lead-weight);
-  font-size:      20px;            /* «между» lead 24 и body 16 — компонент-специфичное */
-  line-height:    1.5;
+  font-size:      var(--font-lead-size);
+  line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
   color: var(--text-white);
 }
 .popup__about-intro {
-  /* Без верхнего отступа: контейнер уже даёт padding-top --spacing-5xl,
-   * дублирующий margin был наследием от h1 (теперь удалён). */
-  margin-top: 0;
+  /* 80 (--spacing-5xl) + 80 = 160px от низа логотипа. Этот сдвиг
+   * автоматически опускает все блоки ниже. */
+  margin-top: calc(var(--spacing-5xl) + 80px);
   margin-bottom: 0;
 }
 .popup__about-intro p {
   margin: 0;
 }
-/* Пустая строка между абзацами. */
+/* Пустая строка между абзацами = одна lead-line-height. */
 .popup__about-intro p + p {
-  margin-top: 1.5em;
+  margin-top: var(--font-lead-line-height);
 }
 .popup__about-bridge {
-  margin-top: var(--spacing-5xl);   /* 80px от пары фото */
+  margin-top: var(--spacing-6xl);   /* 140px от пары фото */
   margin-bottom: 0;
 }
 
@@ -149,9 +170,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  /* Расстояние между фото — 12vw (было 20vw, ужали ещё). */
-  gap: 12vw;
-  margin: var(--spacing-5xl) 0 0;   /* 80px от текста выше */
+  /* Расстояние между фото — 20vw (раньше было 25vw, сократили на 20%). */
+  gap: 20vw;
+  margin: var(--spacing-6xl) 0 0;   /* 140px от текста выше */
 }
 .popup__about-figure {
   margin: 0;
@@ -163,7 +184,7 @@
  * (часть самого файла) обрезалась за пределы. */
 .popup__about-image {
   display: block;
-  width: 28vw;                      /* было 25vw — сделали чуть крупнее */
+  width: 25vw;
   aspect-ratio: 1;
   overflow: hidden;
   margin-bottom: var(--spacing-md);
@@ -184,9 +205,9 @@
 }
 
 /* Mission — крупный лозунг шрифтом Wildfire, по центру.
- * Отступ 80px от bridge сверху. */
+ * Отступ 140px от bridge сверху. */
 .popup__about-mission {
-  margin: var(--spacing-5xl) 0 0;
+  margin: var(--spacing-6xl) 0 0;
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
   font-size: clamp(36px, 5vw, 72px);
@@ -196,25 +217,37 @@
   text-align: center;
 }
 
-/* Outro — последний абзац перед формой обратной связи. Стилистика
- * как у intro/bridge (центрирован, 15% padding), отступ от mission. */
-.popup__about-outro {
-  margin-top: var(--spacing-5xl);
-}
-.popup__about-outro p {
-  margin: 0;
+/* Bottom-секция: 2-колоночный grid 40% / 60%.
+ * - Левая колонка (40%) — форма, max 400px, min 348px, жмётся к левому
+ *   краю колонки (justify-self: start).
+ * - Правая колонка (60%) — outro (последний абзац). Его левый край
+ *   автоматически совпадает с margin-left: 40% у intro/bridge.
+ * Верхние границы выровнены через align-items: start. */
+.popup__about-bottom {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  align-items: start;
+  margin-top: var(--spacing-6xl);   /* 140px от mission */
 }
 
-/* Форма — отдельным блоком ниже outro, центрированная. Ширина 84% =
- * совпадает с шириной текстовой колонки. max-width 600px, чтобы на
- * широком экране форма не растягивалась слишком. */
 .popup__about-form {
-  width: 84%;
-  max-width: 600px;
-  margin: var(--spacing-5xl) auto 0;
+  grid-column: 1;
+  justify-self: start;
+  width: 100%;
+  max-width: 400px;
+  min-width: 348px;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+.popup__about-bottom .popup__about-outro {
+  grid-column: 2;
+  margin-left: 0;   /* перебиваем общий 40% margin-left для intro/bridge/outro;
+                       в grid позиция задаётся самой колонкой */
+}
+.popup__about-outro p {
+  margin: 0;
 }
 
 .popup__about-input,
@@ -269,12 +302,13 @@
 .popup__about-form-status[data-state="error"]   { color: var(--red-100); }
 
 /* Подпись автора — в самом низу страницы (не fixed bottom).
- * Левый край совпадает с колонкой абзацев (margin-left: 8%).
+ * 180px от bottom-секции (--spacing-6xl) сверху. Левый край совпадает
+ * с колонкой абзацев (margin-left: 40%).
  * margin-bottom: 32px — это и есть отступ до низа страницы. Делается
  * через margin-bottom (а не padding-bottom на .popup--about), потому
  * что WebKit не учитывает padding-bottom в scrollable container. */
 .popup__about-signature {
-  margin: var(--spacing-5xl) 8% var(--spacing-xl) 8%;
+  margin: var(--spacing-6xl) 0 var(--spacing-xl) 40%;
   text-align: left;
   font-family: var(--font-family);
   font-weight:    var(--font-body-s-weight);
@@ -292,6 +326,80 @@
   text-decoration: underline;
 }
 
+/* === Левая колонка ===
+ * top: 64px от верха попапа; вертикальный скролл, gap 48 между секциями. */
+
+/* === Mobile (< 768px): about-попап «упрощённая версия» ===
+ * Логотип скрыт, колонка текста занимает 84% (вместо 60%/40% сдвига),
+ * межблочные отступы вдвое меньше (--spacing-5xl вместо --spacing-6xl),
+ * фото крупнее с меньшим gap, форма стек-вертикально под outro.
+ * Десктопные правила выше — единый источник правды для широкого экрана. */
+@media (max-width: 767px) {
+  .popup__about-heading {
+    display: none;
+  }
+  .popup__about-container {
+    /* Без heading нужен padding-top сверху, чтобы intro не прилипал. */
+    padding-top: var(--spacing-5xl);
+  }
+  /* Текст: вместо margin-left: 40% — центрированная 84%-колонка. */
+  .popup__about-intro,
+  .popup__about-bridge,
+  .popup__about-outro {
+    margin-left: 8%;
+    margin-right: 8%;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  .popup__about-intro {
+    margin-top: 0;   /* container padding-top компенсирует */
+  }
+  .popup__about-bridge {
+    margin-top: var(--spacing-5xl);
+  }
+  .popup__about-intro p + p {
+    margin-top: 1.5em;
+  }
+  /* Pair: фото больше, ближе друг к другу. */
+  .popup__about-pair {
+    gap: 12vw;
+    margin-top: var(--spacing-5xl);
+  }
+  .popup__about-image {
+    width: 28vw;
+  }
+  .popup__about-mission {
+    margin-top: var(--spacing-5xl);
+  }
+  /* Bottom: вместо 2-колоночного grid 40/60 — стек вертикально.
+   * outro идёт ПЕРВЫМ (HTML-порядок form→outro переопределяем через
+   * grid-template-areas / order). Чтобы не возиться с reorder, проще
+   * на мобиле убрать grid и положить flex-column с обратным порядком. */
+  .popup__about-bottom {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--spacing-5xl);
+  }
+  .popup__about-bottom .popup__about-outro {
+    order: 1;
+    margin-left: 8%;
+    margin-right: 8%;
+  }
+  .popup__about-form {
+    order: 2;
+    width: 84%;
+    max-width: 600px;
+    min-width: 0;            /* перебиваем десктопный min-width: 348px */
+    margin: var(--spacing-5xl) auto 0;
+    justify-self: auto;
+  }
+  /* Signature: те же 8% поля, верхний отступ меньше. */
+  .popup__about-signature {
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-top: var(--spacing-5xl);
+  }
+}
 /* === Левая колонка ===
  * top: 64px от верха попапа; вертикальный скролл, gap 48 между секциями. */
 .popup__left {
