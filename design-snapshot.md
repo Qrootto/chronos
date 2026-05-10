@@ -1,117 +1,183 @@
 # Past Simple — Design Snapshot
 
-Снимок состояния Figma на 2026-05-01. Источник истины для генерации кода. Перечитывать Figma имеет смысл, только если дизайн обновился.
+**Snapshot date:** 2026-05-10
+**Source:** Figma file `UWWMIMoOJUYRhoEk5byWs4`
 
-Figma file key: `UWWMIMoOJUYRhoEk5byWs4`
+Снимок токенов и архитектуры дизайна. По правилу 2.2 глобального CLAUDE.md этот файл — **кэш**, не источник правды. Для токенов источник правды — `styles/tokens.css`. При расхождении доверяем коду.
 
 ---
 
 ## 1. Токены (Variables)
 
-В Figma две коллекции:
-1. **Примитивы** — получены через скриншоты от пользователя.
-   - Solid: `red`, `green`, `blue`, `yellow`, `purple`
-   - Black: 9 ступеней alpha (100/80/64/48/32/24/16/8/4)
-   - White: 9 ступеней alpha
-   - Light: 9 ступеней alpha (base #c9d5ff)
-   - Dark: 2 solid shade (`/100` = #384059, `/48` = #5a6589 — именование `/48` стилистическое, не alpha)
-   - Brand: `100` = #5c78db
-   - **Итого 45 примитивов.**
-2. **Семантические токены** — получены через MCP, все 38 чисто мапятся в примитивы.
+Двухуровневая структура: примитивы (палитра) + семантические токены, ссылающиеся на примитивы через `var()`.
 
-### Засечённые из семантических токенов базовые значения
+### Примитивы — палитра
+
+Шкала из 9 ступеней alpha (100/80/64/48/32/24/16/8/4) для каждого базового цвета:
+
+| Группа | Base | Назначение |
+|---|---|---|
+| `--black-*` | `#1c1e25` | Тёмные оттенки и фоны |
+| `--white-*` | `#ffffff` | Белые наложения |
+| `--light-*` | `#c9d5ff` | Светлый текст и UI на тёмном фоне |
+| `--dark-*` | `#3b5172` | Приглушённые акценты (lifeline и т.д.) |
+| `--red-*` | `#f95b70` | Категория politic |
+| `--green-*` | `#4dc7a4` | Категория scientist |
+| `--blue-*` | `#3ed6f5` | Категория businessman |
+| `--yellow-*` | `#feac39` | Категория artist |
+| `--purple-*` | `#b697ff` | Категория writer |
+| `--toxic-*` | `#c7ef42` | Категория musician |
+
+Solid-токен без alpha-шкалы: `--brand: #8856fd`.
+
+### Семантические — Text
+
+| Token | Source | Назначение |
+|---|---|---|
+| `--text-primary` | `var(--light-100)` | Основной контрастный текст |
+| `--text-primary-hovered` | `var(--light-48)` | |
+| `--text-primary-active` | `var(--light-100)` | |
+| `--text-secondary` | `var(--light-64)` | Hint-подписи |
+| `--text-tertiary` | `var(--light-24)` | Приглушённый |
+| `--text-white` | `var(--white-100)` | |
+| `--text-black` | `var(--black-100)` | |
+| `--text-century` | `var(--red-64)` | Подпись века «XX» сверху |
+
+### Семантические — Surface (фоны)
+
+| Token | Source | Назначение |
+|---|---|---|
+| `--surface-bg` | `var(--black-100)` | Фон страницы |
+| `--surface-bg-secondary` | `var(--light-48)` | |
+| `--surface-popup-bg` | `#18191d` | Фон попапа (отличается от `--surface-bg`) |
+| `--surface-darkener` | `var(--black-64)` | Затемняющий слой под попапом |
+| `--surface-header` | `var(--light-8)` | Шапка |
+| `--surface-divider` | `var(--light-32)` | |
+| `--surface-divider-secondary` | `var(--light-16)` | |
+| `--surface-icon` | `var(--white-100)` | |
+| `--surface-icon-secondary` | `var(--light-64)` | |
+| `--surface-icon-tertiary` | `var(--black-100)` | Иконки на ярком фоне |
+| `--surface-icon-button-hovered` | `var(--light-8)` | |
+| `--surface-century` | `var(--red-64)` | Вертикальная линия-разделитель века |
+| `--surface-category-hovered` | `var(--light-4)` | Карточка категории в сайдбаре при hover |
+
+### Семантические — категории людей
+
+| Категория | Token | Source |
+|---|---|---|
+| politic | `--surface-person-politic` | `var(--red-100)` |
+| scientist | `--surface-person-scientist` | `var(--green-100)` |
+| businessman | `--surface-person-businessman` | `var(--blue-100)` |
+| artist | `--surface-person-artist` | `var(--yellow-100)` |
+| writer | `--surface-person-writer` | `var(--purple-100)` |
+| musician | `--surface-person-musician` | `var(--toxic-100)` |
+
+### Семантические — Checkbox
+
+| Token | Source |
+|---|---|
+| `--surface-checkbox` | `var(--light-24)` |
+| `--surface-checkbox-hovered` | `var(--light-32)` |
+| `--surface-checkbox-active` | `var(--brand)` |
+
+### Семантические — Lifeline
+
+| Token | Source |
+|---|---|
+| `--surface-lifeline` | `var(--dark-48)` |
+
+Hover-цвет lifeline берётся не из статичного токена, а из категории человека через runtime CSS-переменную `--lifeline-hovered-color` — устанавливается JS на основе категории. Реализация: `styles/components/life-line.css`.
+
+### Семантические — Border
+
+| Token | Source | Назначение |
+|---|---|---|
+| `--border-lineend` | `var(--red-100)` | Красная метка «сейчас» |
+| `--border-category` | `var(--light-8)` | |
+| `--border-checkbox` | `var(--light-16)` | |
+| `--border-checkbox-hovered` | `var(--light-24)` | |
+| `--border-event` | `var(--light-16)` | |
+| `--border-event-hovered` | `var(--light-64)` | |
+| `--border-focus` | `var(--light-64)` | |
+
+### Семантические — Event tick (точечное событие, less-than-year)
+
+| Token | Source |
+|---|---|
+| `--surface-event-tick-default` | `var(--light-24)` |
+| `--surface-event-tick-hovered` | `var(--light-32)` |
+
+Отдельные токены, чтобы управлять цветом независимо от других вариантов event.
+
+### Семантические — Connection
+
+| Token | Source |
+|---|---|
+| `--connection-default` | `var(--light-24)` |
+
+Линия связи между событиями двух людей — default цвет (без hover).
+
+### Border radius
+
+| Token | Value |
+|---|---|
+| `--radius-xs` | 2px |
+| `--radius-s` | 4px |
+| `--radius-m` | 8px |
+| `--radius-l` | 12px |
+| `--radius-xl` | 16px |
+| `--radius-xxl` | 24px |
+| `--radius-xxxl` | 32px |
+
+### Spacing
+
+| Token | Value |
+|---|---|
+| `--spacing-3xs` | 2px |
+| `--spacing-2xs` | 4px |
+| `--spacing-xs` | 8px |
+| `--spacing-sm` | 12px |
+| `--spacing-md` | 16px |
+| `--spacing-lg` | 24px |
+| `--spacing-xl` | 32px |
+| `--spacing-2xl` | 48px |
+| `--spacing-3xl` | 64px |
+| `--spacing-4xl` | 72px |
+| `--spacing-5xl` | 80px |
+| `--spacing-6xl` | 180px |
+
+«Битые» значения из макета (27/43/56) при переносе в код округляются к ближайшей ступени.
+
+### Motion
 
 | Token | Value | Назначение |
 |---|---|---|
-| `Light/100` | `#c9d5ff` | Базовый светлый цвет (на тёмном фоне) |
-| `brand/100` | `#5c78db` | Брендовый акцент (active states) |
+| `--motion-duration-fast` | 150ms | Hover, color, мини-state |
+| `--motion-duration-base` | 250ms | Появление, layout-shift |
+| `--motion-duration-slow` | 400ms | Большие переходы (попап slide-in) |
+| `--motion-duration-xslow` | 1000ms | «Шлейф» при mouseout, плавное затухание |
+| `--motion-ease-out` | `cubic-bezier(0.2, 0, 0, 1)` | Вход — стандарт |
+| `--motion-ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | Двусторонние state-переходы |
+| `--motion-ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Лёгкий bounce/overshoot |
 
-### Surface (фоны)
+### Typography
 
-| Token | Value |
-|---|---|
-| `surface/background/default` | `#1c1e25` |
-| `surface/secondary/default` | `#c9d5ff7a` (Light/100 @ 48%) |
-| `surface/tertiary/default` | `#c9d5ff3d` (Light/100 @ 24%) |
-| `surface/header/primary/default` | `#c9d5ff14` (Light/100 @ 8%) |
-| `surface/divider/primary/default` | `#c9d5ff52` |
-| `surface/divider/secondary/default` | `#c9d5ff29` |
-| `surface/icon/primary/default` | `#ffffff` |
-| `surface/icon/secondary/default` | `#c9d5ffa3` |
-| `surface/icon/secondary/hovered` | `#c9d5ffcc` |
-| `surface/icon button/primary/hovered` | `#c9d5ff14` |
+Default `--font-family`: `Inter, system-ui, -apple-system, sans-serif`. Inter подключён self-hosted (variable-файл `/assets/fonts/InterVariable.woff2`, веса 100–900). Wildfire — display-шрифт, self-hosted (`/assets/fonts/Wildfire.woff2`).
 
-### Surface — категории людей
-
-| Категория | Token | Color |
-|---|---|---|
-| politic | `surface/person/politic/default` | `#f95b70` |
-| scientist | `surface/person/scientist/default` | `#4dc7a4` |
-| businessman | `surface/person/businessman/default` | `#3ed6f5` |
-| artist | `surface/person/artist/default` | `#ffdf86` |
-| writer | `surface/person/writer/default` | `#de97ff` |
-
-### Surface — checkbox
-
-| Token | Value |
-|---|---|
-| `surface/checkbox/primary/default` | `#c9d5ff3d` |
-| `surface/checkbox/primary/hovered` | `#c9d5ff52` |
-| `surface/checkbox/primary/active` | `#5c78db` |
-
-### Surface — lifeline
-
-| Token | Value |
-|---|---|
-| `surface/lifeline/default` | `#384059` |
-| `surface/lifeline/hovered` | `#5a6589` |
-
-### Surface — category card hover
-
-| Token | Value |
-|---|---|
-| `surface/category/primary/hovered` | `#c9d5ff0a` |
-
-### Border
-
-| Token | Value |
-|---|---|
-| `border/lineend` | `#f95b70` (метка "конец линии жизни"?) |
-| `border/category` | `#c9d5ff14` |
-| `border/checkbox/primary/default` | `#c9d5ff29` |
-| `border/checkbox/primary/hovered` | `#c9d5ff3d` |
-| `border/event/primary/default` | `#c9d5ff3d` |
-| `border/event/primary/hovered` | `#c9d5ffa3` |
-| `border/event/secondary/default` | `#c9d5ff7a` |
-| `border/event/secondary/hovered` | `#c9d5ffcc` |
-| `border/focus` | `#c9d5ffa3` |
-
-### Text
-
-| Token | Value |
-|---|---|
-| `text/primary/default` | `#c9d5ff3d` |
-| `text/primary/hovered` | `#c9d5ff7a` |
-| `text/primary/active` | `#c9d5ff` |
-| `text/constant/white` | `#ffffff` |
-| `text/constant/black` | `#1c1e25` |
-
-### Типографика
-
-Утверждено 2026-05-02 (зафиксировано пользователем при попапе):
-
-| Назначение | Стиль | Токены |
-|---|---|---|
-| h1 (имя в попапе) | Inter Regular 48 | `--font-h1-*` |
-| h2 (подзаголовки в попапе) | Inter SemiBold 24 | `--font-h2-*` |
-| Lead (краткое описание года под таймлайном) | Inter Regular 24 | `--font-lead-*` |
-| Body (основной текст) | Inter Regular 16 | `--font-body-*` |
-| Body S (описание под именами «В это же время») | Inter Regular 14 | `--font-body-s-*` |
-| Labels / имена / `Inter SemiBold 14` | Inter SemiBold 14 | `--font-semibold-14-*` |
+| Стиль | Family | Weight | Size | Line height |
+|---|---|---|---|---|
+| h1 (имя в попапе, крупные акценты в about) | Wildfire | 400 | 64px | 1.1 |
+| h2 (подзаголовки в попапе) | Inter Light | 300 | 24px | 22px |
+| Lead (краткое описание года) | Inter Light | 300 | 24px | 34px |
+| Body (основной текст в попапе) | Inter Light | 300 | 16px | 26px |
+| Body S (описания «В это же время») | Inter Regular | 400 | 14px | 1.4 |
+| Labels / имена / SemiBold 14 | Inter SemiBold | 600 | 14px | 1 |
 
 ---
 
 ## 2. Компоненты (что есть в Figma)
+
+> ⚠️ Не сверено с кодом на 2026-05-10. Может содержать устаревшие данные. Использовать только как ориентир, перед работой проверить актуальность по CSS/HTML.
 
 Из metadata фрейма Components (`365:2873`):
 
@@ -140,6 +206,8 @@ Figma file key: `UWWMIMoOJUYRhoEk5byWs4`
 ---
 
 ## 3. Экраны
+
+> ⚠️ Не сверено с кодом на 2026-05-10. Может содержать устаревшие данные. Использовать только как ориентир, перед работой проверить актуальность по CSS/HTML.
 
 ### Main screen (`379:3264`) — 1280×720
 
@@ -179,6 +247,8 @@ Figma file key: `UWWMIMoOJUYRhoEk5byWs4`
 ---
 
 ## 4. Решения и отложенные пункты (зафиксировано 2026-05-01)
+
+> ⚠️ Не сверено с кодом на 2026-05-10. Может содержать устаревшие данные. Использовать только как ориентир, перед работой проверить актуальность по CSS/HTML.
 
 ### Что добавим позже (после первой итерации в коде)
 - **Категория `musician`** — токены и Event caption-вариант. Пользователь напомнит, я тоже напомню.
@@ -228,36 +298,9 @@ Figma file key: `UWWMIMoOJUYRhoEk5byWs4`
 
 ---
 
-## 5. Утверждённые токены (2026-05-02)
+## 5. Шкала времени и красная метка "сейчас"
 
-### Border radius
-| Token | Value |
-|---|---|
-| `radius/xs` | 2px |
-| `radius/s` | 4px |
-| `radius/m` | 8px |
-| `radius/l` | 12px |
-| `radius/xl` | 16px |
-| `radius/xxl` | 24px |
-| `radius/xxxl` | 32px |
-
-### Spacing
-| Token | Value |
-|---|---|
-| `spacing/2xs` | 4px |
-| `spacing/xs` | 8px |
-| `spacing/sm` | 12px |
-| `spacing/md` | 16px |
-| `spacing/lg` | 24px |
-| `spacing/xl` | 32px |
-| `spacing/2xl` | 48px |
-| `spacing/3xl` | 64px |
-
-«Битые» значения из макета (27/43/56/72) при переносе в код округляются к ближайшей ступени по моему усмотрению. Точечные нестандартные размеры компонентов выносим в `spacing/component/*` при необходимости.
-
----
-
-## 6. Шкала времени и красная метка "сейчас"
+> ⚠️ Не сверено с кодом на 2026-05-10. Может содержать устаревшие данные. Использовать только как ориентир, перед работой проверить актуальность по CSS/HTML.
 
 - **Размер шкалы:** компонент `Timeline` = "вся история", где **1 пиксель = 1 год**.
 - **Между разделителями веков:** ровно 100px (1 век).
@@ -266,7 +309,9 @@ Figma file key: `UWWMIMoOJUYRhoEk5byWs4`
 
 ---
 
-## 6. Состояние работы
+## 6. Состояние работы (на 2026-05-01)
+
+> ⚠️ Не сверено с кодом на 2026-05-10. Может содержать устаревшие данные. Использовать только как ориентир, перед работой проверить актуальность по CSS/HTML.
 
 | Раздел | Состояние |
 |---|---|
