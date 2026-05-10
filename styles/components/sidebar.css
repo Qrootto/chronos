@@ -31,11 +31,13 @@
 }
 
 /* === Верхняя строка с close ===
- * Контейнер той же ширины, padding 24, иконка прижата вправо. */
+ * Контейнер той же ширины, padding 16, иконка прижата вправо.
+ * 16+32+16=64px — точно совпадает с главным header'ом сайта,
+ * close-button выровнен по вертикали с burger-button (R26). */
 .sidebar__close {
   display: flex;
   justify-content: flex-end;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
 }
 
 /* === Раскрытый список персон / событий под селектором ===
