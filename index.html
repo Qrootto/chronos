@@ -36,9 +36,10 @@
       </button>
     </header>
 
-    <main class="main-canvas">
-      <!-- Sidebar (overlay поверх Header, fixed). Контент рендерится в JS — см. js/sidebar.js. -->
-      <aside class="sidebar-overlay" id="sidebar"></aside>
+    <main class="main-canvas main-canvas--shifted">
+      <!-- Sidebar (overlay поверх Header, fixed). Контент рендерится в JS — см. js/sidebar.js.
+           Открыт по умолчанию (R18) — `is-open` в HTML, чтобы не было flash-of-closed на первом paint. -->
+      <aside class="sidebar-overlay is-open" id="sidebar"></aside>
 
       <!-- Canvas: Timeflow pane (без скролла) + Bottom bar (главный scroll + zoom).
            Scrollbar теперь живёт в самом низу экрана, под year-scale, а не
