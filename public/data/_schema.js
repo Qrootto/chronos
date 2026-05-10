@@ -1,5 +1,8 @@
 // DATA SCHEMA — Past Simple project
 // Agreed on 2026-04-27. Update this file when schema changes.
+//
+// Ниже идут JSDoc-описания форматов (для документации) и блок реальных
+// экспортов в конце файла (источник правды по константам).
 
 // ─── PERSON ───────────────────────────────────────────────────────────────────
 // {
@@ -8,7 +11,7 @@
 //   "fullName": "Albert Einstein",     // original language, for search/SEO
 //   "born": 1879,
 //   "died": 1955,
-//   "category": "scientist",           // writer | artist | scientist | politician | businessman | musician
+//   "category": "scientist",           // см. PERSON_CATEGORIES
 //   "nationality": "Германия",
 //   "photo": "url-or-path",            // portrait, public domain
 //   "bio": "Краткая биография 2–3 предложения.",
@@ -31,7 +34,7 @@
 //     {
 //       "personId": "bohr",            // id of the other person
 //       "year": 1920,
-//       "type": "collaboration",       // collaboration | friendship | influence | conflict | teacher | romantic
+//       "type": "collaboration",       // см. CONNECTION_TYPES
 //       "description": "Встреча на Сольвеевском конгрессе."
 //     }
 //   ]
@@ -47,13 +50,29 @@
 //   "description": "Текст для попапа."
 // }
 
-// ─── CATEGORY COLORS (from design) ────────────────────────────────────────────
-// writer      → purple  (#9B59B6 approx)
-// artist      → yellow  (#F1C40F approx)
-// scientist   → green   (#2ECC71 approx)
-// politician  → red     (#E74C3C approx)
-// businessman → cyan    (#1ABC9C approx)
-// musician    → TBD (will be defined in Figma)
+// ─── CATEGORY COLORS ──────────────────────────────────────────────────────────
+// Источник правды по цветам категорий — styles/tokens.css
+// (--surface-person-{category}). Здесь не дублируем.
 
-// ─── TIME RANGE ───────────────────────────────────────────────────────────────
-// 1880 – 1950
+// ─── EXPORTS — single source of truth for project constants ───────────────────
+
+export const START_YEAR = 1850;
+export const END_YEAR = 1950;
+
+export const PERSON_CATEGORIES = [
+  'writer',
+  'artist',
+  'scientist',
+  'politician',
+  'businessman',
+  'musician',
+];
+
+export const CONNECTION_TYPES = [
+  'collaboration',
+  'friendship',
+  'influence',
+  'conflict',
+  'teacher',
+  'romantic',
+];
