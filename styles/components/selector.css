@@ -32,8 +32,19 @@
 .selector:hover,
 .selector--hovered {
   background: var(--surface-category-hovered);
-  /* Hover override — мгновенно зажигается при наведении. */
-  transition: background var(--motion-duration-fast) var(--motion-ease-out);
+  /* Hover override — фон появляется моментально (R24). */
+  transition: background 0s;
+}
+
+/* Цветная точка категории смещается на 4px влево при hover —
+ * fast-in / slow-out (R24). На уходе курсора возвращается с «шлейфом». */
+.selector .event-dot {
+  transition: transform var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.selector:hover .event-dot,
+.selector--hovered .event-dot {
+  transform: translateX(-4px);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
 }
 
 /* Имя по натуральной ширине — счётчик прилипает к нему через 4px gap.
