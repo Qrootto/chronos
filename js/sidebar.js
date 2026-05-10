@@ -24,7 +24,7 @@ const ICON_CHEVRON = `<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http:/
 
 // pathLength="100" нормализует длину пути → CSS-анимация рисования галочки
 // через stroke-dasharray:100 / stroke-dashoffset:100→0 (см. checkbox.css).
-const ICON_CHECK = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+const ICON_CHECK = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
   <polyline points="2.8 7.8 6.5 11.5 13.2 4.3" pathLength="100"/>
 </svg>`;
 
