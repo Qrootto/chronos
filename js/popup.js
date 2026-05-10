@@ -221,7 +221,7 @@ function buildLeftColumn(person, event) {
   }
 
   // Sections — подзаголовки с подробным текстом (опционально).
-  // См. data/_schema.js → events[i].sections.
+  // См. public/data/_schema.js → events[i].sections.
   if (Array.isArray(event.sections) && event.sections.length > 0) {
     const text = document.createElement('div');
     text.className = 'popup__text';
