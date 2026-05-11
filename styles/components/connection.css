@@ -21,10 +21,30 @@
     var(--conn-top, var(--connection-default)),
     var(--conn-bottom, var(--connection-default))
   );
-  pointer-events: none;
+  /* Hover на линию подсвечивает всю связь (R17, см. js/timeflow.js).
+   * Hit-area расширена через ::before до 9px (1px линия + 4px по краям). */
+  pointer-events: auto;
   transform: translateX(-50%);
   transition: width 0.15s ease;
 }
+
+.connection::before {
+  /* Невидимая широкая hit-area — связь 1px трудно hover'ить точечно. */
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+}
+
+/* Ghost-connections создаются JS-ом во время hover на dot и удаляются
+ * на mouseout — они НЕ должны быть отдельно hover'абельны (иначе
+ * получается loop "ghost создан → hover на ghost → создан ещё ghost"). */
+.connection.is-ghost-connection {
+  pointer-events: none;
+}
+
 .connection.connection--hovered {
   width: 3px;
 }

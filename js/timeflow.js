@@ -331,7 +331,7 @@ const CONN_EXIT_OFFSET = 4.5 / Math.SQRT2;   // ≈ 3.18
 
 // Шаг между двумя соседними sticky-Б на одной стороне (см. MAIN_SCREEN.md →
 // Несколько sticky-имён): 14 (font 14, line-height 1) + 2px gap = 16.
-const STICKY_STEP = 16;
+const STICKY_STEP = 15;
 
 function rectsOverlap(a, b) {
   return !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
@@ -438,13 +438,44 @@ function hideCaption(timeflowEl) {
  * Hover на саму life-line (через расширенную hit-area ::before) —
  * ТОЛЬКО подсветка возраста. Visual hover на самой линии НЕ срабатывает. */
 export function attachHoverCaptions(timeflowEl, getData, getState) {
+  function activateDot(dot) {
+    showCaption(timeflowEl, dot);
+    showConnectionsFor(timeflowEl, dot, getData(), getState());
+    setLifeLineVisualHover(timeflowEl, dot.dataset.personId, true);
+    setAgeHovered(timeflowEl, dot.dataset.personId, true);
+  }
+  function deactivateDot(dot) {
+    hideCaption(timeflowEl);
+    hideConnections(timeflowEl);
+    setLifeLineVisualHover(timeflowEl, dot.dataset.personId, false);
+    setAgeHovered(timeflowEl, dot.dataset.personId, false);
+  }
+  // По data-conn-key (формат "iA|iB|year") находим event-dot участника A
+  // и активируем у него обычный dot-hover (он же подсветит линию + B).
+  function dotForConnection(conn) {
+    const key = conn.dataset.connKey;
+    if (!key) return null;
+    const parts = key.split('|');
+    if (parts.length !== 3) return null;
+    const [iA, , year] = parts;
+    return timeflowEl.querySelector(
+      `.event-dot[data-person-id="${iA}"][data-event-year="${year}"]`
+    );
+  }
+
   timeflowEl.addEventListener('mouseover', (e) => {
     const dot = e.target.closest('.event-dot');
     if (dot && !dot.classList.contains('is-sticky-dot')) {
-      showCaption(timeflowEl, dot);
-      showConnectionsFor(timeflowEl, dot, getData(), getState());
-      setLifeLineVisualHover(timeflowEl, dot.dataset.personId, true);
-      setAgeHovered(timeflowEl, dot.dataset.personId, true);
+      activateDot(dot);
+      return;
+    }
+    // Hover на default-connection — триггерит ту же активацию что и hover
+    // на dot одного из участников (R17). Ghost-connections (без data-conn-key)
+    // отфильтрованы CSS-ом pointer-events: none.
+    const conn = e.target.closest('.connection');
+    if (conn && !conn.classList.contains('is-ghost-connection')) {
+      const dotA = dotForConnection(conn);
+      if (dotA) activateDot(dotA);
       return;
     }
     const line = e.target.closest('.life-line');
@@ -455,10 +486,15 @@ export function attachHoverCaptions(timeflowEl, getData, getState) {
     if (dot && !dot.classList.contains('is-sticky-dot')) {
       const related = e.relatedTarget;
       if (related && dot.contains(related)) return;
-      hideCaption(timeflowEl);
-      hideConnections(timeflowEl);
-      setLifeLineVisualHover(timeflowEl, dot.dataset.personId, false);
-      setAgeHovered(timeflowEl, dot.dataset.personId, false);
+      deactivateDot(dot);
+      return;
+    }
+    const conn = e.target.closest('.connection');
+    if (conn && !conn.classList.contains('is-ghost-connection')) {
+      const related = e.relatedTarget;
+      if (related && conn.contains(related)) return;
+      const dotA = dotForConnection(conn);
+      if (dotA) deactivateDot(dotA);
       return;
     }
     const line = e.target.closest('.life-line');
@@ -553,8 +589,8 @@ function showConnectionsFor(timeflowEl, dotA, data, state) {
       // Если уже есть sticky'и за тем же краем — сдвигаем следующий на STICKY_STEP.
       const stickToTop = dotB_y_actual < visTop;
       const dotB_y = stickToTop
-        ? (visTop + DOT_HALF + 2 + topStickyIdx * STICKY_STEP)
-        : (visBottom - DOT_HALF - 2 - botStickyIdx * STICKY_STEP);
+        ? (visTop + DOT_HALF + 4 + topStickyIdx * STICKY_STEP)
+        : (visBottom - DOT_HALF - 4 - botStickyIdx * STICKY_STEP);
       if (stickToTop) topStickyIdx++; else botStickyIdx++;
 
       const ghost = createStickyEndpoint(timeflowEl, personB, year, dotB_x_actual, dotB_y, catB);
@@ -608,18 +644,19 @@ function createStickyEndpoint(timeflowEl, personB, year, x, y, catB) {
 
   const ghostName = document.createElement('div');
   ghostName.className = `timeflow__name timeflow__name--${catB} is-sticky-name`;
-  // Имя центрировано по вертикали с точкой (font 14, line-height 1).
-  ghostName.style.top = (y - 7) + 'px';
-  // Сначала ставим за пределами видимости, чтобы измерить ширину
+  // Сначала ставим за пределами видимости, чтобы измерить ширину и высоту.
   ghostName.style.left = '-9999px';
+  ghostName.style.top = '-9999px';
   ghostName.textContent = personB.name;
   timeflowEl.appendChild(ghostName);
 
+  // Имя центрировано по вертикали с точкой — top = y − offsetHeight / 2.
+  // Измеряем реальную высоту (font-names line-height 1.2 даёт ~17px).
+  ghostName.style.top = (y - ghostName.offsetHeight / 2) + 'px';
   // Слева от точки на 4px: name.right = ghost.left - 4
   // ghost.left визуально = x - DOT_HALF; name.right = name.left + nameWidth.
   // → name.left = (x - DOT_HALF) - 4 - nameWidth.
-  const nameWidth = ghostName.offsetWidth;
-  ghostName.style.left = ((x - DOT_HALF) - 4 - nameWidth) + 'px';
+  ghostName.style.left = ((x - DOT_HALF) - 4 - ghostName.offsetWidth) + 'px';
 
   return ghost;
 }
