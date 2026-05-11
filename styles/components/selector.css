@@ -18,7 +18,7 @@
   border-top: 1px solid var(--border-category);
   cursor: pointer;
   text-align: left;
-  color: var(--text-white);
+  color: var(--text-primary);
   font-family: var(--font-family);
   font-weight: var(--font-body-s-weight);
   font-size: var(--font-body-s-size);
@@ -66,7 +66,7 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  color: var(--text-white);
+  color: var(--text-primary);
   /* Default — chevron указывает ВНИЗ (группа закрыта, можно раскрыть).
    * Active — chevron указывает ВВЕРХ (группа раскрыта, можно свернуть).
    * SVG в HTML рисует chevron-up; в default поворачиваем на 180°. */

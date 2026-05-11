@@ -47,7 +47,7 @@
   background: transparent;
   cursor: pointer;
   text-align: left;
-  color: var(--text-white);
+  color: var(--text-primary);
   font-family: var(--font-family);
   font-weight: var(--font-body-xs-weight);
   font-size: var(--font-body-xs-size);
@@ -129,7 +129,7 @@
   font-size: var(--font-names-size);
   line-height: var(--font-names-line-height);
   letter-spacing: var(--font-names-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 

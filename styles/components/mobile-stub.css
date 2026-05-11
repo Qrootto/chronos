@@ -36,7 +36,7 @@
   font-size: clamp(72px, 22vw, 120px);
   line-height: 0.95;
   letter-spacing: var(--letter-spacing-tighter);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 .mobile-stub__heading-letter {
   display: inline-block;
@@ -52,7 +52,7 @@
   font-size: var(--font-body-size);
   font-weight: var(--font-body-weight);
   line-height: var(--font-body-line-height);
-  color: var(--text-white);
+  color: var(--text-primary);
   max-width: 480px;
 }
 
@@ -80,7 +80,7 @@
   font-weight: var(--font-h1-weight);
   font-size: 32px;
   line-height: 1;
-  color: var(--text-white);
+  color: var(--text-primary);
   text-decoration: none;
   cursor: pointer;
   transition: opacity var(--motion-duration-xslow) var(--motion-ease-out);

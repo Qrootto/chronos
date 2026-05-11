@@ -176,7 +176,7 @@
   --text-secondary:         var(--light-100); /* основной контрастный текст */
   --text-primary-hovered:   var(--light-48);
   --text-tertiary:          var(--light-24);  /* приглушённый (бывший --text-primary) */
-  --text-white:             var(--white-100);
+  --text-primary:           var(--white-100); /* основной белый текст (заголовки, имена и пр.) */
   --text-caption:           var(--black-100); /* текст внутри event-caption (на ярком фоне категории) */
 
   /* ================================================================

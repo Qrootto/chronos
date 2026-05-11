@@ -62,7 +62,7 @@
   grid-template-columns: 2fr calc(var(--spacing-2xl) * 2) 1fr;
   padding-left: var(--spacing-xl);
   font-family: var(--font-family);
-  /* Все тексты внутри попапа — --text-secondary, кроме h1/h2 (явно --text-white)
+  /* Все тексты внутри попапа — --text-secondary, кроме h1/h2 (явно --text-primary)
    * и имён персонажей в «В это же время» (яркий цвет категории). */
   color: var(--text-secondary);
 }
@@ -100,7 +100,7 @@
    * страницы задан через margin-bottom на signature. */
   padding: 0;
   font-family: var(--font-family);
-  color: var(--text-white);
+  color: var(--text-primary);
   overflow-y: auto;
 }
 
@@ -116,7 +116,7 @@
   font-size: clamp(80px, 22vw, 360px);
   line-height: 0.95;
   letter-spacing: var(--letter-spacing-tighter);
-  color: var(--text-white);
+  color: var(--text-primary);
   text-align: center;
   /* Курсор остаётся стрелкой (без I-beam над текстом). */
   cursor: default;
@@ -136,7 +136,7 @@
 }
 
 /* Long-form тексты (lead). Начинаются от 40% от левого края, цвет
- * --text-white. Отступы между блоками — --spacing-6xl (140px). */
+ * --text-primary. Отступы между блоками — --spacing-6xl (140px). */
 .popup__about-intro,
 .popup__about-bridge,
 .popup__about-outro {
@@ -146,7 +146,7 @@
   font-size:      var(--font-body-l-size);
   line-height:    var(--font-body-l-line-height);
   letter-spacing: var(--font-body-l-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 .popup__about-intro {
   /* 80 (--spacing-5xl) + 80 = 160px от низа логотипа. Этот сдвиг
@@ -202,7 +202,7 @@
   font-weight: var(--font-h1-weight);
   font-size: 24px;
   line-height: 1;
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 /* Mission — крупный лозунг шрифтом Wildfire, по центру.
@@ -214,7 +214,7 @@
   font-size: clamp(36px, 5vw, 72px);
   line-height: 1.1;
   letter-spacing: var(--letter-spacing-tight);
-  color: var(--text-white);
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -240,7 +240,7 @@
   font-size:      var(--font-body-xs-size);
   line-height:    var(--font-body-xs-line-height);
   letter-spacing: var(--font-body-xs-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 .popup__about-contact a {
   color: var(--yellow-100);
@@ -281,7 +281,7 @@
   font-size:      var(--font-body-xs-size);
   line-height:    var(--font-body-xs-line-height);
   letter-spacing: var(--font-body-xs-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 .popup__about-signature a {
   color: var(--yellow-100);
@@ -404,7 +404,7 @@
   font-size:      var(--font-h1-size);
   line-height:    var(--font-h1-line-height);
   letter-spacing: var(--font-h1-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 /* === Life-line полоска внутри попапа ===
@@ -488,13 +488,13 @@
 }
 
 .popup__section-title {
-  /* h2 — оставляем --text-white по запросу пользователя. */
+  /* h2 — оставляем --text-primary по запросу пользователя. */
   margin: 0;
   font-weight:    var(--font-h2-weight);
   font-size:      var(--font-h2-size);
   line-height:    var(--font-h2-line-height);
   letter-spacing: var(--font-h2-letter-spacing);
-  color: var(--text-white);
+  color: var(--text-primary);
 }
 
 .popup__section-body {
