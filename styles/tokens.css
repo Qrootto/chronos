@@ -307,10 +307,10 @@
   --font-lead-line-height:    34px;
   --font-lead-letter-spacing: 0;
 
-  /* Inter Light 16 — body (основной текст в попапе) */
+  /* Inter Light 18 — body (основной текст в попапе) */
   --font-body-weight:         300;
-  --font-body-size:           16px;
-  --font-body-line-height:    26px;
+  --font-body-size:           18px;
+  --font-body-line-height:    1.5;
   --font-body-letter-spacing: 0;
 
   /* Inter Regular 14 — body small (описания под именами «В это же время») */
