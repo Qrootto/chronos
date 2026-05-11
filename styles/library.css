@@ -8,28 +8,7 @@ html, body {
   background: var(--surface-bg);
   color: var(--text-primary-active);
   font-family: var(--font-family);
-  /* Кастомный тонкий scrollbar — одинаков на Mac и Windows.
-   * Те же значения что и на .canvas__scroll в main-screen.css. */
-  scrollbar-width: thin;
-  scrollbar-color: var(--light-16) transparent;
-}
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background: var(--light-16);
-  border-radius: 4px;
-}
-html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
-  background: var(--light-32);
+  /* Кастомный скролл — универсальный, через `*`-правило в tokens.css (R14). */
 }
 
 .lib-nav {

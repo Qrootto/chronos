@@ -447,3 +447,30 @@
   line-height:    var(--font-names-line-height);
   letter-spacing: var(--font-names-letter-spacing);
 }
+
+/* ==================================================================
+ * UTILITY — SCROLLBAR (R14)
+ * Универсальный кастомный скролл для ВСЕХ scroll-контейнеров: одинаковый
+ * вид на Mac и Windows; тонкая полоска 8px, цвет --light-16 (--light-32
+ * на hover). Применяется через `*` — любой scroll автоматически получает
+ * этот стиль. Дублирующие правила (.canvas__scroll, html/body) удалены
+ * из main-screen.css и library.css.
+ * ================================================================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--light-16) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--light-16);
+  border-radius: var(--radius-s);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--light-32);
+}

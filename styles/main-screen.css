@@ -99,28 +99,12 @@ body {
 
 /* Главный scroll-контейнер: drag thumb работает нативно, scrollLeft
  * синхронизирует canvas-inner через transform (см. main.js → syncDynamic).
- * Кастомный тонкий scrollbar (8px) одинаков на Mac и Windows. */
+ * Кастомный скролл — универсальный, через `*`-правило в tokens.css (R14). */
 .canvas__scroll {
   position: absolute;
   inset: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: var(--light-16) transparent;
-}
-.canvas__scroll::-webkit-scrollbar {
-  height: 8px;
-}
-.canvas__scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-.canvas__scroll::-webkit-scrollbar-thumb {
-  background: var(--light-16);
-  border-radius: 4px;
-}
-.canvas__scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--light-32);
 }
 
 .canvas__year-inner {
