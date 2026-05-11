@@ -465,6 +465,7 @@
 /* === Lead — краткое описание года === */
 .popup__lead {
   margin: 0;
+  font-family:    var(--font-lead-family);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);

@@ -301,11 +301,12 @@
   --font-h2-line-height:    22px;
   --font-h2-letter-spacing: 0;
 
-  /* Inter Light 24 — lead (краткое описание года под таймлайном) */
-  --font-lead-weight:         300;
-  --font-lead-size:           24px;
-  --font-lead-line-height:    34px;
-  --font-lead-letter-spacing: 0;
+  /* Wildfire 30 — lead (краткое описание года под таймлайном) */
+  --font-lead-family:         'Wildfire', var(--font-family);
+  --font-lead-weight:         400;
+  --font-lead-size:           30px;
+  --font-lead-line-height:    1.2;
+  --font-lead-letter-spacing: 0.01em;
 
   /* Inter Light 18 — body (основной текст в попапе) */
   --font-body-weight:         300;
@@ -358,7 +359,7 @@
   letter-spacing: var(--font-h2-letter-spacing);
 }
 .text-lead {
-  font-family:    var(--font-family);
+  font-family:    var(--font-lead-family);
   font-weight:    var(--font-lead-weight);
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
