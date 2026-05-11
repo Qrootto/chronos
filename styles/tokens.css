@@ -351,6 +351,14 @@
   --font-names-size:           14px;
   --font-names-line-height:    1.2;
   --font-names-letter-spacing: 0;
+
+  /* ================================================================
+   * LETTER-SPACING — tight kerning для крупного текста.
+   * tight   — для размеров 24–72px (h2-like, mission, privacy title)
+   * tighter — для display 72+px (about-heading, mobile-stub heading)
+   * ================================================================ */
+  --letter-spacing-tight:   -0.01em;
+  --letter-spacing-tighter: -0.02em;
 }
 
 /* ==================================================================
