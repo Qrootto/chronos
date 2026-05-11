@@ -20,11 +20,10 @@
   text-align: left;
   color: var(--text-white);
   font-family: var(--font-family);
-  font-weight: var(--font-semibold-14-weight);
-  font-size: var(--font-semibold-14-size);
-  line-height: var(--font-semibold-14-line-height);
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
+  font-weight: var(--font-body-s-weight);
+  font-size: var(--font-body-s-size);
+  line-height: var(--font-body-s-line-height);
+  letter-spacing: var(--font-body-s-letter-spacing);
   /* Default = mouseout — медленное «потухание» подсветки фона. */
   transition: background var(--motion-duration-xslow) var(--motion-ease-out);
 }

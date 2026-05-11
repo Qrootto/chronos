@@ -49,10 +49,10 @@
   text-align: left;
   color: var(--text-white);
   font-family: var(--font-family);
-  font-weight: var(--font-semibold-14-weight);
-  font-size: var(--font-semibold-14-size);
-  line-height: var(--font-semibold-14-line-height);
-  letter-spacing: var(--font-semibold-14-letter-spacing);
+  font-weight: var(--font-body-xs-weight);
+  font-size: var(--font-body-xs-size);
+  line-height: var(--font-body-xs-line-height);
+  letter-spacing: var(--font-body-xs-letter-spacing);
   white-space: nowrap;
 }
 

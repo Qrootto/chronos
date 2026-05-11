@@ -313,6 +313,12 @@
   --font-body-line-height:    1.5;
   --font-body-letter-spacing: 0;
 
+  /* Inter Light 17 — body s (заголовки селекторов в сайдбаре) */
+  --font-body-s-weight:         300;
+  --font-body-s-size:           17px;
+  --font-body-s-line-height:    1.4;
+  --font-body-s-letter-spacing: 0;
+
   /* Inter Light 14 — body xs (описания под именами «В это же время» и пр.) */
   --font-body-xs-weight:         300;
   --font-body-xs-size:           14px;
@@ -364,6 +370,13 @@
   font-size:      var(--font-body-size);
   line-height:    var(--font-body-line-height);
   letter-spacing: var(--font-body-letter-spacing);
+}
+.text-body-s {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-body-s-weight);
+  font-size:      var(--font-body-s-size);
+  line-height:    var(--font-body-s-line-height);
+  letter-spacing: var(--font-body-s-letter-spacing);
 }
 .text-body-xs {
   font-family:    var(--font-family);
