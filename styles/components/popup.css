@@ -1,24 +1,40 @@
 /* Popup — карточка-шторка с подробностями события на линии жизни.
  * См. MAIN_SCREEN.md → Popup для смысла и раскладки.
  *
- * Шторка справа: top:0, right:0, bottom:0; ширина 85vw. По умолчанию задвинут
- * за правый край (translateX 100%), при .is-open выезжает на место. */
+ * Шторка справа: top:0, right:0, bottom:0. Ширина (R22):
+ *   • viewport <  1550px → 65vw
+ *   • viewport ≥ 1550px → 50vw
+ * Внутри попапа правая колонка (фото / concurrent) — фикс 232px,
+ * левая (контент) и lifetime скейлятся вместе с попапом.
+ * По умолчанию задвинут за правый край (translateX 100%), при .is-open
+ * выезжает на место. */
 
 .popup-overlay {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 70vw;
+  width: 65vw;
   z-index: 300;
   transform: translateX(100%);
   /* Закрытие — ease-out: уезжает быстро, тормозит у края. */
   transition: transform var(--motion-duration-slow) var(--motion-ease-out);
 }
 
+@media (min-width: 1550px) {
+  .popup-overlay {
+    width: 50vw;
+  }
+}
+
 /* About-попап открывается на всю ширину экрана. */
 .popup-overlay--about {
   width: 100vw;
+}
+@media (min-width: 1550px) {
+  .popup-overlay--about {
+    width: 100vw;       /* about всегда full-width, override media */
+  }
 }
 .popup-overlay.is-open {
   transform: translateX(0);
@@ -45,9 +61,9 @@
   transition: opacity var(--motion-duration-slow) var(--motion-ease-out);
 }
 
-/* === Контейнер ===
- * 2-колоночный grid с явным gap-колонкой между контентом и фото
- * (удвоенный --spacing-2xl).
+/* === Контейнер (R22) ===
+ * Flex-column: header (H1 + фото) → lifetime (на всю ширину) → body (2 col).
+ * 40px padding по бокам; вертикальный padding управляется внутри строк.
  * position: relative — для абсолютной кнопки close в правом верхнем углу.
  * НЕ ставим overflow: hidden на сам .popup, иначе кнопка close с right:20
  * может визуально срезаться. Скролл живёт в .popup__left. */
@@ -55,24 +71,80 @@
   position: relative;
   width: 100%;
   height: 100%;
+  /* border-box: padding 40px по бокам внутри 100% ширины overlay.
+   * Без этого .popup растягивался на overlay_width + 80px → правая
+   * колонка уходила за правый край viewport. */
+  box-sizing: border-box;
   background: var(--surface-popup-bg);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  display: grid;
-  grid-template-columns: 2fr calc(var(--spacing-2xl) * 2) 1fr;
-  padding-left: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px;
   font-family: var(--font-family);
   /* Все тексты внутри попапа — --text-secondary, кроме h1/h2 (явно --text-primary)
    * и имён персонажей в «В это же время» (яркий цвет категории). */
   color: var(--text-secondary);
 }
 
-/* Кнопка close в правом верхнем углу попапа: 20px от верха и от правого края. */
+/* === Header: H1 слева + фото справа (R22) ===
+ * Grid minmax(0,1fr) / 232px — правая колонка фикс под фото, левая
+ * скейлится и может сжиматься ниже min-content (minmax(0,…) гасит
+ * grid-overflow от длинного H1).
+ * Высота 256px = 24 (top padding) + 232 (фото). H1 центрирован
+ * вертикально относительно фото. flex-shrink:0 — шапка фикс высоты. */
+.popup__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  column-gap: 80px;
+  padding-top: 24px;
+  height: 256px;
+  flex-shrink: 0;
+}
+
+/* Body — 2 колонки (контент / concurrent), занимает оставшуюся высоту.
+ * Те же пропорции что и header: левая fluid (minmax(0,1fr)), правая
+ * фикс 232px. minmax(0,…) — чтоб длинный текст в левой не раздувал
+ * track и не уносил правую колонку за правый край попапа. */
+.popup__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  column-gap: 80px;
+  flex: 1;
+  min-height: 0;     /* allow internal scroll в .popup__left */
+}
+
+/* Кнопка close (R22) — слева от попапа, за его пределами. 16px gap между
+ * правым краем кнопки и левым краем popup-overlay. По вертикали — 20px
+ * от верха. Кнопка приклеена к overlayEl (см. js/popup.js → openPopup),
+ * поэтому right: calc(100% + 16px) считается от ширины overlay.
+ * Скрыта по умолчанию (opacity 0) — иначе при закрытом попапе кнопка
+ * висит на правом крае экрана (overlay уехал translateX 100%, кнопка
+ * остаётся слева от него = в видимой области). Показывается только
+ * когда overlay получил .is-open. */
 .popup__close {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: calc(100% + 16px);
   z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--motion-duration-slow) var(--motion-ease-out);
+}
+.popup-overlay.is-open .popup__close {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* Подложка-фон на hover не нужна — оставляем только scale (см.
+ * icon-btn.css → .popup__close:hover svg). */
+.popup__close:hover,
+.popup__close.icon-btn--hovered {
+  background: transparent;
+}
+/* В about-попапе (100vw) места слева нет — close остаётся в правом
+ * верхнем углу внутри попапа. */
+.popup-overlay--about .popup__close {
+  right: 20px;
 }
 
 
@@ -377,11 +449,13 @@
     margin-top: var(--spacing-5xl);
   }
 }
-/* === Левая колонка ===
- * top: 64px от верха попапа; вертикальный скролл, gap 48 между секциями. */
+/* === Левая колонка (контент) ===
+ * Lead + sections. Вертикальный скролл, gap 48 между блоками.
+ * 40px-отступ от lifetime реализован через margin-bottom на
+ * .popup__lifetime (вне scroll-зоны), не padding-top — иначе
+ * padding скроллится вместе с контентом. */
 .popup__left {
-  grid-column: 1;
-  padding: var(--spacing-3xl) 0 var(--spacing-xl) 0;
+  padding: 0 0 var(--spacing-xl) 0;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2xl);
@@ -390,15 +464,11 @@
   min-width: 0;
 }
 
-/* === Heading: title + life-line === */
-.popup__heading {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-}
-
 .popup__title {
   margin: 0;
+  grid-column: 1;
+  align-self: center;   /* центр по вертикали относительно фото-блока */
+  min-width: 0;
   font-family:    var(--font-h1-family);
   font-weight:    var(--font-h1-weight);
   font-size:      var(--font-h1-size);
@@ -414,6 +484,9 @@
   position: relative;
   height: 30px;
   width: 100%;
+  /* 40px gap до текста ниже (R22). Сидит ВНЕ scrollable .popup__left,
+   * чтобы содержимое не «упиралось» в линию жизни при скролле. */
+  margin-bottom: 40px;
 }
 
 .popup__lifetime-year {
@@ -511,20 +584,23 @@
  * высота 32px) расстояние 20px; от низа close до фото — те же 20px;
  * итого 20 + 32 + 20 = 72. */
 .popup__right {
-  grid-column: 3;
-  padding-top: var(--spacing-4xl);
+  /* 40px gap от lifetime — через margin-bottom на самой .popup__lifetime. */
+  padding: 0 0 var(--spacing-xl) 0;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
   min-width: 0;
 }
 
-/* Фото — div с background-image. Гарантирует квадратность даже если URL
- * сломан: при ошибке бекграунд не загрузится, но box остаётся квадратным
- * (на месте видно placeholder-цвет). */
+/* Фото — круг 232×232 (R22). Правая колонка header'а тоже 232px, так что
+ * фото точно заполняет её. div с background-image: при сломанном URL
+ * остаётся placeholder-цвет. */
 .popup__photo {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  grid-column: 2;
+  align-self: start;
+  width: 232px;
+  height: 232px;
+  border-radius: 50%;
   background-color: var(--surface-bg-secondary);
   background-position: center;
   background-size: cover;

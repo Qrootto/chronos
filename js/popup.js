@@ -190,27 +190,47 @@ function buildPopup(person, event, state, data) {
   const popup = document.createElement('div');
   popup.className = 'popup';
 
-  popup.appendChild(buildLeftColumn(person, event));
-  popup.appendChild(buildRightColumn(person, event, state, data));
+  // Header: H1 слева + круглое фото справа (R22)
+  popup.appendChild(buildHeader(person, event));
+
+  // Lifetime track — на всю ширину под шапкой (R22)
+  popup.appendChild(buildLifetimeStrip(person, event));
+
+  // Body: 2 колонки grid 636fr/232fr — контент / concurrent
+  const body = document.createElement('div');
+  body.className = 'popup__body';
+  body.appendChild(buildLeftColumn(person, event));
+  body.appendChild(buildRightColumn(person, event, state, data));
+  popup.appendChild(body);
 
   return popup;
 }
 
-/** Левая колонка: heading (title + life-line) + lead. */
-function buildLeftColumn(person, event) {
-  const left = document.createElement('div');
-  left.className = 'popup__left';
-
-  const heading = document.createElement('div');
-  heading.className = 'popup__heading';
+/** Header (R22): H1 + фото в одной строке. H1 центрирован вертикально
+ *  относительно фото (через align-items: center в CSS). */
+function buildHeader(person, event) {
+  const header = document.createElement('div');
+  header.className = 'popup__header';
 
   const title = document.createElement('h1');
   title.className = 'popup__title';
   title.textContent = `${person.name} в ${event.year}`;
-  heading.appendChild(title);
+  header.appendChild(title);
 
-  heading.appendChild(buildLifetimeStrip(person, event));
-  left.appendChild(heading);
+  const photo = document.createElement('div');
+  photo.className = 'popup__photo';
+  photo.setAttribute('role', 'img');
+  photo.setAttribute('aria-label', person.name);
+  if (person.photo) photo.style.backgroundImage = `url('${person.photo}')`;
+  header.appendChild(photo);
+
+  return header;
+}
+
+/** Левая колонка: lead + sections (R22 — title и lifetime вынесены наверх). */
+function buildLeftColumn(person, event) {
+  const left = document.createElement('div');
+  left.className = 'popup__left';
 
   // Lead — короткий выделенный абзац (event.description).
   if (event.description) {
@@ -288,19 +308,10 @@ function buildLifetimeStrip(person, event) {
   return lifetime;
 }
 
-/** Правая колонка: фото + «В это же время». */
+/** Правая колонка: «В это же время» (R22 — фото вынесено в header). */
 function buildRightColumn(person, event, state, data) {
   const right = document.createElement('div');
   right.className = 'popup__right';
-
-  // Фото — div c background-image. Если URL сломан, остаётся placeholder-фон,
-  // но box остаётся квадратным (aspect-ratio 1:1).
-  const photo = document.createElement('div');
-  photo.className = 'popup__photo';
-  photo.setAttribute('role', 'img');
-  photo.setAttribute('aria-label', person.name);
-  if (person.photo) photo.style.backgroundImage = `url('${person.photo}')`;
-  right.appendChild(photo);
 
   // Современники — другие видимые люди, у которых на тот же год есть свой event
   const concurrent = data.people
