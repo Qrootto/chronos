@@ -71,11 +71,7 @@
                 </svg>
               </button>
               <div class="zoom__track">
-                <span class="zoom__tick" style="left: 0%"></span>
-                <span class="zoom__tick" style="left: 25%"></span>
-                <span class="zoom__tick" style="left: 50%"></span>
-                <span class="zoom__tick" style="left: 75%"></span>
-                <span class="zoom__tick" style="left: 100%"></span>
+                <!-- .zoom__tick'и рендерятся в js/zoom.js → renderTicks по ZOOM_STEPS.length. -->
                 <div class="zoom__thumb" style="left: 50%"></div>
               </div>
               <button class="icon-btn icon-btn--pill" type="button" aria-label="Увеличить" id="zoom-in">
