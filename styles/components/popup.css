@@ -546,9 +546,11 @@
 
 .popup__concurrent-title {
   padding-left: var(--spacing-sm);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
+  font-family: var(--font-family);
+  font-weight:    var(--font-h3-weight);
+  font-size:      var(--font-h3-size);
+  line-height:    var(--font-h3-line-height);
+  letter-spacing: var(--font-h3-letter-spacing);
   color: var(--text-primary);
 }
 
@@ -600,9 +602,11 @@
 }
 
 .popup__concurrent-desc {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18px;
+  font-family: var(--font-family);
+  font-weight:    var(--font-body-xs-weight);
+  font-size:      var(--font-body-xs-size);
+  line-height:    var(--font-body-xs-line-height);
+  letter-spacing: var(--font-body-xs-letter-spacing);
   color: var(--text-primary);
   padding-right: var(--spacing-sm);
 }

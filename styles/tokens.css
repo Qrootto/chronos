@@ -301,6 +301,12 @@
   --font-h2-line-height:    22px;
   --font-h2-letter-spacing: 0;
 
+  /* Inter Regular 15 — h3 (заголовок «В это же время» в попапе и пр.) */
+  --font-h3-weight:         400;
+  --font-h3-size:           15px;
+  --font-h3-line-height:    1.4;
+  --font-h3-letter-spacing: 0;
+
   /* Wildfire 30 — lead (краткое описание года под таймлайном) */
   --font-lead-family:         'Wildfire', var(--font-family);
   --font-lead-weight:         400;
@@ -377,6 +383,13 @@
   font-size:      var(--font-h2-size);
   line-height:    var(--font-h2-line-height);
   letter-spacing: var(--font-h2-letter-spacing);
+}
+.text-h3 {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-h3-weight);
+  font-size:      var(--font-h3-size);
+  line-height:    var(--font-h3-line-height);
+  letter-spacing: var(--font-h3-letter-spacing);
 }
 .text-lead {
   font-family:    var(--font-lead-family);
