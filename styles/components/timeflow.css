@@ -45,10 +45,10 @@
   position: absolute;
   left: 4px;
   font-family: var(--font-family);
-  font-weight: var(--font-semibold-14-weight);
-  font-size: var(--font-semibold-14-size);
-  line-height: var(--font-semibold-14-line-height);
-  letter-spacing: var(--font-semibold-14-letter-spacing);
+  font-weight: var(--font-names-weight);
+  font-size: var(--font-names-size);
+  line-height: var(--font-names-line-height);
+  letter-spacing: var(--font-names-letter-spacing);
   white-space: nowrap;
   /* top и color задаются inline (top = N*43+34 от 1-го; color = категория) */
 }

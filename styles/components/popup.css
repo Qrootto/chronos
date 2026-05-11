@@ -585,10 +585,11 @@
   margin: 0;
   text-align: left;
   cursor: pointer;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1;
+  font-family: var(--font-family);
+  font-weight: var(--font-names-weight);
+  font-size: var(--font-names-size);
+  line-height: var(--font-names-line-height);
+  letter-spacing: var(--font-names-letter-spacing);
   /* color задаётся модификатором категории */
   transition: transform 0.15s ease;
 }
