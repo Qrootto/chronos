@@ -332,12 +332,18 @@
   --font-body-xs-line-height:    1.4;
   --font-body-xs-letter-spacing: 0;
 
-  /* Inter SemiBold 14 — labels, не-имена (year labels, event captions, etc.).
+  /* Inter SemiBold 14 — labels, не-имена (event captions, event titles, etc.).
    * Имена людей живут в --font-names-* (см. ниже). */
   --font-semibold-14-weight:         600;
   --font-semibold-14-size:           14px;
   --font-semibold-14-line-height:    1;
   --font-semibold-14-letter-spacing: 0;
+
+  /* Inter SemiBold 12 — caption (tick-метки: year scale, timeline-mini, etc.) */
+  --font-caption-weight:         600;
+  --font-caption-size:           12px;
+  --font-caption-line-height:    1;
+  --font-caption-letter-spacing: 0;
 
   /* Inter Regular 15 — names (имена людей: timeflow, sidebar checkboxes,
    * popup «В это же время»). */
@@ -405,6 +411,13 @@
   font-size:      var(--font-semibold-14-size);
   line-height:    var(--font-semibold-14-line-height);
   letter-spacing: var(--font-semibold-14-letter-spacing);
+}
+.text-caption {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-caption-weight);
+  font-size:      var(--font-caption-size);
+  line-height:    var(--font-caption-line-height);
+  letter-spacing: var(--font-caption-letter-spacing);
 }
 .text-names {
   font-family:    var(--font-family);

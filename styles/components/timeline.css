@@ -42,11 +42,11 @@
 
 .timeline__label {
   font-family: var(--font-family);
-  font-weight: var(--font-semibold-14-weight);
-  font-size: 12px;
-  line-height: 1;
+  font-weight: var(--font-caption-weight);
+  font-size: var(--font-caption-size);
+  line-height: var(--font-caption-line-height);
   color: var(--text-tertiary);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.5px;   /* override caption ls=0; slight space для век-меток */
 }
 .timeline__century--active .timeline__label {
   color: var(--text-primary-active);

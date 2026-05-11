@@ -45,9 +45,10 @@
   top: 12px;
   transform: translateX(-50%);
   font-family: var(--font-family);
-  font-weight: var(--font-semibold-14-weight);
-  font-size: 12px;
-  line-height: 1;
+  font-weight: var(--font-caption-weight);
+  font-size: var(--font-caption-size);
+  line-height: var(--font-caption-line-height);
+  letter-spacing: var(--font-caption-letter-spacing);
   color: var(--text-tertiary);
   white-space: nowrap;
   pointer-events: none;
