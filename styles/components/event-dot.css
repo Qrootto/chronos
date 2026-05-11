@@ -1,5 +1,5 @@
 /* Event dot — точка-событие на линии жизни.
- * 5 категорий (politic/scientist/businessman/artist/writer).
+ * 6 категорий (politic/scientist/businessman/artist/writer/musician).
  *
  * Бокс всегда 11×11 (чтобы координата центра была одна и та же
  * в Default и Hovered — не дёргалась). Сама точка рисуется через
