@@ -28,9 +28,6 @@
 - [ ] **R6** Sticky captions при vertical scroll
   Названия мировых событий и метка века должны прилипать к верху Timeflow при vertical scroll. Требует структурного рефакторинга — вынос captions из event-блоков в отдельный `<div class="timeflow__captions-bar">` с `position: sticky; top: 0`. Простой CSS-подход (sticky внутри absolute) не работает чисто.
 
-- [~] **R7** Категория `musician`
-  Токен `--surface-person-musician` (✅ есть как `var(--toxic-100)`); variant `Event caption / Category=Musician`; добавить музыкантов в `people.json`, проверить `roster.json`.
-
 - [ ] **R8** Полировка анимаций по всему сайту
   Появление event-caption и connection при hover, slide-in/out sidebar, scroll-by-zoom переходов, любых state-переходов.
 
