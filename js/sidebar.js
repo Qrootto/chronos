@@ -37,11 +37,18 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
   // ожидает анимацию только на той галочке, которую кликнули.
   let prevPeople = new Set();
   let prevEvents = new Set();
+  // Запоминаем какая группа была открыта в предыдущем render. Если та же
+  // группа открыта снова — sidebar пересобрался из-за обычного клика на
+  // чекбокс, а не из-за смены группы. В этом случае подавляем disclosure-
+  // анимацию (R25), иначе список «подпрыгивает» на каждый клик чекбокса.
+  let prevOpenKey = null;
 
   function render() {
     el.innerHTML = '';
     const data = getData();
     const openKey = getOpenKey();
+    const skipDisclosureAnim = (openKey === prevOpenKey);
+    prevOpenKey = openKey;
 
     // Текущее множество выбранных — для diff с прошлым рендером.
     const currPeople = new Set(data.people.filter(p => callbacks.isPersonSelected(p.id)).map(p => p.id));
@@ -123,10 +130,12 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
       onClick: () => callbacks.onToggleGroup(EVENTS_GROUP_KEY),
     }));
     if (openKey === EVENTS_GROUP_KEY) {
-      sidebar.appendChild(makeEventList(
+      const eventsList = makeEventList(
         data.events, callbacks.isEventSelected, callbacks.onToggleEvent,
         callbacks.onToggleAllEvents, newlyCheckedEvents,
-      ));
+      );
+      if (skipDisclosureAnim) eventsList.classList.add('sidebar__list--no-animate');
+      sidebar.appendChild(eventsList);
     }
 
     // Категории
@@ -140,10 +149,12 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
         onClick: () => callbacks.onToggleGroup(cat.key),
       }));
       if (openKey === cat.key) {
-        sidebar.appendChild(makePersonList(
+        const personList = makePersonList(
           inCat, callbacks.isPersonSelected, callbacks.onTogglePerson,
           callbacks.onToggleAllPeople, cat.cssCls, newlyCheckedPeople,
-        ));
+        );
+        if (skipDisclosureAnim) personList.classList.add('sidebar__list--no-animate');
+        sidebar.appendChild(personList);
       }
     }
 

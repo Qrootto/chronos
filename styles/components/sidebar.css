@@ -113,6 +113,13 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Подавляем disclosure-анимацию при re-render той же открытой группы
+ * (клик чекбокса внутри). JS добавляет класс в render() если openKey
+ * совпадает с предыдущим (см. js/sidebar.js). */
+.sidebar__list--no-animate {
+  animation: none;
+}
+
 .sidebar__item {
   display: flex;
   align-items: center;
