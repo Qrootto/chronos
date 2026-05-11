@@ -70,12 +70,6 @@
 - [ ] **R23** Drag-функционал на ползунке zoom
   Сейчас zoom меняется только кликом на +/−. Добавить возможность тащить ползунок мышью (drag).
 
-- [~] **R28** Пересмотреть текстовые токены (типографика + цвет текста)
-  Общий ревью всех text-related токенов:
-  - **Типографика:** `--font-h1-*`, `--font-h2-*`, `--font-lead-*`, `--font-body-*`, `--font-body-s-*`, `--font-semibold-14-*` — family / weight / size / line-height.
-  - **Цвет текста:** `--text-primary`, `--text-primary-hovered`, `--text-primary-active`, `--text-secondary`, `--text-tertiary`, `--text-century`, `--text-white`, `--text-black`.
-  Пройтись по обеим группам, проверить актуальность ролей и значений; при необходимости — добавить/удалить/переименовать.
-
 ---
 
 ## Потом
