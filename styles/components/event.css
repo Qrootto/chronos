@@ -32,10 +32,10 @@
   position: relative;
   background: linear-gradient(
     to right,
-    var(--light-8),
-    var(--light-4) 25%,
-    var(--light-4) 75%,
-    var(--light-8)
+    var(--light-4),
+    transparent 25%,
+    transparent 75%,
+    var(--light-4)
   );
 }
 .event--several-years::before,
@@ -60,10 +60,10 @@
 .event--one-year.event--hovered {
   background: linear-gradient(
     to right,
-    var(--light-16),
+    var(--light-8),
     var(--light-4) 25%,
     var(--light-4) 75%,
-    var(--light-16)
+    var(--light-8)
   );
   /* Hover override — мгновенно загорается при наведении. */
   transition: background var(--motion-duration-fast) var(--motion-ease-out),

@@ -212,7 +212,7 @@
   /* Lifeline (линии жизни) — default цвет.
    * Hover-цвет берётся из категории человека через CSS-переменную
    * --lifeline-hovered-color (см. styles/components/life-line.css). */
-  --surface-lifeline:           var(--dark-48);
+  --surface-lifeline:           var(--dark-80);
 
   /* Век: разделитель (вертикальная линия) и подпись «XX» сверху. */
   --surface-century:            var(--red-64);
@@ -228,8 +228,8 @@
   --border-category:                 var(--light-8);
   --border-checkbox:                 var(--light-16);
   --border-checkbox-hovered:         var(--light-24);
-  --border-event:                    var(--light-16);
-  --border-event-hovered:            var(--light-64);
+  --border-event:                    var(--light-8);
+  --border-event-hovered:            var(--light-32);
   /* Точечное событие (event--less-than-year) — отдельные токены, чтобы
    * управлять цветом независимо от других вариантов event. */
   --surface-event-tick-default:      var(--light-24);
@@ -293,10 +293,10 @@
   --font-h1-line-height:    1.1;
   --font-h1-letter-spacing: 0;
 
-  /* Inter Light 24 — h2 (подзаголовки в попапе) */
-  --font-h2-weight:         300;
-  --font-h2-size:           24px;
-  --font-h2-line-height:    22px;
+  /* Inter Regular 18 — h2 (подзаголовки в попапе) */
+  --font-h2-weight:         400;
+  --font-h2-size:           18px;
+  --font-h2-line-height:    1.4;
   --font-h2-letter-spacing: 0;
 
   /* Inter Regular 15 — h3 (заголовок «В это же время» в попапе и пр.) */
