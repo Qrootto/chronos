@@ -421,6 +421,19 @@ function setupSidebar() {
         sb.render();
         applyState();
       },
+      onToggleSelectAll: (turnOn) => {
+        // Глобальный select-all (R13): включает / выключает всех людей и все события.
+        if (turnOn) {
+          STATE.peopleIds = DATA.people.map(p => p.id);
+          for (const e of DATA.events) STATE.selectedEventIds.add(e.id);
+        } else {
+          STATE.peopleIds = [];
+          STATE.selectedEventIds.clear();
+        }
+        saveSelectedPeople();
+        sb.render();
+        applyState();
+      },
     },
   );
   sb.render();

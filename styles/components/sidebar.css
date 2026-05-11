@@ -26,8 +26,59 @@
 }
 
 .sidebar > .selector,
-.sidebar > .sidebar__close {
+.sidebar > .sidebar__close,
+.sidebar > .sidebar__select-all {
   flex-shrink: 0;
+}
+
+/* === Глобальный «Все события и люди» (R13) ===
+ * Отдельный row сверху, под close-шапкой. Текст слева, toggle справа.
+ * Над рядом — divider (border-top), отделяющий от close-шапки.
+ * Высота/padding как у selector — для визуального ритма с группами ниже.
+ * Toggle прижат к правому краю, выровнен с chevron'ами селекторов. */
+.sidebar__select-all {
+  display: flex;
+  align-items: center;
+  width: 288px;
+  height: 56px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 0;
+  border-top: 1px solid var(--border-category);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-white);
+  font-family: var(--font-family);
+  font-weight: var(--font-semibold-14-weight);
+  font-size: var(--font-semibold-14-size);
+  line-height: var(--font-semibold-14-line-height);
+  letter-spacing: var(--font-semibold-14-letter-spacing);
+  white-space: nowrap;
+}
+
+.sidebar__select-all .toggle {
+  margin-left: auto;     /* отталкивает toggle к правому краю */
+}
+
+/* Hover на любую часть ряда → pin растягивается (whole-row кликабелен). */
+.sidebar__select-all:hover .toggle__pin {
+  width: 18px;
+  transition:
+    left var(--motion-duration-fast) var(--motion-ease-out),
+    width var(--motion-duration-fast) var(--motion-ease-out);
+}
+.sidebar__select-all:hover .toggle--active .toggle__pin {
+  left: 10px;
+}
+
+/* No-hover override — после клика по ряду pin едет к state-default
+ * без hover-stretch'а, с нормальным transition (см. toggle.css). */
+.sidebar__select-all.no-hover:hover .toggle__pin {
+  width: 14px;
+}
+.sidebar__select-all.no-hover:hover .toggle--active .toggle__pin {
+  left: 14px;
+  width: 14px;
 }
 
 /* === Верхняя строка с close ===

@@ -195,6 +195,52 @@
         </details>
       </section>
 
+      <!-- ============== TOGGLE ============== -->
+      <section class="ks-component" data-component="toggle">
+        <h2 class="ks-component__title">Toggle</h2>
+        <p class="ks-component__desc">
+          Переключатель 32×16 (pill). 4 состояния: Default, Hovered, Active, Active hovered.
+          При hover pin растягивается до 18px в направлении следующего движения.
+        </p>
+
+        <div class="ks-states">
+          <div class="ks-state">
+            <div class="ks-state__label">Default</div>
+            <div class="ks-state__demo">
+              <span class="toggle"><span class="toggle__pin"></span></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Hovered</div>
+            <div class="ks-state__demo">
+              <span class="toggle toggle--hovered"><span class="toggle__pin"></span></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Active</div>
+            <div class="ks-state__demo">
+              <span class="toggle toggle--active"><span class="toggle__pin"></span></span>
+            </div>
+          </div>
+          <div class="ks-state">
+            <div class="ks-state__label">Active hovered</div>
+            <div class="ks-state__demo">
+              <span class="toggle toggle--active toggle--hovered"><span class="toggle__pin"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <details class="ks-snippet">
+          <summary>HTML</summary>
+<pre>&lt;span class="toggle"&gt;&lt;span class="toggle__pin"&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;!-- Состояния --&gt;
+&lt;span class="toggle toggle--hovered"&gt;...&lt;/span&gt;
+&lt;span class="toggle toggle--active"&gt;...&lt;/span&gt;
+&lt;span class="toggle toggle--active toggle--hovered"&gt;...&lt;/span&gt;</pre>
+        </details>
+      </section>
+
       <!-- ============== YEAR ============== -->
       <section class="ks-component" data-component="year">
         <h2 class="ks-component__title">Year</h2>

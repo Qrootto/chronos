@@ -67,6 +67,53 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
     closeRow.appendChild(closeBtn);
     sidebar.appendChild(closeRow);
 
+    // Глобальный «Все события и люди» (R13) — toggle on/off.
+    // Visual two-state: on = всё выбрано; off = иначе (partial / none).
+    // Click action: на off → включить всё; на on → снять всё.
+    const allPeopleSelected = data.people.length > 0 && data.people.every(p => callbacks.isPersonSelected(p.id));
+    const allEventsSelected = data.events.length > 0 && data.events.every(e => callbacks.isEventSelected(e.id));
+    const allOn = allPeopleSelected && allEventsSelected;
+
+    const selectAllRow = document.createElement('button');
+    selectAllRow.type = 'button';
+    selectAllRow.className = 'sidebar__select-all';
+
+    const labelText = document.createElement('span');
+    labelText.className = 'sidebar__select-all-label';
+    labelText.textContent = 'Все события и люди';
+    selectAllRow.appendChild(labelText);
+
+    const toggle = document.createElement('span');
+    toggle.className = 'toggle';
+    if (allOn) toggle.classList.add('toggle--active');
+    const pin = document.createElement('span');
+    pin.className = 'toggle__pin';
+    toggle.appendChild(pin);
+    selectAllRow.appendChild(toggle);
+
+    selectAllRow.addEventListener('click', () => {
+      // newOn вычисляем из текущего класса toggle, а не из closure-захваченного
+      // allOn — closure становится stale между кликами до re-render'а.
+      const newOn = !toggle.classList.contains('toggle--active');
+      // Добавляем .no-hover СРАЗУ — pin transit'нет к финальному no-hover-state
+      // одной плавной анимацией (без 2 стадий "hover-active → no-hover-active").
+      selectAllRow.classList.add('no-hover');
+      selectAllRow.addEventListener('pointerleave', () => {
+        selectAllRow.classList.remove('no-hover');
+      }, { once: true });
+      // Триггерим CSS transition на существующем элементе.
+      toggle.classList.toggle('toggle--active', newOn);
+      // Cancel pending state update от предыдущего rapid-клика.
+      clearTimeout(selectAllRow._toggleTimeoutId);
+      // Откладываем re-render до окончания анимации (~250ms + buffer),
+      // иначе render() уничтожит DOM и пересоздаст toggle в финальном
+      // состоянии — анимация не успеет сработать.
+      selectAllRow._toggleTimeoutId = setTimeout(() => {
+        callbacks.onToggleSelectAll(newOn);
+      }, 300);
+    });
+    sidebar.appendChild(selectAllRow);
+
     // События
     sidebar.appendChild(makeSelector({
       catCss:  null,
@@ -101,9 +148,42 @@ export function initSidebar(el, getData, getOpenKey, callbacks) {
     }
 
     el.appendChild(sidebar);
+
+    // После клика sidebar пересобирается. Если курсор остался на интерактивном
+    // элементе (toggle / checkbox / select-all row) — добавляем .no-hover на
+    // него, чтобы hover-state не показывался "залипшим". Hover вернётся при
+    // pointerleave + повторном наведении (см. *.css → .no-hover override).
+    suppressHoverUnderCursor(el);
   }
 
   return { render };
+}
+
+/** Глобально отслеживаем последнюю позицию курсора (через document-level
+ *  listener, ставится один раз). */
+let lastPointerPos = null;
+function ensurePointerTracking() {
+  if (lastPointerPos !== null) return;
+  lastPointerPos = { x: -1, y: -1 };
+  document.addEventListener('pointermove', (e) => {
+    lastPointerPos.x = e.clientX;
+    lastPointerPos.y = e.clientY;
+  });
+}
+
+const NO_HOVER_SELECTORS = '.toggle, .checkbox, .sidebar__select-all';
+
+function suppressHoverUnderCursor(rootEl) {
+  ensurePointerTracking();
+  if (lastPointerPos.x < 0) return;
+  const elAt = document.elementFromPoint(lastPointerPos.x, lastPointerPos.y);
+  if (!elAt) return;
+  const target = elAt.closest(NO_HOVER_SELECTORS);
+  if (!target || !rootEl.contains(target)) return;
+  target.classList.add('no-hover');
+  target.addEventListener('pointerleave', () => {
+    target.classList.remove('no-hover');
+  }, { once: true });
 }
 
 /** Текст счётчика для группы: число выбранных или "все" если все. */

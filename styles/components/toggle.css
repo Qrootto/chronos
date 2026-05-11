@@ -1,0 +1,83 @@
+/* Toggle — атом-переключатель, 32×16 pill (R13).
+ * Pin 14×10 в default-позиции. При hover pin "растягивается" до 18px в
+ * направлении следующего движения, подсказывая будущий жест переключения.
+ * Active = brand-цвет фона, pin сдвинут к правому краю.
+ *
+ * Состояния: Default / Hovered / Active / Active hovered (модификаторы
+ * --hovered для kitchen sink явно показывают hover-вариант). */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  /* border-box: 32×16 включает 1px border с каждой стороны.
+   * Контентная область 30×14, что даёт симметричные 2px от pin до стенок
+   * по горизонтали (default) и по вертикали. */
+  box-sizing: border-box;
+  width: 32px;
+  height: 16px;
+  border-radius: var(--radius-xxxl);   /* 32px = full pill */
+  border: 1px solid var(--light-8);
+  background: var(--light-24);
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 0;
+  /* overflow: hidden — обрезает overshoot pin'а при bounce, давая
+   * эффект "удара в стенку". */
+  overflow: hidden;
+  transition:
+    background var(--motion-duration-base) var(--motion-ease-out),
+    border-color var(--motion-duration-base) var(--motion-ease-out);
+}
+
+.toggle__pin {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 10px;
+  border-radius: var(--radius-xxxl);
+  background: var(--light-100);
+  /* Плавный slide для left и hover-stretch для width — обе с ease-out,
+   * без overshoot. */
+  transition:
+    left var(--motion-duration-base) var(--motion-ease-out),
+    width var(--motion-duration-base) var(--motion-ease-out);
+}
+
+/* Active (on) — brand-фон, pin справа. */
+.toggle--active {
+  background: var(--brand);
+  border-color: var(--light-24);
+}
+.toggle--active .toggle__pin {
+  left: 14px;
+}
+
+/* Hover (off): pin растягивается вправо. */
+.toggle:hover .toggle__pin,
+.toggle--hovered .toggle__pin {
+  width: 18px;
+  transition:
+    left var(--motion-duration-fast) var(--motion-ease-out),
+    width var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+/* Hover (on/active): pin растягивается влево — обратное направление. */
+.toggle--active:hover .toggle__pin,
+.toggle--active.toggle--hovered .toggle__pin {
+  left: 10px;
+  width: 18px;
+}
+
+/* No-hover: после клика по toggle курсор остаётся на нём, но hover-state
+ * не показываем — pin едет к state-default (без stretch) с нормальным
+ * transition (тот же spring overshoot на left). Hover вернётся когда
+ * курсор уйдёт и снова наведётся. JS добавляет класс на клик и снимает
+ * на pointerleave (см. js/sidebar.js). */
+.toggle.no-hover:hover .toggle__pin {
+  width: 14px;
+}
+.toggle.no-hover.toggle--active:hover .toggle__pin {
+  left: 14px;
+  width: 14px;
+}

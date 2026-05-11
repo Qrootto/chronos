@@ -45,6 +45,19 @@
   border-color: var(--border-checkbox-hovered);
 }
 
+/* No-hover override — после клика по чекбоксу курсор остаётся на нём,
+ * но hover-state не показываем. Hover вернётся при leave + re-enter.
+ * JS добавляет класс на mount под курсором (см. js/sidebar.js). */
+.checkbox.no-hover:hover {
+  background: var(--surface-checkbox);
+  border-color: var(--border-checkbox);
+}
+.checkbox.no-hover.checkbox--checked:hover,
+.checkbox.no-hover.checkbox--deselect:hover {
+  background: var(--checkbox-active-color);
+  border-color: var(--checkbox-active-color);
+}
+
 .checkbox--checked,
 .checkbox[aria-checked="true"],
 .checkbox--deselect {
