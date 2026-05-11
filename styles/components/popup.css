@@ -141,10 +141,11 @@
 .popup__about-bridge,
 .popup__about-outro {
   margin-left: 40%;
-  font-weight:    var(--font-lead-weight);
-  font-size:      var(--font-lead-size);
-  line-height:    var(--font-lead-line-height);
-  letter-spacing: var(--font-lead-letter-spacing);
+  font-family:    var(--font-family);
+  font-weight:    var(--font-body-l-weight);
+  font-size:      var(--font-body-l-size);
+  line-height:    var(--font-body-l-line-height);
+  letter-spacing: var(--font-body-l-letter-spacing);
   color: var(--text-white);
 }
 .popup__about-intro {
@@ -156,9 +157,9 @@
 .popup__about-intro p {
   margin: 0;
 }
-/* Пустая строка между абзацами = одна lead-line-height. */
+/* Пустая строка между абзацами = одно spacing-lg (24px). */
 .popup__about-intro p + p {
-  margin-top: var(--font-lead-line-height);
+  margin-top: var(--spacing-lg);
 }
 .popup__about-bridge {
   margin-top: var(--spacing-6xl);   /* 140px от пары фото */

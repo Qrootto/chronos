@@ -308,6 +308,12 @@
   --font-lead-line-height:    1.2;
   --font-lead-letter-spacing: 0.01em;
 
+  /* Inter Light 24 — body l (body-текст в about-попапе) */
+  --font-body-l-weight:         300;
+  --font-body-l-size:           24px;
+  --font-body-l-line-height:    1.2;
+  --font-body-l-letter-spacing: 0;
+
   /* Inter Light 18 — body (основной текст в попапе) */
   --font-body-weight:         300;
   --font-body-size:           18px;
@@ -364,6 +370,13 @@
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
+}
+.text-body-l {
+  font-family:    var(--font-family);
+  font-weight:    var(--font-body-l-weight);
+  font-size:      var(--font-body-l-size);
+  line-height:    var(--font-body-l-line-height);
+  letter-spacing: var(--font-body-l-letter-spacing);
 }
 .text-body {
   font-family:    var(--font-family);
