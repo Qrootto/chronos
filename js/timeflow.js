@@ -507,11 +507,15 @@ export function attachHoverCaptions(timeflowEl, getData, getState) {
 }
 
 /** Visual hover для life-line — height 5px + цвет категории. Включается
- *  только через hover на event-dot этого человека. */
+ *  только через hover на event-dot этого человека. Параллельно сдвигает
+ *  возраст в current-year overlay на левую сторону линии (R21), чтобы
+ *  не перекрывался с caption события. */
 function setLifeLineVisualHover(timeflowEl, personId, on) {
   if (!personId) return;
   const line = timeflowEl.querySelector(`.life-line[data-person-id="${personId}"]`);
   if (line) line.classList.toggle('life-line--hovered', on);
+  const age = document.querySelector(`.current-year__age[data-person-id="${personId}"]`);
+  if (age) age.classList.toggle('current-year__age--left', on);
 }
 
 /** Подсветка возраста для конкретного человека в current-year overlay.

@@ -55,3 +55,11 @@
 .current-year__age--hovered {
   color: var(--light-32);
 }
+
+/* Когда event-dot этого человека hovered — caption события вылезает справа
+ * от линии и перекрывает возраст (R21). Переставляем возраст на левую
+ * сторону линии (та же 4px дистанция, но с другой стороны). */
+.current-year__age--left {
+  left: auto;
+  right: 4px;
+}

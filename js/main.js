@@ -343,6 +343,12 @@ function updateCurrentYear(currentYearEl, timeflowEl, year) {
     if (line.classList.contains('life-line--age-hovered')) {
       label.classList.add('current-year__age--hovered');
     }
+    // Если линия в --hovered (= event-dot hovered) → caption события
+    // вылез справа от current-year line. Переставляем возраст на левую
+    // сторону, чтобы не перекрывался (R21).
+    if (line.classList.contains('life-line--hovered')) {
+      label.classList.add('current-year__age--left');
+    }
     label.textContent = formatAge(age);
     // Координаты current-year относительно canvas (родитель). Y ось:
     //   life-line.style.top — в координатах canvas-inner (timeflow-area).
