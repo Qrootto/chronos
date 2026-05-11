@@ -62,9 +62,9 @@
   grid-template-columns: 2fr calc(var(--spacing-2xl) * 2) 1fr;
   padding-left: var(--spacing-xl);
   font-family: var(--font-family);
-  /* Все тексты внутри попапа — --text-primary, кроме h1/h2 (явно --text-white)
+  /* Все тексты внутри попапа — --text-secondary, кроме h1/h2 (явно --text-white)
    * и имён персонажей в «В это же время» (яркий цвет категории). */
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 /* Кнопка close в правом верхнем углу попапа: 20px от верха и от правого края. */
@@ -303,7 +303,7 @@
   transition: color var(--motion-duration-xslow) var(--motion-ease-out);
 }
 .popup__about-policy:hover {
-  color: var(--text-primary);
+  color: var(--text-secondary);
   transition: color var(--motion-duration-fast) var(--motion-ease-out);
 }
 
@@ -422,7 +422,7 @@
   font-weight: 500;     /* Inter Medium */
   font-size: 14px;
   line-height: 1;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   white-space: nowrap;
 }
 .popup__lifetime-year--event {
@@ -471,7 +471,7 @@
   font-size:      var(--font-lead-size);
   line-height:    var(--font-lead-line-height);
   letter-spacing: var(--font-lead-letter-spacing);
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 /* === Text — набор секций с подзаголовками === */
@@ -503,7 +503,7 @@
   font-size:      var(--font-body-size);
   line-height:    var(--font-body-line-height);
   letter-spacing: var(--font-body-letter-spacing);
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 /* === Правая колонка ===
@@ -551,7 +551,7 @@
   font-size:      var(--font-h3-size);
   line-height:    var(--font-h3-line-height);
   letter-spacing: var(--font-h3-letter-spacing);
-  color: var(--text-primary);
+  color: var(--text-secondary);
 }
 
 .popup__concurrent-list {
@@ -607,7 +607,7 @@
   font-size:      var(--font-body-xs-size);
   line-height:    var(--font-body-xs-line-height);
   letter-spacing: var(--font-body-xs-letter-spacing);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   padding-right: var(--spacing-sm);
 }
 

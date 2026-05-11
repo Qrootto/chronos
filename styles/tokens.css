@@ -62,17 +62,17 @@
   --white-4:   #ffffff0a;
 
   /* ================================================================
-   * PRIMITIVES — LIGHT (alpha grades, base #c9d5ff)
+   * PRIMITIVES — LIGHT (alpha grades, base #bed3ea)
    * ================================================================ */
-  --light-100: #c9d5ff;
-  --light-80:  #c9d5ffcc;
-  --light-64:  #c9d5ffa3;
-  --light-48:  #c9d5ff7a;
-  --light-32:  #c9d5ff52;
-  --light-24:  #c9d5ff3d;
-  --light-16:  #c9d5ff29;
-  --light-8:   #c9d5ff14;
-  --light-4:   #c9d5ff0a;
+  --light-100: #bed3ea;
+  --light-80:  #bed3eacc;
+  --light-64:  #bed3eaa3;
+  --light-48:  #bed3ea7a;
+  --light-32:  #bed3ea52;
+  --light-24:  #bed3ea3d;
+  --light-16:  #bed3ea29;
+  --light-8:   #bed3ea14;
+  --light-4:   #bed3ea0a;
 
   /* ================================================================
    * PRIMITIVES — DARK (alpha grades, base #3B5172)
@@ -173,12 +173,11 @@
   /* ================================================================
    * SEMANTIC — TEXT
    * ================================================================ */
-  --text-primary:           var(--light-100); /* основной контрастный текст */
+  --text-secondary:         var(--light-100); /* основной контрастный текст */
   --text-primary-hovered:   var(--light-48);
-  --text-secondary:         var(--light-64);  /* hint-подписи и пр. */
   --text-tertiary:          var(--light-24);  /* приглушённый (бывший --text-primary) */
   --text-white:             var(--white-100);
-  --text-black:             var(--black-100);
+  --text-caption:           var(--black-100); /* текст внутри event-caption (на ярком фоне категории) */
 
   /* ================================================================
    * SEMANTIC — SURFACE (фоны)

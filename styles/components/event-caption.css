@@ -15,7 +15,7 @@
   font-family: var(--font-family);
   font-weight: var(--font-semibold-14-weight);
   font-size: var(--font-semibold-14-size);
-  color: var(--text-black);
+  color: var(--text-caption);
   white-space: nowrap;
   vertical-align: middle;
 }

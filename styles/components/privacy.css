@@ -27,7 +27,7 @@
   transition: color var(--motion-duration-xslow) var(--motion-ease-out);
 }
 .privacy__back:hover {
-  color: var(--text-primary);
+  color: var(--text-secondary);
   transition: color var(--motion-duration-fast) var(--motion-ease-out);
 }
 
