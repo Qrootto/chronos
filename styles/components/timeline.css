@@ -49,7 +49,7 @@
   letter-spacing: 0.5px;   /* override caption ls=0; slight space для век-меток */
 }
 .timeline__century--active .timeline__label {
-  color: var(--text-primary-active);
+  color: var(--text-primary);
 }
 
 .timeline__divider {

@@ -5,7 +5,7 @@
  *   Default — точка 5×5, label 10px, цвет text-primary.
  *   Hovered — размеры как у Active (7×7, 12px), цвет text-primary-hovered.
  *             Сделано заметнее, чтобы было видно какой год сейчас под курсором.
- *   Active  — точка 7×7, label 12px, цвет text-primary-active. */
+ *   Active  — точка 7×7, label 12px, цвет text-primary. */
 
 /* Бокс 20×22. Внутри: dot top:0 + label с отступом от dot.
  * Default: gap dot↔label = +3px относительно базы Figma → label.top = 9.
@@ -64,10 +64,10 @@
 .year--active .year__dot {
   width: 7px;
   height: 7px;
-  background: var(--text-primary-active);
+  background: var(--text-primary);
 }
 .year--active .year__label {
   top: 10px;
   font-size: var(--font-caption-size);
-  color: var(--text-primary-active);
+  color: var(--text-primary);
 }
