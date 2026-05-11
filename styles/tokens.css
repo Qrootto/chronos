@@ -313,11 +313,11 @@
   --font-body-line-height:    1.5;
   --font-body-letter-spacing: 0;
 
-  /* Inter Regular 14 — body small (описания под именами «В это же время») */
-  --font-body-s-weight:         400;
-  --font-body-s-size:           14px;
-  --font-body-s-line-height:    1.4;
-  --font-body-s-letter-spacing: 0;
+  /* Inter Light 14 — body xs (описания под именами «В это же время» и пр.) */
+  --font-body-xs-weight:         300;
+  --font-body-xs-size:           14px;
+  --font-body-xs-line-height:    1.4;
+  --font-body-xs-letter-spacing: 0;
 
   /* Inter SemiBold 14 — labels, не-имена (year labels, event captions, etc.).
    * Имена людей живут в --font-names-* (см. ниже). */
@@ -365,12 +365,12 @@
   line-height:    var(--font-body-line-height);
   letter-spacing: var(--font-body-letter-spacing);
 }
-.text-body-s {
+.text-body-xs {
   font-family:    var(--font-family);
-  font-weight:    var(--font-body-s-weight);
-  font-size:      var(--font-body-s-size);
-  line-height:    var(--font-body-s-line-height);
-  letter-spacing: var(--font-body-s-letter-spacing);
+  font-weight:    var(--font-body-xs-weight);
+  font-size:      var(--font-body-xs-size);
+  line-height:    var(--font-body-xs-line-height);
+  letter-spacing: var(--font-body-xs-letter-spacing);
 }
 .text-semibold-14 {
   font-family:    var(--font-family);

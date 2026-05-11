@@ -235,10 +235,10 @@
   grid-column: 1;
   margin: 0;
   padding-right: var(--spacing-xl);
-  font-weight:    var(--font-body-s-weight);
-  font-size:      var(--font-body-s-size);
-  line-height:    var(--font-body-s-line-height);
-  letter-spacing: var(--font-body-s-letter-spacing);
+  font-weight:    var(--font-body-xs-weight);
+  font-size:      var(--font-body-xs-size);
+  line-height:    var(--font-body-xs-line-height);
+  letter-spacing: var(--font-body-xs-letter-spacing);
   color: var(--text-white);
 }
 .popup__about-contact a {
@@ -276,10 +276,10 @@
   margin: 0;
   text-align: left;
   font-family: var(--font-family);
-  font-weight:    var(--font-body-s-weight);
-  font-size:      var(--font-body-s-size);
-  line-height:    var(--font-body-s-line-height);
-  letter-spacing: var(--font-body-s-letter-spacing);
+  font-weight:    var(--font-body-xs-weight);
+  font-size:      var(--font-body-xs-size);
+  line-height:    var(--font-body-xs-line-height);
+  letter-spacing: var(--font-body-xs-letter-spacing);
   color: var(--text-white);
 }
 .popup__about-signature a {
@@ -294,9 +294,9 @@
 .popup__about-policy {
   flex-shrink: 0;
   font-family: var(--font-family);
-  font-weight:    var(--font-body-s-weight);
-  font-size:      var(--font-body-s-size);
-  line-height:    var(--font-body-s-line-height);
+  font-weight:    var(--font-body-xs-weight);
+  font-size:      var(--font-body-xs-size);
+  line-height:    var(--font-body-xs-line-height);
   color: var(--text-primary-hovered);
   text-decoration: none;
   transition: color var(--motion-duration-xslow) var(--motion-ease-out);

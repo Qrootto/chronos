@@ -23,7 +23,7 @@
   margin-bottom: var(--spacing-2xl);
   color: var(--text-primary-hovered);
   text-decoration: none;
-  font-size: var(--font-body-s-size);
+  font-size: var(--font-body-xs-size);
   transition: color var(--motion-duration-xslow) var(--motion-ease-out);
 }
 .privacy__back:hover {
@@ -44,7 +44,7 @@
 .privacy__date {
   margin: 0 0 var(--spacing-2xl);
   color: var(--text-primary-hovered);
-  font-size: var(--font-body-s-size);
+  font-size: var(--font-body-xs-size);
 }
 
 .privacy h2 {
