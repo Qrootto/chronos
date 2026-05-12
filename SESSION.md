@@ -1,6 +1,19 @@
 # SESSION.md — Past Simple
 
-**Текущая фаза:** Подготовка к релизу — актуализация и закрытие предрелизного беклога (см. `BACKLOG.md → К релизу`, 21 пункт со стабильными ID `R<N>`).
+**Текущая фаза:** Подготовка к релизу — актуализация и закрытие предрелизного беклога (см. `BACKLOG.md → К релизу`).
+
+---
+
+## 2026-05-11 / 2026-05-12 — R22: новый дизайн попапа события
+
+**Сделано в эту сессию:**
+- **R22 Phase 1** (`a1a0631`) — реструктура layout попапа: `.popup` стал flex-column из трёх детей: `.popup__header` (H1 + круглое фото 232×232) → `.popup__lifetime` → `.popup__body` (2 колонки grid `minmax(0,1fr) 232px` — контент / concurrent). Padding 40px по бокам с `box-sizing: border-box`. Фото вынесено из правой колонки в шапку. Ширина попапа: 65vw, на viewport ≥1550px — 50vw. Close-кнопка переехала за левый край попапа (16px gap), скрывается через opacity при `:not(.is-open)`, hover без подложки (только scale на SVG). Lifetime между шапкой и body, `margin-bottom: 40px` ВНЕ scroll-зоны левой колонки (чтобы текст не упирался в линию при скролле). `popup.js` — новый `buildHeader()`, реструктура `buildPopup`.
+- **R22 Phase 2** (`343fe91`) — линия жизни редизайн: добавлены стрелки prev/next (32×32 hit-area, иконки `--surface-icon`, 24px gap до краёв линии, hover сдвиг наружу 4px, `:disabled` 30% opacity на первом/последнем событии). Добавлены пустые dots для других событий того же человека: `background: var(--surface-popup-bg)`, `border: 1px solid currentColor` (currentColor — цвет категории через inline color), на hover заливается currentColor. Год-подписи у alt-dots не рендерим (наезжали при близких годах). Клик по alt-dot или стрелке → re-render попапа на это событие через `rerender(newEvent)` (close-кнопка остаётся, не мигает). Layout `.popup__lifetime` — flex `align-items: flex-start` + `margin-top: 9.5px` на стрелках для выравнивания центра стрелки (16px) с центром линии (25.5px от верха inner).
+- **R22 Phase 3** (`452b09a`) — concurrent-item gap `var(--spacing-xs)` (8px) → 6px (`-2px` по дизайну).
+- **Витрина** (`4d2810b`) — `components.html` popup-демо переписано под новую структуру: header / lifetime (с alt-dot пример на 1907 + стрелки) / body. Обёрнуто в фейк-overlay с `.is-open` и inline-override'ами `position: relative; transform: none`, чтобы close был виден.
+
+**Открытые вопросы:**
+Нет открытых.
 
 ---
 
