@@ -9,6 +9,7 @@ public/data/components-meta.json
 # Heavy design source files (исходники Figma — не нужны в репо)
 assets/Popup.svg
 assets/Popup.png
+assets/Popup-connection.png
 
 # OS / editor
 .DS_Store
