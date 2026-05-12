@@ -8,7 +8,8 @@
 
 **Сделано:**
 - Перепрогон `/audit-connections` v2 с классификацией G1/G2/G3 по наличию event у второго человека. Результат: G1 (1), G1* (3), G2 (8), G3 (8).
-- Применены 4 mutual connections в ветке `feature/r15-apply-g1` — все с событиями у обоих, визуальный эффект сразу: blok↔gumilev 1921 (friendship), akhmatova↔gumilev 1921 (romantic, расстрел как отдельный эпизод), blok↔akhmatova 1921 (friendship, последняя речь), pasternak↔akhmatova 1935 (friendship, заступничество за арестованных).
+- Применены **3 mutual connections** в ветке `feature/r15-apply-g1`: blok↔gumilev 1921 (friendship), akhmatova↔gumilev 1921 (romantic, расстрел как отдельный эпизод), pasternak↔akhmatova 1935 (friendship, заступничество за арестованных). Изначально применили 4-ю — blok↔akhmatova 1921, но на preview оказалось, что три mutual между Блок/Гумилёв/Ахматова на 1921 дают визуальный треугольник связей; убрали как самую тонкую (у пары уже есть influence 1914).
+- На preview также обнаружен баг: `getPairedFor` в `js/popup.js` выбирает paired из всех mutual'ов на год, не учитывая фильтр людей → у Блока 1921 показывается paired = Ахматова (алфавитно), даже если в фильтре только Блок+Гумилёв. Заведена **R23** в BACKLOG.
 - `/check` OK, `npm run build` OK.
 
 **Отложено:**
