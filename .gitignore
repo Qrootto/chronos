@@ -27,3 +27,6 @@ Thumbs.db
 
 # Local Claude state (личные настройки разработчика)
 .claude/settings.local.json
+
+# Скиллы пишут туда временные отчёты (batch фактчек, аудит и т.п.)
+.scratch/
