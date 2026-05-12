@@ -938,90 +938,122 @@
       <section class="ks-component" data-component="popup">
         <h2 class="ks-component__title">Popup</h2>
         <p class="ks-component__desc">
-          Карточка-шторка с подробностями события на линии жизни. Выезжает с правого
-          края экрана, занимает 85vw. Двухколоночный grid: левая колонка (2/3)
-          с heading + lead + секциями текста, правая (1/3) — фото и блок
-          «В это же время». Реальный popup на главном экране позиционируется
-          через <code>.popup-overlay</code>; ниже демо самого <code>.popup</code>
-          в фиксированной обёртке.
+          Карточка-шторка с подробностями события на линии жизни (R22). Выезжает
+          с правого края экрана: 65vw, при viewport ≥ 1550px — 50vw. Структура:
+          <code>.popup__header</code> (H1 + круглое фото 232×232) →
+          <code>.popup__lifetime</code> (линия жизни с prev/next стрелками и
+          dots других событий того же человека) →
+          <code>.popup__body</code> (2 колонки: lead + sections / «В это же время»).
+          Кнопка close — вне попапа слева (через <code>.popup-overlay</code>).
+          Демо ниже обёрнуто в фиктивный overlay с принудительным <code>.is-open</code>,
+          чтобы close был виден.
         </p>
 
         <div class="ks-states">
           <div class="ks-state" style="flex: 1; min-width: 1000px;">
             <div class="ks-state__label">Малевич, 1915 (artist)</div>
-            <div class="ks-state__demo" style="padding: 0; display: block;">
-              <div class="popup" style="height: 700px;">
+            <div class="ks-state__demo" style="padding: 0 0 0 48px; display: block;">
+              <!-- Fake overlay: position: relative + transform: none переопределяют
+                   реальные fixed/translateX. .is-open показывает close-кнопку. -->
+              <div class="popup-overlay is-open"
+                   style="position: relative; transform: none; top: auto; right: auto; bottom: auto; width: 100%; height: 700px;">
                 <button class="icon-btn icon-btn--ghost popup__close" type="button" aria-label="Закрыть">
                   <svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
                   </svg>
                 </button>
-                <div class="popup__left">
-                  <div class="popup__heading">
+                <div class="popup">
+                  <!-- Header: H1 + круглое фото 232×232 -->
+                  <div class="popup__header">
                     <h1 class="popup__title">Казимир Малевич в 1915</h1>
-                    <div class="popup__lifetime">
+                    <div class="popup__photo"></div>
+                  </div>
+
+                  <!-- Lifetime: prev-arrow | inner (years + track + dots) | next-arrow -->
+                  <div class="popup__lifetime">
+                    <button class="popup__lifetime-arrow popup__lifetime-arrow--prev" type="button" aria-label="Предыдущее">
+                      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.293 9.29286C17.6835 8.90239 18.3165 8.90236 18.707 9.29286C19.0973 9.68339 19.0974 10.3165 18.707 10.7069L13.4141 15.9999L18.707 21.2929C19.0974 21.6834 19.0975 22.3165 18.707 22.7069C18.3166 23.0974 17.6835 23.0973 17.293 22.7069L11.293 16.7069C11.1464 16.5603 11.0541 16.3796 11.0176 16.1903C11.0054 16.1275 11 16.0637 11 15.9999C11 15.7439 11.0977 15.4882 11.293 15.2929L17.293 9.29286Z" fill="currentColor"/>
+                      </svg>
+                    </button>
+                    <div class="popup__lifetime-inner">
+                      <div class="popup__lifetime-track"></div>
                       <span class="popup__lifetime-year" style="left: 0;">1879</span>
+                      <span class="popup__lifetime-year popup__lifetime-year--end">1935</span>
+                      <!-- Alt event (другое событие того же человека) - 1907 -->
+                      <button class="popup__lifetime-dot popup__lifetime-dot--alt"
+                              type="button"
+                              style="left: 50%; color: var(--surface-person-artist);"
+                              aria-label="Событие 1907"></button>
+                      <!-- Текущее событие — 1915 -->
                       <span class="popup__lifetime-year popup__lifetime-year--event"
                             style="left: 64.3%; color: var(--surface-person-artist);">1915</span>
-                      <span class="popup__lifetime-year popup__lifetime-year--end">1935</span>
-                      <div class="popup__lifetime-track"></div>
                       <span class="popup__lifetime-dot"
                             style="left: 64.3%; background: var(--surface-person-artist);"></span>
                     </div>
+                    <button class="popup__lifetime-arrow popup__lifetime-arrow--next" type="button" aria-label="Следующее">
+                      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7068 22.7069C13.3163 23.0974 12.6832 23.0974 12.2927 22.7069C11.9025 22.3164 11.9023 21.6833 12.2927 21.2928L17.5857 15.9999L12.2927 10.7069C11.9024 10.3164 11.9023 9.6833 12.2927 9.29283C12.6832 8.90236 13.3163 8.90246 13.7068 9.29283L19.7068 15.2928C19.8534 15.4394 19.9456 15.6201 19.9822 15.8094C19.9943 15.8723 19.9997 15.9361 19.9998 15.9999C19.9998 16.2558 19.9021 16.5116 19.7068 16.7069L13.7068 22.7069Z" fill="currentColor"/>
+                      </svg>
+                    </button>
                   </div>
 
-                  <p class="popup__lead">
-                    1915 год стал поворотным моментом не только для Казимира Малевича,
-                    но и для всей истории искусства. Именно в этот период художник
-                    совершил решительный разрыв с предыдущими направлениями авангарда
-                    и сформировал собственный художественный язык, получивший название
-                    супрематизма.
-                  </p>
-
-                  <div class="popup__text">
-                    <section class="popup__section">
-                      <h2 class="popup__section-title">Рождение супрематизма</h2>
-                      <p class="popup__section-body">
-                        В 1915 году Малевич создает первые произведения, полностью
-                        освобожденные от изображения реальных предметов. Среди них
-                        особенно выделяется «Чёрный квадрат».
+                  <!-- Body: lead+sections / concurrent -->
+                  <div class="popup__body">
+                    <div class="popup__left">
+                      <p class="popup__lead">
+                        1915 год стал поворотным моментом не только для Казимира Малевича,
+                        но и для всей истории искусства. Именно в этот период художник
+                        совершил решительный разрыв с предыдущими направлениями авангарда
+                        и сформировал собственный художественный язык, получивший название
+                        супрематизма.
                       </p>
-                    </section>
-                    <section class="popup__section">
-                      <h2 class="popup__section-title">Выставка «0,10»</h2>
-                      <p class="popup__section-body">
-                        Кульминацией года становится участие Малевича в петроградской
-                        выставке «0,10» (декабрь 1915). Художник представляет
-                        39 супрематических работ.
-                      </p>
-                    </section>
-                  </div>
-                </div>
 
-                <div class="popup__right">
-                  <div class="popup__photo"></div>
-                  <div class="popup__concurrent">
-                    <div class="popup__concurrent-title">В это же время</div>
-                    <div class="popup__concurrent-list">
-                      <div class="popup__concurrent-item">
-                        <span class="popup__concurrent-dot popup__concurrent-dot--businessman"></span>
-                        <div class="popup__concurrent-name popup__concurrent-name--businessman">Уолт Дисней</div>
-                        <div class="popup__concurrent-desc">Начинает работать художником-карикатуристом в Канзас-Сити</div>
+                      <div class="popup__text">
+                        <section class="popup__section">
+                          <h2 class="popup__section-title">Рождение супрематизма</h2>
+                          <p class="popup__section-body">
+                            В 1915 году Малевич создает первые произведения, полностью
+                            освобожденные от изображения реальных предметов. Среди них
+                            особенно выделяется «Чёрный квадрат».
+                          </p>
+                        </section>
+                        <section class="popup__section">
+                          <h2 class="popup__section-title">Выставка «0,10»</h2>
+                          <p class="popup__section-body">
+                            Кульминацией года становится участие Малевича в петроградской
+                            выставке «0,10» (декабрь 1915). Художник представляет
+                            39 супрематических работ.
+                          </p>
+                        </section>
                       </div>
-                      <div class="popup__concurrent-item">
-                        <span class="popup__concurrent-dot popup__concurrent-dot--writer"></span>
-                        <div class="popup__concurrent-name popup__concurrent-name--writer">Франц Кафка</div>
-                        <div class="popup__concurrent-desc">Пишет «Процесс»</div>
-                      </div>
-                      <div class="popup__concurrent-item">
-                        <span class="popup__concurrent-dot popup__concurrent-dot--scientist"></span>
-                        <div class="popup__concurrent-name popup__concurrent-name--scientist">Альберт Эйнштейн</div>
-                        <div class="popup__concurrent-desc">Завершает формирование общей теории относительности</div>
-                      </div>
-                      <div class="popup__concurrent-item">
-                        <span class="popup__concurrent-dot popup__concurrent-dot--politic"></span>
-                        <div class="popup__concurrent-name popup__concurrent-name--politic">Владимир Ленин</div>
-                        <div class="popup__concurrent-desc">Пишет «Империализм как высшая стадия капитализма»</div>
+                    </div>
+
+                    <div class="popup__right">
+                      <div class="popup__concurrent">
+                        <div class="popup__concurrent-title">В это же время</div>
+                        <div class="popup__concurrent-list">
+                          <div class="popup__concurrent-item">
+                            <span class="popup__concurrent-dot popup__concurrent-dot--businessman"></span>
+                            <div class="popup__concurrent-name popup__concurrent-name--businessman">Уолт Дисней</div>
+                            <div class="popup__concurrent-desc">Начинает работать художником-карикатуристом в Канзас-Сити</div>
+                          </div>
+                          <div class="popup__concurrent-item">
+                            <span class="popup__concurrent-dot popup__concurrent-dot--writer"></span>
+                            <div class="popup__concurrent-name popup__concurrent-name--writer">Франц Кафка</div>
+                            <div class="popup__concurrent-desc">Пишет «Процесс»</div>
+                          </div>
+                          <div class="popup__concurrent-item">
+                            <span class="popup__concurrent-dot popup__concurrent-dot--scientist"></span>
+                            <div class="popup__concurrent-name popup__concurrent-name--scientist">Альберт Эйнштейн</div>
+                            <div class="popup__concurrent-desc">Завершает формирование общей теории относительности</div>
+                          </div>
+                          <div class="popup__concurrent-item">
+                            <span class="popup__concurrent-dot popup__concurrent-dot--politic"></span>
+                            <div class="popup__concurrent-name popup__concurrent-name--politic">Владимир Ленин</div>
+                            <div class="popup__concurrent-desc">Пишет «Империализм как высшая стадия капитализма»</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
