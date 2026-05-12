@@ -21,9 +21,9 @@
 ```python
 import json
 
-people = json.load(open('data/people.json', encoding='utf-8'))
-events = json.load(open('data/events.json', encoding='utf-8'))
-roster = json.load(open('data/roster.json', encoding='utf-8'))
+people = json.load(open('public/data/people.json', encoding='utf-8'))
+events = json.load(open('public/data/events.json', encoding='utf-8'))
+roster = json.load(open('public/data/roster.json', encoding='utf-8'))
 
 errors = []
 warnings = []
