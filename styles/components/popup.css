@@ -464,16 +464,39 @@
   min-width: 0;
 }
 
-.popup__title {
-  margin: 0;
+/* Wrapper для title + (опционально) subtitle (R4). Сидит в grid-column 1
+ * и вертикально центрируется относительно фото-блока справа. */
+.popup__title-wrap {
   grid-column: 1;
-  align-self: center;   /* центр по вертикали относительно фото-блока */
+  align-self: center;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.popup__title {
+  /* Без grid-column/align-self: они на .popup__title-wrap. В контексте
+   * flex-column'а wrap'а align-self: center значит horizontal centering
+   * (cross-axis), что давало визуальный сдвиг H1 вправо. */
+  margin: 0;
   min-width: 0;
   font-family:    var(--font-h1-family);
   font-weight:    var(--font-h1-weight);
   font-size:      var(--font-h1-size);
   line-height:    var(--font-h1-line-height);
   letter-spacing: var(--font-h1-letter-spacing);
+  color: var(--text-primary);
+}
+
+/* Subtitle для paired-popup (R4) — «и <имя2> в <год>». Lead-стиль
+ * (Wildfire 30px), цвет --text-primary (одного веса с H1). */
+.popup__subtitle {
+  font-family:    var(--font-lead-family);
+  font-weight:    var(--font-lead-weight);
+  font-size:      var(--font-lead-size);
+  line-height:    var(--font-lead-line-height);
+  letter-spacing: var(--font-lead-letter-spacing);
   color: var(--text-primary);
 }
 
@@ -549,6 +572,17 @@
   border-radius: 50%;
   transform: translateX(-50%);
   /* background задаётся inline (цвет категории) */
+}
+
+/* Paired-точки (R4): двойная dot в одном году. 4px overlap по вертикали;
+ * верхняя торчит над линией, нижняя — под. Math: dots 9px, центр линии
+ * 25.5px от верха inner. Top dot center = 25.5 - 2.5 = 23 → top: 18.5px;
+ * bottom center = 25.5 + 2.5 = 28 → top: 23.5px. Overlap = 4px. */
+.popup__lifetime-dot--paired-top {
+  top: 18.5px;
+}
+.popup__lifetime-dot--paired-bottom {
+  top: 23.5px;
 }
 
 /* Dot другого события того же человека (R22) — кружок с background
@@ -669,12 +703,32 @@
 
 /* Фото — круг 232×232 (R22). Правая колонка header'а тоже 232px, так что
  * фото точно заполняет её. div с background-image: при сломанном URL
- * остаётся placeholder-цвет. */
+ * остаётся placeholder-цвет.
+ * position: relative — anchor для второго фото в paired-режиме (R4). */
 .popup__photo {
+  position: relative;
   grid-column: 2;
   align-self: start;
   width: 232px;
   height: 232px;
+  border-radius: 50%;
+  background-color: var(--surface-bg-secondary);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Второе фото (R4, paired) — 120×120 круг слева от основного, vert-centered,
+ * 50% overlap (правый край вдвигается на 60px в основное). Position: absolute
+ * относительно .popup__photo (которое position: relative). */
+.popup__photo-secondary {
+  position: absolute;
+  top: 50%;
+  right: 100%;            /* правый край = левый край основного */
+  margin-right: -60px;    /* сдвиг 60px вправо → 50% overlap */
+  transform: translateY(-50%);
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background-color: var(--surface-bg-secondary);
   background-position: center;

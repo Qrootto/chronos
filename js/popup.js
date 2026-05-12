@@ -205,46 +205,95 @@ const ICON_ARROW_RIGHT = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www
   <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7068 22.7069C13.3163 23.0974 12.6832 23.0974 12.2927 22.7069C11.9025 22.3164 11.9023 21.6833 12.2927 21.2928L17.5857 15.9999L12.2927 10.7069C11.9024 10.3164 11.9023 9.6833 12.2927 9.29283C12.6832 8.90236 13.3163 8.90246 13.7068 9.29283L19.7068 15.2928C19.8534 15.4394 19.9456 15.6201 19.9822 15.8094C19.9943 15.8723 19.9997 15.9361 19.9998 15.9999C19.9998 16.2558 19.9021 16.5116 19.7068 16.7069L13.7068 22.7069Z" fill="currentColor"/>
 </svg>`;
 
+/** R4: ищет «парное» событие — другого человека из data, на которого у
+ *  текущего person есть mutual connection с тем же годом, что у текущего
+ *  event. Возвращает { person: pairedPerson, event: pairedEvent } либо null.
+ *  Условие: connections[] у текущего persona содержит запись с personId
+ *  и year=event.year, и у того человека тоже есть event на тот же год. */
+function getPairedFor(person, event, data) {
+  if (!person.connections || !data) return null;
+  for (const conn of person.connections) {
+    if (conn.year !== event.year) continue;
+    const personB = (data.people || []).find(p => p.id === conn.personId);
+    if (!personB) continue;
+    const evB = (personB.events || []).find(e => e.year === event.year);
+    if (evB) return { person: personB, event: evB };
+  }
+  return null;
+}
+
 function buildPopup(person, event, state, data, onEventChange) {
   const popup = document.createElement('div');
   popup.className = 'popup';
 
-  // Header: H1 слева + круглое фото справа (R22)
-  popup.appendChild(buildHeader(person, event));
+  // R4: парное событие (если есть mutual connection в этот год).
+  const paired = getPairedFor(person, event, data);
+  if (paired) popup.classList.add('popup--paired');
 
-  // Lifetime track — на всю ширину под шапкой (R22). onEventChange —
-  // колбэк для переключения попапа на другое событие (клик по alt-dot
-  // или prev/next стрелке).
-  popup.appendChild(buildLifetimeStrip(person, event, onEventChange));
+  // Header: H1 + фото; при paired — subtitle и второе фото слева.
+  popup.appendChild(buildHeader(person, event, paired));
 
-  // Body: 2 колонки grid 636fr/232fr — контент / concurrent
+  // Lifetime track. onEventChange — колбэк переключения попапа на другое
+  // событие. При paired — двойная точка (paired-top/bottom) в year события.
+  popup.appendChild(buildLifetimeStrip(person, event, onEventChange, paired));
+
+  // Body: 2 колонки grid — контент / concurrent. При paired парный
+  // человек в concurrent-списке идёт первым.
   const body = document.createElement('div');
   body.className = 'popup__body';
   body.appendChild(buildLeftColumn(person, event));
-  body.appendChild(buildRightColumn(person, event, state, data));
+  body.appendChild(buildRightColumn(person, event, state, data, paired));
   popup.appendChild(body);
 
   return popup;
 }
 
 /** Header (R22): H1 + фото в одной строке. H1 центрирован вертикально
- *  относительно фото (через align-items: center в CSS). */
-function buildHeader(person, event) {
+ *  относительно фото (через align-items: center в CSS).
+ *  R4 (paired): title — имя текущего человека (как обычно). Снизу
+ *  добавляется subtitle «и <имя2> в <год>». Фото — два круга: основной
+ *  232×232 + второй 120×120 слева, vert-centered, 50% overlap. */
+function buildHeader(person, event, paired) {
   const header = document.createElement('div');
   header.className = 'popup__header';
 
+  const titleWrap = document.createElement('div');
+  titleWrap.className = 'popup__title-wrap';
+
   const title = document.createElement('h1');
   title.className = 'popup__title';
-  title.textContent = `${person.name} в ${event.year}`;
-  header.appendChild(title);
+  if (paired) {
+    // Только имя; год переезжает в subtitle вместе с paired-именем.
+    title.textContent = person.name;
+  } else {
+    title.textContent = `${person.name} в ${event.year}`;
+  }
+  titleWrap.appendChild(title);
+
+  if (paired) {
+    const sub = document.createElement('div');
+    sub.className = 'popup__subtitle';
+    sub.textContent = `и ${paired.person.name} в ${event.year}`;
+    titleWrap.appendChild(sub);
+  }
+  header.appendChild(titleWrap);
 
   const photo = document.createElement('div');
   photo.className = 'popup__photo';
   photo.setAttribute('role', 'img');
   photo.setAttribute('aria-label', person.name);
   if (person.photo) photo.style.backgroundImage = `url('${person.photo}')`;
-  header.appendChild(photo);
 
+  if (paired) {
+    const photo2 = document.createElement('div');
+    photo2.className = 'popup__photo-secondary';
+    photo2.setAttribute('role', 'img');
+    photo2.setAttribute('aria-label', paired.person.name);
+    if (paired.person.photo) photo2.style.backgroundImage = `url('${paired.person.photo}')`;
+    photo.appendChild(photo2);
+  }
+
+  header.appendChild(photo);
   return header;
 }
 
@@ -299,10 +348,11 @@ function buildLeftColumn(person, event) {
  *  и подписями года цветом --text-secondary. Клик по dot или стрелке
  *  → onEventChange(targetEvent). На граничных событиях соответствующая
  *  стрелка disabled. */
-function buildLifetimeStrip(person, event, onEventChange) {
+function buildLifetimeStrip(person, event, onEventChange, paired) {
   const lifetime = document.createElement('div');
   lifetime.className = 'popup__lifetime';
   const cat = catCls(person.category);
+  const catPaired = paired ? catCls(paired.person.category) : null;
 
   const sortedEvents = [...(person.events || [])].sort((a, b) => a.year - b.year);
   const currentIdx = sortedEvents.findIndex(e =>
@@ -372,11 +422,27 @@ function buildLifetimeStrip(person, event, onEventChange) {
   yEvent.textContent = event.year;
   inner.appendChild(yEvent);
 
-  const dot = document.createElement('span');
-  dot.className = 'popup__lifetime-dot';
-  dot.style.left = pct + '%';
-  dot.style.background = `var(--surface-person-${cat})`;
-  inner.appendChild(dot);
+  if (paired) {
+    // Двойная точка: верх — текущий, низ — paired. 4px overlap. См. CSS
+    // .popup__lifetime-dot--paired-top/--paired-bottom для top-смещений.
+    const dotTop = document.createElement('span');
+    dotTop.className = 'popup__lifetime-dot popup__lifetime-dot--paired-top';
+    dotTop.style.left = pct + '%';
+    dotTop.style.background = `var(--surface-person-${cat})`;
+    inner.appendChild(dotTop);
+
+    const dotBottom = document.createElement('span');
+    dotBottom.className = 'popup__lifetime-dot popup__lifetime-dot--paired-bottom';
+    dotBottom.style.left = pct + '%';
+    dotBottom.style.background = `var(--surface-person-${catPaired})`;
+    inner.appendChild(dotBottom);
+  } else {
+    const dot = document.createElement('span');
+    dot.className = 'popup__lifetime-dot';
+    dot.style.left = pct + '%';
+    dot.style.background = `var(--surface-person-${cat})`;
+    inner.appendChild(dot);
+  }
 
   // --- Next arrow ---
   const nextBtn = document.createElement('button');
@@ -391,16 +457,24 @@ function buildLifetimeStrip(person, event, onEventChange) {
   return lifetime;
 }
 
-/** Правая колонка: «В это же время» (R22 — фото вынесено в header). */
-function buildRightColumn(person, event, state, data) {
+/** Правая колонка: «В это же время» (R22 — фото вынесено в header).
+ *  R4 (paired): парный человек идёт первым в списке (всегда, даже если
+ *  не в peopleIds — отфильтрован). */
+function buildRightColumn(person, event, state, data, paired) {
   const right = document.createElement('div');
   right.className = 'popup__right';
 
   // Современники — другие видимые люди, у которых на тот же год есть свой event
-  const concurrent = data.people
+  let concurrent = data.people
     .filter(p => state.peopleIds.includes(p.id) && p.id !== person.id)
     .map(p => ({ p, ev: (p.events || []).find(e => e.year === event.year) }))
     .filter(x => x.ev);
+
+  if (paired) {
+    // Убрать paired из списка (если уже есть) и поставить в начало.
+    concurrent = concurrent.filter(x => x.p.id !== paired.person.id);
+    concurrent.unshift({ p: paired.person, ev: paired.event });
+  }
 
   if (concurrent.length > 0) {
     const block = document.createElement('div');

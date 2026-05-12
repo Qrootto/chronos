@@ -22,8 +22,10 @@
     var(--conn-bottom, var(--connection-default))
   );
   /* Hover на линию подсвечивает всю связь (R17, см. js/timeflow.js).
-   * Hit-area расширена через ::before до 9px (1px линия + 4px по краям). */
+   * Hit-area расширена через ::before до 9px (1px линия + 4px по краям).
+   * cursor: pointer — клик открывает paired popup (R4). */
   pointer-events: auto;
+  cursor: pointer;
   transform: translateX(-50%);
   transition: width 0.15s ease;
 }

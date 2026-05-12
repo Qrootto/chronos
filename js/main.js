@@ -219,6 +219,19 @@ function setupPopup() {
     openPopup(overlayEl, backdropEl, STATE, DATA, personId, year);
   });
 
+  // R4: Click на connection-линию → paired popup. data-conn-key уже
+  // содержит отсортированную пару id (см. timeflow.js → makeConnectionEl),
+  // первый id — primary (определяет «чью» позицию занимает popup в lifetime
+  // и какой H1). Парность подхватывается внутри openPopup через getPairedFor.
+  timeflow.addEventListener('click', (e) => {
+    const conn = e.target.closest('.connection');
+    if (!conn || !conn.dataset.connKey) return;
+    const [primaryId, , yearStr] = conn.dataset.connKey.split('|');
+    const year = +yearStr;
+    if (!primaryId || !year) return;
+    openPopup(overlayEl, backdropEl, STATE, DATA, primaryId, year);
+  });
+
   // Click на кнопку «i» в шапке → about-попап (та же шторка, другой контент).
   infoBtn?.addEventListener('click', () => {
     openAboutPopup(overlayEl, backdropEl);
