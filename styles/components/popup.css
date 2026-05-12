@@ -514,6 +514,7 @@
   align-items: flex-start;
   gap: 24px;
   width: 100%;
+  margin-top: var(--spacing-lg);
   margin-bottom: 40px;
 }
 
@@ -629,6 +630,14 @@
   width: 32px;
   height: 32px;
   display: block;
+}
+/* SVG-иконка стрелки имеет встроенный inset 11px (path в ICON_ARROW_LEFT
+ * начинается с x=11 внутри 32×32 viewBox). Negative margin-left -11px
+ * выравнивает ВИЗУАЛЬНЫЙ левый край стрелки с левым краем текста ниже
+ * (lead/sections в .popup__left). Линия (inner) автоматически удлиняется
+ * на те же 11px влево, так как inner — flex: 1. */
+.popup__lifetime-arrow--prev {
+  margin-left: -11px;
 }
 .popup__lifetime-arrow--prev:hover {
   transform: translateX(-4px);
