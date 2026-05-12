@@ -62,12 +62,23 @@ export function openPopup(overlayEl, backdropEl, state, data, personId, eventYea
   closeBtn.addEventListener('click', () => closePopup(overlayEl, backdropEl));
   overlayEl.appendChild(closeBtn);
 
-  overlayEl.appendChild(buildPopup(person, event, state, data));
-  fixOrphansInTree(overlayEl);
+  // Re-render: переключение на другое событие того же человека (R22) —
+  // меняем только .popup внутри overlay, close-кнопка остаётся (иначе
+  // её opacity-fade re-trigger'ится). rerender передаётся вниз в
+  // buildLifetimeStrip, который вешает её на клики по dot/arrow.
+  let popupEl = null;
+  function rerender(newEvent) {
+    const newPopupEl = buildPopup(person, newEvent, state, data, rerender);
+    if (popupEl) popupEl.replaceWith(newPopupEl);
+    else overlayEl.appendChild(newPopupEl);
+    popupEl = newPopupEl;
+    fixOrphansInTree(popupEl);
+    scrollEventToVisibleSlot(state, newEvent.year);
+  }
+  rerender(event);
+
   overlayEl.classList.add('is-open');
   backdropEl?.classList.add('is-open');
-
-  scrollEventToVisibleSlot(state, eventYear);
 }
 
 export function closePopup(overlayEl, backdropEl) {
@@ -186,15 +197,25 @@ const ICON_CLOSE = `<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://w
   <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
 </svg>`;
 
-function buildPopup(person, event, state, data) {
+const ICON_ARROW_LEFT = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.293 9.29286C17.6835 8.90239 18.3165 8.90236 18.707 9.29286C19.0973 9.68339 19.0974 10.3165 18.707 10.7069L13.4141 15.9999L18.707 21.2929C19.0974 21.6834 19.0975 22.3165 18.707 22.7069C18.3166 23.0974 17.6835 23.0973 17.293 22.7069L11.293 16.7069C11.1464 16.5603 11.0541 16.3796 11.0176 16.1903C11.0054 16.1275 11 16.0637 11 15.9999C11 15.7439 11.0977 15.4882 11.293 15.2929L17.293 9.29286Z" fill="currentColor"/>
+</svg>`;
+
+const ICON_ARROW_RIGHT = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.7068 22.7069C13.3163 23.0974 12.6832 23.0974 12.2927 22.7069C11.9025 22.3164 11.9023 21.6833 12.2927 21.2928L17.5857 15.9999L12.2927 10.7069C11.9024 10.3164 11.9023 9.6833 12.2927 9.29283C12.6832 8.90236 13.3163 8.90246 13.7068 9.29283L19.7068 15.2928C19.8534 15.4394 19.9456 15.6201 19.9822 15.8094C19.9943 15.8723 19.9997 15.9361 19.9998 15.9999C19.9998 16.2558 19.9021 16.5116 19.7068 16.7069L13.7068 22.7069Z" fill="currentColor"/>
+</svg>`;
+
+function buildPopup(person, event, state, data, onEventChange) {
   const popup = document.createElement('div');
   popup.className = 'popup';
 
   // Header: H1 слева + круглое фото справа (R22)
   popup.appendChild(buildHeader(person, event));
 
-  // Lifetime track — на всю ширину под шапкой (R22)
-  popup.appendChild(buildLifetimeStrip(person, event));
+  // Lifetime track — на всю ширину под шапкой (R22). onEventChange —
+  // колбэк для переключения попапа на другое событие (клик по alt-dot
+  // или prev/next стрелке).
+  popup.appendChild(buildLifetimeStrip(person, event, onEventChange));
 
   // Body: 2 колонки grid 636fr/232fr — контент / concurrent
   const body = document.createElement('div');
@@ -268,42 +289,104 @@ function buildLeftColumn(person, event) {
 }
 
 /** Полоска life-line внутри попапа: born | event_year | died + dot. */
-function buildLifetimeStrip(person, event) {
+/** Линия жизни персонажа с маркерами событий и навигацией (R22).
+ *  Структура:
+ *    .popup__lifetime           (flex: arrow | inner | arrow)
+ *      .popup__lifetime-arrow--prev (32×32)
+ *      .popup__lifetime-inner   (track + years + dots, flex: 1)
+ *      .popup__lifetime-arrow--next (32×32)
+ *  Прочие события человека — пустые dots с border цвета категории
+ *  и подписями года цветом --text-secondary. Клик по dot или стрелке
+ *  → onEventChange(targetEvent). На граничных событиях соответствующая
+ *  стрелка disabled. */
+function buildLifetimeStrip(person, event, onEventChange) {
   const lifetime = document.createElement('div');
   lifetime.className = 'popup__lifetime';
   const cat = catCls(person.category);
 
-  // Позиция года события на отрезке born..died (в процентах)
+  const sortedEvents = [...(person.events || [])].sort((a, b) => a.year - b.year);
+  const currentIdx = sortedEvents.findIndex(e =>
+    e === event || (e.year === event.year && e.title === event.title)
+  );
+  const prevEvent = currentIdx > 0 ? sortedEvents[currentIdx - 1] : null;
+  const nextEvent = currentIdx >= 0 && currentIdx < sortedEvents.length - 1
+    ? sortedEvents[currentIdx + 1]
+    : null;
+
+  // --- Prev arrow ---
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'popup__lifetime-arrow popup__lifetime-arrow--prev';
+  prevBtn.type = 'button';
+  prevBtn.setAttribute('aria-label', 'Предыдущее событие');
+  prevBtn.innerHTML = ICON_ARROW_LEFT;
+  if (!prevEvent || !onEventChange) prevBtn.disabled = true;
+  else prevBtn.addEventListener('click', () => onEventChange(prevEvent));
+  lifetime.appendChild(prevBtn);
+
+  // --- Inner (track + years + dots) ---
+  const inner = document.createElement('div');
+  inner.className = 'popup__lifetime-inner';
+  lifetime.appendChild(inner);
+
+  const track = document.createElement('div');
+  track.className = 'popup__lifetime-track';
+  inner.appendChild(track);
+
   const span = (person.died - person.born) || 1;
-  const pct = ((event.year - person.born) / span) * 100;
 
   const yBorn = document.createElement('span');
   yBorn.className = 'popup__lifetime-year';
   yBorn.style.left = '0';
   yBorn.textContent = person.born;
-  lifetime.appendChild(yBorn);
+  inner.appendChild(yBorn);
 
+  const yDied = document.createElement('span');
+  yDied.className = 'popup__lifetime-year popup__lifetime-year--end';
+  yDied.textContent = person.died;
+  inner.appendChild(yDied);
+
+  // Alt events — пустые dots. Год-подписи у alt-dots не рисуем: при
+  // близком расположении событий они наезжают друг на друга.
+  for (const e of sortedEvents) {
+    if (e === event) continue;
+    const altPct = ((e.year - person.born) / span) * 100;
+
+    const dotAlt = document.createElement('button');
+    dotAlt.className = 'popup__lifetime-dot popup__lifetime-dot--alt';
+    dotAlt.type = 'button';
+    dotAlt.style.left = altPct + '%';
+    // currentColor в CSS берёт цвет отсюда → border, на hover background.
+    dotAlt.style.color = `var(--surface-person-${cat})`;
+    dotAlt.setAttribute('aria-label', `Событие ${e.year}: ${e.title}`);
+    if (onEventChange) dotAlt.addEventListener('click', () => onEventChange(e));
+    inner.appendChild(dotAlt);
+  }
+
+  // Текущее событие — год + dot. Кладём ПОСЛЕ alt, чтобы при наложении
+  // подпись/dot текущего были сверху.
+  const pct = ((event.year - person.born) / span) * 100;
   const yEvent = document.createElement('span');
   yEvent.className = 'popup__lifetime-year popup__lifetime-year--event';
   yEvent.style.left = pct + '%';
   yEvent.style.color = `var(--surface-person-${cat})`;
   yEvent.textContent = event.year;
-  lifetime.appendChild(yEvent);
-
-  const yDied = document.createElement('span');
-  yDied.className = 'popup__lifetime-year popup__lifetime-year--end';
-  yDied.textContent = person.died;
-  lifetime.appendChild(yDied);
-
-  const track = document.createElement('div');
-  track.className = 'popup__lifetime-track';
-  lifetime.appendChild(track);
+  inner.appendChild(yEvent);
 
   const dot = document.createElement('span');
   dot.className = 'popup__lifetime-dot';
   dot.style.left = pct + '%';
   dot.style.background = `var(--surface-person-${cat})`;
-  lifetime.appendChild(dot);
+  inner.appendChild(dot);
+
+  // --- Next arrow ---
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'popup__lifetime-arrow popup__lifetime-arrow--next';
+  nextBtn.type = 'button';
+  nextBtn.setAttribute('aria-label', 'Следующее событие');
+  nextBtn.innerHTML = ICON_ARROW_RIGHT;
+  if (!nextEvent || !onEventChange) nextBtn.disabled = true;
+  else nextBtn.addEventListener('click', () => onEventChange(nextEvent));
+  lifetime.appendChild(nextBtn);
 
   return lifetime;
 }

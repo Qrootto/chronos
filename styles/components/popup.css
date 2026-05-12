@@ -480,13 +480,27 @@
 /* === Life-line полоска внутри попапа ===
  * Высота ~30px: 3 года сверху + сама линия + dot на координате года события.
  * Координаты задаются inline JS (left для каждого year-label и event-dot). */
+/* Lifetime (R22) — flex-row: prev-arrow | inner (track+years+dots) | next-arrow.
+ * 24px gap между стрелкой и краем линии. 40px gap до текста ниже
+ * (margin-bottom вынесен НАРУЖУ scroll-зоны .popup__left, чтобы контент
+ * при скролле не упирался в линию).
+ * align-items: flex-start — стрелки добавляют свой margin-top для
+ * выравнивания центра по центру линии (см. .popup__lifetime-arrow). */
 .popup__lifetime {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+/* Wrapper для track + years + dots (positioning context). flex: 1
+ * чтобы заполнить пространство между стрелками. */
+.popup__lifetime-inner {
   position: relative;
   height: 30px;
-  width: 100%;
-  /* 40px gap до текста ниже (R22). Сидит ВНЕ scrollable .popup__left,
-   * чтобы содержимое не «упиралось» в линию жизни при скролле. */
-  margin-bottom: 40px;
+  flex: 1;
+  min-width: 0;
 }
 
 .popup__lifetime-year {
@@ -499,7 +513,8 @@
   white-space: nowrap;
 }
 .popup__lifetime-year--event {
-  /* color = категория, задаётся inline */
+  /* color = категория для current (задаётся inline); для alt событий
+   * inline не задан → наследует --text-secondary из базы. */
   transform: translateX(-50%);
 }
 .popup__lifetime-year--end {
@@ -534,6 +549,66 @@
   border-radius: 50%;
   transform: translateX(-50%);
   /* background задаётся inline (цвет категории) */
+}
+
+/* Dot другого события того же человека (R22) — кружок с background
+ * цвета попапа (чтобы линия жизни не просвечивала) и border 1px цвета
+ * категории (currentColor из inline color). На hover полностью
+ * заливается тем же цветом. Кликабельный — переключает попап. */
+.popup__lifetime-dot--alt {
+  padding: 0;
+  background: var(--surface-popup-bg);
+  border: 1px solid currentColor;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.popup__lifetime-dot--alt:hover {
+  background: currentColor;
+  transition: background var(--motion-duration-fast) var(--motion-ease-out);
+}
+
+/* Стрелки prev/next (R22). 32×32 hit-area, иконка --surface-icon.
+ * Hover — сдвиг наружу на 4px (prev влево, next вправо).
+ * margin-top: 9.5px — выравнивает центр стрелки (16px от верха) с
+ * центром линии (24 + 1.5 = 25.5px от верха inner). Inner и .popup__lifetime
+ * имеют align-items: flex-start, так что инвариант от 0 от .popup__lifetime.
+ * Disabled (когда нет prev/next события) — приглушённая, без hover,
+ * без клика. */
+.popup__lifetime-arrow {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-top: 9.5px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--surface-icon);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Default (mouseout) — медленное возвращение из сдвига. */
+  transition: transform var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.popup__lifetime-arrow svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.popup__lifetime-arrow--prev:hover {
+  transform: translateX(-4px);
+  /* Hover — мгновенный сдвиг. */
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+.popup__lifetime-arrow--next:hover {
+  transform: translateX(4px);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
+}
+.popup__lifetime-arrow:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: default;
 }
 
 /* === Lead — краткое описание года === */
