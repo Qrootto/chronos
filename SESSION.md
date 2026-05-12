@@ -4,6 +4,17 @@
 
 ---
 
+## 2026-05-12 — R4: совместный попап для парных событий
+
+**Сделано в эту сессию:**
+- **R4** (`7afc29c`) — попап для пар, у которых mutual `connections[]` + event у обоих на тот же год. Триггеры: клик по любой из двух event-dots ИЛИ по connection-линии между ними (primary при клике по линии — алфавитно-первый id из data-conn-key). Реализация: `getPairedFor(person, event, data)` в `popup.js`, пробрасывается через `buildPopup` → `buildHeader` / `buildLifetimeStrip` / `buildRightColumn`. Header: H1 = имя primary, subtitle (Wildfire 30px, `--text-primary`) = «и <имя2> в <год>», второе фото 120×120 круг слева от основного, vert-centered, 50% overlap. Lifetime в year события: две dots вертикально с 4px overlap (верхняя торчит над линией, нижняя — под), цвета двух категорий. Concurrent: парный человек первым в списке (всегда, даже если отфильтрован). Click handler на `.connection` в `main.js`; `cursor: pointer` на линиях. Библиотека (`components.html`) обёрнута в `popup__title-wrap`. Гочча по дороге: `align-self: center` на `.popup__title` внутри flex-column'а wrap'а значил **горизонтальный** центр (cross-axis), а не вертикальный → H1 визуально съезжал вправо. Убрал из `.popup__title`, оставил только на wrap'е.
+- `assets/Popup-connection.png` (design-ref) добавлен в `.gitignore` (`d054afc`).
+
+**Открытые вопросы:**
+Нет открытых.
+
+---
+
 ## 2026-05-11 / 2026-05-12 — R22: новый дизайн попапа события
 
 **Сделано в эту сессию:**
