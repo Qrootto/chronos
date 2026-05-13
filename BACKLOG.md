@@ -19,9 +19,6 @@
 - [ ] **R2** Заполнить тексты `event.description` (lead)
   По 200+ событиям описания сейчас 1–2 предложения. Расширить хотя бы у популярных людей. Это про lead, не про `sections` (sections заполнены в сессии 2026-05-04).
 
-- [ ] **R3** Рабочие фото для всех 43 человек
-  Текущие URL'ы в `public/data/people.json` часто 404. Заменить на стабильные ссылки с Wikimedia Commons / Wikipedia REST API thumbnail (Public Domain / CC). Сделать одноразовый скрипт обновления.
-
 - [ ] **R6** Sticky captions при vertical scroll
   Названия мировых событий и метка века должны прилипать к верху Timeflow при vertical scroll. Требует структурного рефакторинга — вынос captions из event-блоков в отдельный `<div class="timeflow__captions-bar">` с `position: sticky; top: 0`. Простой CSS-подход (sticky внутри absolute) не работает чисто.
 
