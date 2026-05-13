@@ -10,6 +10,7 @@
  * строки. Применяется ко всем дочерним text nodes overlay'я. */
 
 import { fixOrphansInTree } from './lib/typography.js';
+import { resizePhotoUrl } from './lib/photo.js';
 
 const CATEGORY_CLASS = {
   artist:      'artist',
@@ -282,14 +283,16 @@ function buildHeader(person, event, paired) {
   photo.className = 'popup__photo';
   photo.setAttribute('role', 'img');
   photo.setAttribute('aria-label', person.name);
-  if (person.photo) photo.style.backgroundImage = `url('${person.photo}')`;
+  // Main фото — 232×232 в CSS, 2× retina → 464px (R20).
+  if (person.photo) photo.style.backgroundImage = `url('${resizePhotoUrl(person.photo, 464)}')`;
 
   if (paired) {
     const photo2 = document.createElement('div');
     photo2.className = 'popup__photo-secondary';
     photo2.setAttribute('role', 'img');
     photo2.setAttribute('aria-label', paired.person.name);
-    if (paired.person.photo) photo2.style.backgroundImage = `url('${paired.person.photo}')`;
+    // Paired secondary — 120×120, 2× retina → 240px (R20).
+    if (paired.person.photo) photo2.style.backgroundImage = `url('${resizePhotoUrl(paired.person.photo, 240)}')`;
     photo.appendChild(photo2);
   }
 
