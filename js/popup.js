@@ -210,11 +210,16 @@ const ICON_ARROW_RIGHT = `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www
  *  текущего person есть mutual connection с тем же годом, что у текущего
  *  event. Возвращает { person: pairedPerson, event: pairedEvent } либо null.
  *  Условие: connections[] у текущего persona содержит запись с personId
- *  и year=event.year, и у того человека тоже есть event на тот же год. */
-function getPairedFor(person, event, data) {
+ *  и year=event.year, и у того человека тоже есть event на тот же год.
+ *  R23: учитывает фильтр людей — paired выбирается ТОЛЬКО из видимых
+ *  (state.peopleIds). Без фильтра у Блока 1921 paired = алфавитно-первый
+ *  Ахматова, даже когда в фильтре только Блок+Гумилёв. */
+function getPairedFor(person, event, data, state) {
   if (!person.connections || !data) return null;
+  const visibleIds = state && Array.isArray(state.peopleIds) ? state.peopleIds : null;
   for (const conn of person.connections) {
     if (conn.year !== event.year) continue;
+    if (visibleIds && !visibleIds.includes(conn.personId)) continue;
     const personB = (data.people || []).find(p => p.id === conn.personId);
     if (!personB) continue;
     const evB = (personB.events || []).find(e => e.year === event.year);
@@ -228,7 +233,8 @@ function buildPopup(person, event, state, data, onEventChange) {
   popup.className = 'popup';
 
   // R4: парное событие (если есть mutual connection в этот год).
-  const paired = getPairedFor(person, event, data);
+  // R23: state передаётся в getPairedFor для фильтрации видимых.
+  const paired = getPairedFor(person, event, data, state);
   if (paired) popup.classList.add('popup--paired');
 
   // Header: H1 + фото; при paired — subtitle и второе фото слева.
