@@ -4,6 +4,26 @@
 
 ---
 
+## 2026-05-15 — R24 P1: about-попап структура + контент
+
+**Сделано:**
+- Из Figma (`8142:2019`) вытянуты тексты 4 секций («Что за проект», «Как этим пользоваться?», «Будут ли обновления?», «Ну как вам?») и CTA «Пишите». Скачаны 4 ассета в `public/assets/about/`: `illustration.png` (1514×1039, 2.1 MB — крупно, поджать отдельно), `pair-left.png` (485×620), `pair-right.png` (905×883), `arrow.svg` (97×68). Старые `mickey.png` + `tolstoy.png` удалены — пара в новом макете другая.
+- Переписан HTML в `js/popup.js → ABOUT_HTML`: новая структура `popup__about-section` (заголовок слева в колонке `1fr`, контент справа `632px`, gap `--spacing-3xl`). Звёздочка `*` в блоке 7 — `<sup class="popup__about-asterisk">` с `--red-100`. Между секциями 02 и 03 — `popup__about-lifeline` с 5 точками (позиции из figma metadata: 8.5%, 33%, 49.2%, 53.7%, 81.4%). В конце — `popup__about-cta` (`<a href="mailto:">` с `arrow.svg` + 200px Wildfire «Пишите»). Footer упрощён до `signature` + `policy`.
+- Переписан CSS в `styles/components/popup.css`: 292 строки изменено (удалены классы `--intro`, `--bridge`, `--mission`, `--bottom`, `--contact`, `--outro`, `--image`; добавлены `--section`, `--section-title`, `--section-body`, `--illustration`, `--asterisk`, `--figure--accent`, `--lifeline*`, `--cta*`). Mobile media query переписан: секции стекаются 1fr, шрифты уменьшены, CTA `clamp(56px, 18vw, 120px)`.
+- Hover-эффект на буквы heading (старый, `initLogoHover`) — оставлен без изменений. Фото-эффект (Header zone) — задача P2.
+- Цветовые градиенты фона (P3) и анимация CTA (P4) — отдельные фазы.
+
+**Не сделано (отложено):**
+- P2: Эффект фото при hover на heading (рандомные позиции + шлейф).
+- P3: Плавная смена фона по скроллу через 6 цветов.
+- P4: Анимация CTA «Пишите» (стрелка + текст как antonandirene.com).
+- Оптимизация `illustration.png` (2.1 MB → ~300 KB через WebP) — отдельная мини-задача.
+
+**Открытые вопросы:**
+Нет открытых.
+
+---
+
 ## 2026-05-14 — R23: фикс paired-filter
 
 **Сделано:**

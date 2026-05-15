@@ -128,31 +128,58 @@ const ABOUT_HTML = `
   <h1 class="popup__about-heading">past simple</h1>
 
   <div class="popup__about-container">
-    <div class="popup__about-intro">
-      <p>Наше представление о мировой истории фрагментарно. Вот есть Лев Толстой и есть Уолт Дисней, сходу кажется, что они из разных эпох, а на самом деле оба жили в одно время. Ну ладно, всего 9 лет, но жили же!</p>
-      <p>Или вот мы читаем про Первую мировую войну и в голове картины боёв, окопы, взрывы. Но война происходила не везде в мире (хоть и мировая, ну да). Параллельно с окопами и взрывами в Петрограде, например, выставлялся Малевич со своим «Чёрным квадратом». А Эйнштейн в это же время закончил общую теорию относительности.</p>
-    </div>
-
-    <div class="popup__about-pair">
-      <figure class="popup__about-figure">
-        <div class="popup__about-image"><img src="/assets/about/tolstoy.png" alt="Лев Толстой"></div>
-      </figure>
-      <figure class="popup__about-figure">
-        <div class="popup__about-image"><img src="/assets/about/mickey.png" alt="Микки Маус"></div>
-      </figure>
-    </div>
-
-    <p class="popup__about-bridge">Даже с хорошим воображением в голове сложно проводить все эти параллели, чтобы сложилась полная картинка. Past Simple создан как раз для этого.</p>
-
-    <p class="popup__about-mission">Наглядно показать взаимосвязи людей и событий в истории. Дать больше контекста, чтобы лучше представить время, которое нам интересно.</p>
-
-    <div class="popup__about-bottom">
-      <p class="popup__about-contact">Если нашли ошибку или у вас есть предложение по улучшению сервиса, напишите мне на <a href="mailto:deezayner@yandex.ru">почту</a>.</p>
-
-      <div class="popup__about-outro">
-        <p>Сейчас охвачен промежуток между 1850 и 1950 годами, но скоро мы доберёмся и до всего XX века, а потом пойдём дальше в прошлое. Известные люди и события тоже будут добавляться. Кстати, вы можете это ускорить. Предложите тех, кого хотелось бы здесь увидеть. Вот прямо тут, слева. Про ошибки или идеи пишите тоже туда. Я* скажу вам большое спасибо.</p>
+    <section class="popup__about-section">
+      <h2 class="popup__about-section-title">Что за проект</h2>
+      <div class="popup__about-section-body">
+        <p>Этот проект для тех, кому интересна история. Не та, школьная, про завоевания, правителей и разрушение империй, а более человеческая.</p>
+        <p>Помните, как было: мы отдельно учили мировую историю, потом отдельно российскую, потом шли на литру, где много читали произведений и мало про их авторов. После уроков (давайте для складности повествования представим) шли в музей, где смотрели на картины каких-то там художников.</p>
+        <figure class="popup__about-illustration">
+          <img src="/assets/about/illustration.png" alt="" />
+        </figure>
+        <p>В итоге в голове так и остались какие-то разрозненные знания, но все эти знания — это одна цельная история. Лев Толстой жил в одно время с Уолтом Диснеем, Малевич демонстрировал миру «Чёрный квадрат» в разгар Первой мировой войны. У Троцкого был роман с Фридой Кало.</p>
+        <div class="popup__about-pair">
+          <figure class="popup__about-figure"><img src="/assets/about/pair-left.png" alt="" /></figure>
+          <figure class="popup__about-figure popup__about-figure--accent"><img src="/assets/about/pair-right.png" alt="" /></figure>
+        </div>
+        <p>Паст симпл придуман для того, чтобы наглядно показать вот эти вот все параллели. Чтобы собрать воедино картину того, как жили разные люди в прошлом.</p>
       </div>
+    </section>
+
+    <section class="popup__about-section">
+      <h2 class="popup__about-section-title">Как этим пользоваться?</h2>
+      <div class="popup__about-section-body">
+        <p>Прям как угодно. Я<sup class="popup__about-asterisk">*</sup> постарался спроектировать всё так, чтобы можно было смотреть на историю под разными углами и самостоятельно искать интересные параллели.</p>
+        <p>Можно выбрать сразу всех людей и смотреть кто с кем был связан, что происходило в одно и то же время, что делали разные люди во время мировых событий. А можно наоборот выбрать только тех, кто нравится и детально посмотреть на их жизнь. Можно просто сравнить сколько кому было лет, например, в 1917 году. Способ исследования выбираете вы. Круто же!</p>
+      </div>
+    </section>
+
+    <div class="popup__about-lifeline" aria-hidden="true">
+      <div class="popup__about-lifeline-track"></div>
+      <span class="popup__about-lifeline-dot" style="left: 8.5%"></span>
+      <span class="popup__about-lifeline-dot" style="left: 33%"></span>
+      <span class="popup__about-lifeline-dot" style="left: 49.2%"></span>
+      <span class="popup__about-lifeline-dot" style="left: 53.7%"></span>
+      <span class="popup__about-lifeline-dot" style="left: 81.4%"></span>
     </div>
+
+    <section class="popup__about-section">
+      <h2 class="popup__about-section-title">Будут ли обновления?</h2>
+      <div class="popup__about-section-body">
+        <p>Обязательно. Сейчас паст симпл охватывает промежуток между 1850 и 1950 годами, но скоро появится весь XX век, а потом отправимся дальше в прошлое. Новые исторические личности тоже будут добавляться, вы, кстати, можете кого-то предложить. Но в планах не только расширение того, что уже есть, но и совершенно новые фичи. Подписывайтесь на мой телеграм-канал, пока что я буду рассказывать про все обновления там.</p>
+      </div>
+    </section>
+
+    <section class="popup__about-section">
+      <h2 class="popup__about-section-title">Ну как вам?</h2>
+      <div class="popup__about-section-body">
+        <p>Буду очень признателен, если напишите, как вам проект. Если найдёте ошибку или предложите улучшение, буду признателен вдвойне. Вдруг вам просто не терпится сказать, как здесь всё круто сделано и как вам такого не хватало. Что ж, прекрасно могу вас понять, не держите в себе.</p>
+      </div>
+    </section>
+
+    <a class="popup__about-cta" href="mailto:deezayner@yandex.ru">
+      <img class="popup__about-cta-arrow" src="/assets/about/arrow.svg" alt="" />
+      <span class="popup__about-cta-text">Пишите</span>
+    </a>
 
     <div class="popup__about-footer">
       <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
