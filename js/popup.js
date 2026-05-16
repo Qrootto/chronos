@@ -88,10 +88,10 @@ export function closePopup(overlayEl, backdropEl) {
 }
 
 /** Рисует попап «О проекте» в overlayEl. Та же шторка-overlay, что и для
- *  событий, но контент полностью другой: огромный display-heading,
- *  длинный intro с примерами, два изображения side-by-side, форма
- *  обратной связи (Web3Forms). Поведение open/close идентичное. */
-export function openAboutPopup(overlayEl, backdropEl) {
+ *  событий, но контент полностью другой: heading в 100vh hero-блоке, 4
+ *  секции с заголовками слева, CTA «Пишите», footer. data передаётся для
+ *  P2-эффекта фото при hover на heading (нужен список людей с photo). */
+export function openAboutPopup(overlayEl, backdropEl, data) {
   overlayEl.innerHTML = '';
   // About открывается на 100vw (см. styles/components/popup.css → --about).
   overlayEl.classList.add('popup-overlay--about');
@@ -104,28 +104,39 @@ export function openAboutPopup(overlayEl, backdropEl) {
   closeBtn.addEventListener('click', () => closePopup(overlayEl, backdropEl));
   overlayEl.appendChild(closeBtn);
 
-  overlayEl.appendChild(buildAboutPopup());
+  overlayEl.appendChild(buildAboutPopup(data));
   fixOrphansInTree(overlayEl);
   overlayEl.classList.add('is-open');
   backdropEl?.classList.add('is-open');
 }
 
-function buildAboutPopup() {
+function buildAboutPopup(data) {
   const popup = document.createElement('div');
   popup.className = 'popup popup--about';
   popup.innerHTML = ABOUT_HTML;
 
   // Логотип «past simple» виден только на десктопе (см. CSS @media).
-  // initLogoHover навешивает hover-эффект; на мобиле блок display:none,
-  // hover недоступен → безвредно.
+  // initLogoHover навешивает hover-эффект на буквы; на мобиле блок
+  // display:none, hover недоступен → безвредно.
   const heading = popup.querySelector('.popup__about-heading');
   if (heading) initLogoHover(heading);
+
+  // R24 P2: фото людей появляются в Hero-блоке при hover-движении
+  // по нему. Появление мгновенное, исчезновение со шлейфом 1s.
+  const hero = popup.querySelector('.popup__about-hero');
+  const photosLayer = popup.querySelector('.popup__about-photos');
+  if (hero && photosLayer && data?.people) {
+    initHeadingPhotos(hero, photosLayer, data.people);
+  }
 
   return popup;
 }
 
 const ABOUT_HTML = `
-  <h1 class="popup__about-heading">past simple</h1>
+  <div class="popup__about-hero">
+    <div class="popup__about-photos" aria-hidden="true"></div>
+    <h1 class="popup__about-heading">past simple</h1>
+  </div>
 
   <div class="popup__about-container">
     <section class="popup__about-section">
@@ -225,7 +236,46 @@ function initLogoHover(headingEl) {
   });
 }
 
-const ICON_CLOSE = `<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+/* R24 P2: при движении мыши над hero-блоком about-попапа в рандомных
+ * местах появляются круглые фото людей из базы. Эффект как у букв:
+ * показ мгновенный, fade-out с задержкой (шлейф ~1с). Throttle 150ms,
+ * чтобы не плодить элементы при каждом mousemove-пикселе. */
+function initHeadingPhotos(heroEl, photosLayer, people) {
+  const photoPeople = (people || []).filter(p => p.photo);
+  if (photoPeople.length === 0) return;
+
+  const SPAWN_INTERVAL_MS = 150;
+  const SHOW_MS = 700;       // через сколько начать fade
+  const FADE_MS = 1000;      // длительность fade-out
+  const SIZE_PX = 229;       // как в figma пример (rounded-rectangle 229×229)
+
+  let lastSpawn = 0;
+  heroEl.addEventListener('mousemove', () => {
+    const now = Date.now();
+    if (now - lastSpawn < SPAWN_INTERVAL_MS) return;
+    lastSpawn = now;
+
+    const rect = photosLayer.getBoundingClientRect();
+    const maxX = Math.max(0, rect.width - SIZE_PX);
+    const maxY = Math.max(0, rect.height - SIZE_PX);
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    const person = photoPeople[Math.floor(Math.random() * photoPeople.length)];
+    const photo = document.createElement('div');
+    photo.className = 'popup__about-photos-item';
+    photo.style.left = x + 'px';
+    photo.style.top = y + 'px';
+    // Высокая плотность — берём 2× размера для retina (R20 utility).
+    photo.style.backgroundImage = `url('${resizePhotoUrl(person.photo, SIZE_PX * 2)}')`;
+    photosLayer.appendChild(photo);
+
+    setTimeout(() => { photo.classList.add('is-fading'); }, SHOW_MS);
+    setTimeout(() => { photo.remove(); }, SHOW_MS + FADE_MS);
+  });
+}
+
+const ICON_CLOSE =`<svg viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M21.2815 9.2961C21.6735 8.9071 22.3094 8.9071 22.7014 9.2961C23.0932 9.6852 23.0933 10.3154 22.7014 10.7043L17.4192 15.9446L22.7102 21.1956C23.1018 21.5845 23.1019 22.2148 22.7102 22.6038C22.3182 22.9928 21.6823 22.9928 21.2903 22.6038L16.0002 17.3538L10.7102 22.6038C10.3182 22.9928 9.6823 22.9928 9.2903 22.6038C8.8984 22.2148 8.8985 21.5846 9.2903 21.1956L14.5803 15.9456L9.2991 10.7043C8.907 10.3153 8.907 9.6842 9.2991 9.2952C9.6911 8.9065 10.3271 8.9063 10.719 9.2952L16.0002 14.5364L21.2815 9.2961Z"/>
 </svg>`;
 

@@ -234,14 +234,14 @@ function setupPopup() {
 
   // Click на кнопку «i» в шапке → about-попап (та же шторка, другой контент).
   infoBtn?.addEventListener('click', () => {
-    openAboutPopup(overlayEl, backdropEl);
+    openAboutPopup(overlayEl, backdropEl, DATA);
   });
 
   // Кнопка «О проекте» в mobile-stub'е → тот же about-попап.
   // На мобильном UI весь .header скрыт (см. media query в main-screen.css),
   // поэтому infoBtn отсутствует — стаб служит единственной точкой входа.
   document.getElementById('mobile-stub-about')?.addEventListener('click', () => {
-    openAboutPopup(overlayEl, backdropEl);
+    openAboutPopup(overlayEl, backdropEl, DATA);
   });
 
   // Esc → closePopup

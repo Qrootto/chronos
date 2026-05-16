@@ -180,18 +180,47 @@
  * Padding-top 164px фиксированный, padding-side 6.25vw (= 80px при
  * viewport 1280) — пропорциональные отступы при resize. Отдельные
  * letter-span'ы для hover-эффекта (см. js/popup.js → initLogoHover). */
-/* Heading «past simple» (R24 P1, пункт 3): занимает первый экран целиком,
- * центрирован вертикально и горизонтально. Это даёт две вещи:
- *  - heading всегда визуально по центру первого 100vh
- *  - первая секция .popup__about-section:first-of-type начинается СРАЗУ
- *    после, на 100vh от верха; через margin-top: -10vh её top попадает
- *    на 90vh → блок «01» видим снизу на 10% (пункт 2 правок). */
-.popup__about-heading {
-  margin: 0;
+/* Hero (R24 P2): обёртка вокруг heading + photos layer. Занимает первый
+ * экран (100vh) и центрирует heading. photos layer — absolute child,
+ * заполняет всю hero-зону, photos появляются в нём при hover. */
+.popup__about-hero {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.popup__about-photos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.popup__about-photos-item {
+  position: absolute;
+  width: 229px;
+  height: 229px;
+  border-radius: 50%;
+  background-color: var(--surface-bg-secondary);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 1;
+  /* Появление мгновенное (opacity 1 сразу). Возврат — fade-out как
+   * у букв heading (1с). Шлейф при движении курсора. */
+  transition: opacity 1000ms linear;
+}
+.popup__about-photos-item.is-fading {
+  opacity: 0;
+}
+
+.popup__about-heading {
+  /* position: relative + z-index — чтобы текст был выше .popup__about-photos
+   * (absolute siblings рисуются поверх static elements). */
+  position: relative;
+  z-index: 1;
+  margin: 0;
   padding: 0 calc(80 / 1280 * 100vw);
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
@@ -454,7 +483,9 @@
 
 /* === Mobile (< 768px) === */
 @media (max-width: 767px) {
-  .popup__about-heading {
+  /* На мобиле скрываем весь hero (heading + photos layer) — экранного
+   * места и так мало, начинаем сразу с секций. */
+  .popup__about-hero {
     display: none;
   }
   .popup__about-container {
