@@ -133,15 +133,15 @@ const ABOUT_HTML = `
       <div class="popup__about-section-body">
         <p>Этот проект для тех, кому интересна история. Не та, школьная, про завоевания, правителей и разрушение империй, а более человеческая.</p>
         <p>Помните, как было: мы отдельно учили мировую историю, потом отдельно российскую, потом шли на литру, где много читали произведений и мало про их авторов. После уроков (давайте для складности повествования представим) шли в музей, где смотрели на картины каких-то там художников.</p>
-        <figure class="popup__about-illustration">
+        <figure class="popup__about-illustration popup__about-block--gap-lg">
           <img src="/assets/about/illustration.png" alt="" />
         </figure>
-        <p>В итоге в голове так и остались какие-то разрозненные знания, но все эти знания — это одна цельная история. Лев Толстой жил в одно время с Уолтом Диснеем, Малевич демонстрировал миру «Чёрный квадрат» в разгар Первой мировой войны. У Троцкого был роман с Фридой Кало.</p>
-        <div class="popup__about-pair">
+        <p class="popup__about-block--gap-lg">В итоге в голове так и остались какие-то разрозненные знания, но все эти знания — это одна цельная история. Лев Толстой жил в одно время с Уолтом Диснеем, Малевич демонстрировал миру «Чёрный квадрат» в разгар Первой мировой войны. У Троцкого был роман с Фридой Кало.</p>
+        <div class="popup__about-pair popup__about-block--gap-lg">
           <figure class="popup__about-figure"><img src="/assets/about/pair-left.png" alt="" /></figure>
           <figure class="popup__about-figure popup__about-figure--accent"><img src="/assets/about/pair-right.png" alt="" /></figure>
         </div>
-        <p>Паст симпл придуман для того, чтобы наглядно показать вот эти вот все параллели. Чтобы собрать воедино картину того, как жили разные люди в прошлом.</p>
+        <p class="popup__about-block--gap-lg">Паст симпл придуман для того, чтобы наглядно показать вот эти вот все параллели. Чтобы собрать воедино картину того, как жили разные люди в прошлом.</p>
       </div>
     </section>
 
@@ -176,14 +176,18 @@ const ABOUT_HTML = `
       </div>
     </section>
 
-    <a class="popup__about-cta" href="mailto:deezayner@yandex.ru">
-      <img class="popup__about-cta-arrow" src="/assets/about/arrow.svg" alt="" />
-      <span class="popup__about-cta-text">Пишите</span>
-    </a>
+    <div class="popup__about-tail">
+      <a class="popup__about-cta" href="mailto:deezayner@yandex.ru">
+        <img class="popup__about-cta-arrow" src="/assets/about/arrow.svg" alt="" />
+        <span class="popup__about-cta-text">Пишите</span>
+      </a>
 
-    <div class="popup__about-footer">
-      <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
-      <a class="popup__about-policy" href="/privacy.html">Политика конфиденциальности</a>
+      <div class="popup__about-footer">
+        <div class="popup__about-footer-content">
+          <p class="popup__about-signature">*Я — это <a href="https://ermolaev.space" target="_blank" rel="noopener">Артём Ермолаев</a>, автор проекта.</p>
+          <a class="popup__about-policy" href="/privacy.html">Политика конфиденциальности</a>
+        </div>
+      </div>
     </div>
   </div>
 `;

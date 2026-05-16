@@ -180,9 +180,19 @@
  * Padding-top 164px фиксированный, padding-side 6.25vw (= 80px при
  * viewport 1280) — пропорциональные отступы при resize. Отдельные
  * letter-span'ы для hover-эффекта (см. js/popup.js → initLogoHover). */
+/* Heading «past simple» (R24 P1, пункт 3): занимает первый экран целиком,
+ * центрирован вертикально и горизонтально. Это даёт две вещи:
+ *  - heading всегда визуально по центру первого 100vh
+ *  - первая секция .popup__about-section:first-of-type начинается СРАЗУ
+ *    после, на 100vh от верха; через margin-top: -10vh её top попадает
+ *    на 90vh → блок «01» видим снизу на 10% (пункт 2 правок). */
 .popup__about-heading {
   margin: 0;
-  padding: 164px calc(80 / 1280 * 100vw) 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 calc(80 / 1280 * 100vw);
   font-family: var(--font-h1-family);
   font-weight: var(--font-h1-weight);
   font-size: clamp(80px, 22vw, 360px);
@@ -208,18 +218,26 @@
 }
 
 /* R24 P1: 4 секции «заголовок слева | контент справа». Layout по Figma
- * (фрейм 8142:2019): заголовок секции занимает левую колонку (~302px),
- * контент — правую (632px), общая ширина области 1114px. Используем
- * fluid grid: левая колонка 1fr, правая фикс 632px с gap. */
+ * (фрейм 8142:2019): заголовок секции в левой колонке, контент справа.
+ *
+ * Адаптивность (пункт 6 правок): grid `minmax(220px, 1fr) minmax(0, 632px)`
+ * + `column-gap: clamp(24px, 4vw, 80px)` — правая колонка сжимается до 0
+ * при необходимости, gap уменьшается. На < 768px включается mobile-стек.
+ *
+ * Расстояния между секциями: --spacing-5xl (80px) по умолчанию;
+ * вокруг life-line — --spacing-7xl (180px... нет, см. ниже). */
 .popup__about-section {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 632px;
-  column-gap: var(--spacing-3xl);
-  margin-top: var(--spacing-6xl);   /* 140px между секциями */
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 632px);
+  column-gap: clamp(24px, 4vw, 80px);
+  margin-top: var(--spacing-5xl);
 }
-/* Первая секция начинается ближе к heading'у (80 + 80 = 160px). */
+/* Первая секция (пункт 2 правок): сдвиг вверх, чтобы её top попал на 90vh
+ * от верха страницы — heading занимает 100vh, секция «выползает» на 10vh.
+ * При любом разрешении в первом экране видны heading (centered) + 10%
+ * верха секции «Что за проект». */
 .popup__about-container > .popup__about-section:first-of-type {
-  margin-top: calc(var(--spacing-5xl) + 80px);
+  margin-top: -10vh;
 }
 
 .popup__about-section-title {
@@ -232,11 +250,20 @@
   color: var(--text-primary);
 }
 
+/* gap=0 сбрасываем; spacing управляется через margin-top на child'ах.
+ * Дефолт между блоками — --spacing-5xl (80px); --gap-lg модификатор
+ * добавляет 120px (--spacing-6xl) — применяется на блоках 3, 4, 5, 6
+ * секции «Что за проект». */
 .popup__about-section-body {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xl);     /* 40px между блоками внутри секции */
   min-width: 0;
+}
+.popup__about-section-body > * + * {
+  margin-top: var(--spacing-5xl);
+}
+.popup__about-section-body > .popup__about-block--gap-lg {
+  margin-top: var(--spacing-6xl);
 }
 
 .popup__about-section-body p {
@@ -294,10 +321,17 @@
 }
 
 /* Life-line decoration (блок 9): мини-таймлайн между секциями 02 и 03.
- * 5 точек на горизонтальной линии (позиции inline из figma metadata). */
+ * 5 точек на горизонтальной линии (позиции inline из figma metadata).
+ * Расстояние 8-9 = 120px (--spacing-6xl). И ниже — секция 03 после
+ * lifeline тоже отступает на 120px (см. ниже). */
 .popup__about-lifeline {
   position: relative;
   height: 9px;
+  margin-top: var(--spacing-6xl);
+}
+/* Расстояние 9-10 = 120px: секция, следующая за lifeline, перекрывает
+ * дефолтный --spacing-5xl. */
+.popup__about-lifeline + .popup__about-section {
   margin-top: var(--spacing-6xl);
 }
 .popup__about-lifeline-track {
@@ -318,37 +352,33 @@
   transform: translateX(-50%);
 }
 
-/* CTA «Пишите» (блок 12): большой Wildfire-текст + стрелка слева.
- * Open mailto. Hover-анимация и финальный стиль — в P4. */
+/* Tail (R24 P1, пункт 4): обёртка вокруг CTA + footer. min-height: 100vh,
+ * grid `1fr auto` — CTA центрирован в первой строке (свободное место),
+ * footer естественно во второй (прижат к низу). При scroll-end «Пишите»
+ * стоит ровно по центру экрана, footer внизу. Margin-top --spacing-5xl
+ * сверху — чтобы между блоком 11 и tail-обёрткой был дефолтный gap. */
+.popup__about-tail {
+  min-height: 100vh;
+  margin-top: var(--spacing-5xl);
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+/* CTA «Пишите» (блок 12): большой Wildfire-текст + стрелка слева. */
 .popup__about-cta {
+  place-self: center;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xl);
-  margin: var(--spacing-6xl) auto 0;
   padding: 0;
   text-decoration: none;
   color: var(--text-primary);
-  /* центрируем блок в контейнере */
-  align-self: center;
-  justify-content: center;
-}
-.popup__about-container {
-  /* нужно для центровки CTA через align-self */
-  display: block;
-}
-.popup__about-container > .popup__about-cta {
-  display: flex;
-  justify-content: center;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
 }
 .popup__about-cta-arrow {
   display: block;
   width: 97px;
   height: 68px;
   flex-shrink: 0;
-  /* стрелка приходит как SVG с currentColor */
 }
 .popup__about-cta-text {
   font-family: var(--font-h1-family);
@@ -358,14 +388,21 @@
   letter-spacing: var(--letter-spacing-tight);
 }
 
-/* Footer about: подпись автора + политика. Тот же layout что был
- * (centered с margin-left:40%), упрощён в flex space-between. */
+/* Footer about (пункт 5): signature выровнена слева ПО ВТОРОЙ КОЛОНКЕ
+ * (правый край section'ов). Footer повторяет grid секций — левая колонка
+ * пустая, в правой flex: подпись слева, политика справа. */
 .popup__about-footer {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 632px);
+  column-gap: clamp(24px, 4vw, 80px);
+  margin: 0 0 var(--spacing-xl);
+}
+.popup__about-footer-content {
+  grid-column: 2;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: var(--spacing-lg);
-  margin: var(--spacing-6xl) 0 var(--spacing-xl);
 }
 
 .popup__about-signature {
@@ -414,6 +451,7 @@
     row-gap: var(--spacing-lg);
     margin-top: var(--spacing-5xl);
   }
+  /* На мобиле heading display:none → секция вверху, без -10vh. */
   .popup__about-container > .popup__about-section:first-of-type {
     margin-top: 0;
   }
@@ -424,8 +462,11 @@
     font-size: 20px;
     line-height: 1.5;
   }
-  .popup__about-section-body {
-    gap: var(--spacing-lg);
+  .popup__about-section-body > * + * {
+    margin-top: var(--spacing-lg);
+  }
+  .popup__about-section-body > .popup__about-block--gap-lg {
+    margin-top: var(--spacing-2xl);
   }
   .popup__about-pair {
     gap: var(--spacing-md);
@@ -437,8 +478,14 @@
   .popup__about-lifeline {
     margin-top: var(--spacing-5xl);
   }
-  .popup__about-cta {
+  .popup__about-lifeline + .popup__about-section {
     margin-top: var(--spacing-5xl);
+  }
+  /* Tail: на мобиле не требуем 100vh-центрирования. */
+  .popup__about-tail {
+    min-height: 0;
+    margin-top: var(--spacing-5xl);
+    display: block;
   }
   .popup__about-cta-text {
     font-size: clamp(56px, 18vw, 120px);
@@ -448,9 +495,13 @@
     height: 42px;
   }
   .popup__about-footer {
+    grid-template-columns: 1fr;
+    margin-top: var(--spacing-5xl);
+  }
+  .popup__about-footer-content {
+    grid-column: 1;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: var(--spacing-5xl);
   }
 }
 /* === Левая колонка (контент) ===
