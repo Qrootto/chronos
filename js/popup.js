@@ -249,6 +249,15 @@ function initHeadingPhotos(heroEl, photosLayer, people) {
   const FADE_MS = 1000;      // длительность fade-out
   const SIZE_PX = 229;       // как в figma пример (rounded-rectangle 229×229)
 
+  // Preload всех фото при открытии about — чтобы при hover не было
+  // delay загрузки (раньше сначала появлялся серый круг, потом фото).
+  // Image() ставит в кэш браузера, дальше div с background-image берёт
+  // оттуда мгновенно.
+  for (const p of photoPeople) {
+    const img = new Image();
+    img.src = resizePhotoUrl(p.photo, SIZE_PX * 2);
+  }
+
   let lastSpawn = 0;
   heroEl.addEventListener('mousemove', () => {
     const now = Date.now();
