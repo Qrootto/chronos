@@ -1,4 +1,17 @@
 /**
+ * Локальный путь к фото человека (WebP, 458px = 2× retina от 229px display).
+ * Файлы лежат в `public/assets/people/<id>.webp` (см. R24 P2 — скачаны
+ * через скрипт с Wikimedia при `width=458`, переконвертированы в WebP).
+ *
+ * Используется в попапах событий (main 232×232, secondary paired 120×120)
+ * и в about-эффекте hover-фото. Один размер на все use-case — браузер
+ * scale'ит вниз без потерь, кэш переиспользуется.
+ */
+export function localPhotoPath(personId) {
+  return `/assets/people/${personId}.webp`;
+}
+
+/**
  * Перегенерирует URL фото с нужным значением `?width=`.
  *
  * Для Wikimedia Commons (`Special:FilePath/...?width=N`) сервер сам отдаёт

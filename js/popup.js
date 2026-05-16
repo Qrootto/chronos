@@ -10,7 +10,7 @@
  * строки. Применяется ко всем дочерним text nodes overlay'я. */
 
 import { fixOrphansInTree } from './lib/typography.js';
-import { resizePhotoUrl } from './lib/photo.js';
+import { localPhotoPath } from './lib/photo.js';
 
 const CATEGORY_CLASS = {
   artist:      'artist',
@@ -249,14 +249,8 @@ function initHeadingPhotos(heroEl, photosLayer, people) {
   const FADE_MS = 1000;      // длительность fade-out
   const SIZE_PX = 229;       // как в figma пример (rounded-rectangle 229×229)
 
-  // Фото лежат локально в /assets/people/<id>.jpg (458px — 2× retina от
-  // 229px display). Подменили Wikimedia URL'ы (resizePhotoUrl) на локаль —
-  // preload через Wikimedia был медленным для первого hover. Локальные
-  // отдаются с того же CDN что и сайт, попадают в кэш мгновенно.
-  const localPhotoPath = (pid) => `/assets/people/${pid}.jpg`;
-
-  // Preload в кэш браузера — чтобы первый hover сразу нашёл готовое
-  // изображение без задержки сети.
+  // Preload локальных WebP в кэш браузера — чтобы первый hover сразу
+  // нашёл готовое изображение без задержки сети.
   for (const p of photoPeople) {
     const img = new Image();
     img.src = localPhotoPath(p.id);
@@ -382,16 +376,17 @@ function buildHeader(person, event, paired) {
   photo.className = 'popup__photo';
   photo.setAttribute('role', 'img');
   photo.setAttribute('aria-label', person.name);
-  // Main фото — 232×232 в CSS, 2× retina → 464px (R20).
-  if (person.photo) photo.style.backgroundImage = `url('${resizePhotoUrl(person.photo, 464)}')`;
+  // Main фото — локальный WebP 458px (см. localPhotoPath в lib/photo.js).
+  // Использует тот же файл что и about-эффект → один кэш на оба попапа.
+  if (person.photo) photo.style.backgroundImage = `url('${localPhotoPath(person.id)}')`;
 
   if (paired) {
     const photo2 = document.createElement('div');
     photo2.className = 'popup__photo-secondary';
     photo2.setAttribute('role', 'img');
     photo2.setAttribute('aria-label', paired.person.name);
-    // Paired secondary — 120×120, 2× retina → 240px (R20).
-    if (paired.person.photo) photo2.style.backgroundImage = `url('${resizePhotoUrl(paired.person.photo, 240)}')`;
+    // Paired secondary — тоже локальный WebP. Браузер scale'ит на 120×120.
+    if (paired.person.photo) photo2.style.backgroundImage = `url('${localPhotoPath(paired.person.id)}')`;
     photo.appendChild(photo2);
   }
 
