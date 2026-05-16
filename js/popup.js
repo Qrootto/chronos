@@ -249,13 +249,17 @@ function initHeadingPhotos(heroEl, photosLayer, people) {
   const FADE_MS = 1000;      // длительность fade-out
   const SIZE_PX = 229;       // как в figma пример (rounded-rectangle 229×229)
 
-  // Preload всех фото при открытии about — чтобы при hover не было
-  // delay загрузки (раньше сначала появлялся серый круг, потом фото).
-  // Image() ставит в кэш браузера, дальше div с background-image берёт
-  // оттуда мгновенно.
+  // Фото лежат локально в /assets/people/<id>.jpg (458px — 2× retina от
+  // 229px display). Подменили Wikimedia URL'ы (resizePhotoUrl) на локаль —
+  // preload через Wikimedia был медленным для первого hover. Локальные
+  // отдаются с того же CDN что и сайт, попадают в кэш мгновенно.
+  const localPhotoPath = (pid) => `/assets/people/${pid}.jpg`;
+
+  // Preload в кэш браузера — чтобы первый hover сразу нашёл готовое
+  // изображение без задержки сети.
   for (const p of photoPeople) {
     const img = new Image();
-    img.src = resizePhotoUrl(p.photo, SIZE_PX * 2);
+    img.src = localPhotoPath(p.id);
   }
 
   let lastSpawn = 0;
@@ -275,8 +279,7 @@ function initHeadingPhotos(heroEl, photosLayer, people) {
     photo.className = 'popup__about-photos-item';
     photo.style.left = x + 'px';
     photo.style.top = y + 'px';
-    // Высокая плотность — берём 2× размера для retina (R20 utility).
-    photo.style.backgroundImage = `url('${resizePhotoUrl(person.photo, SIZE_PX * 2)}')`;
+    photo.style.backgroundImage = `url('${localPhotoPath(person.id)}')`;
     photosLayer.appendChild(photo);
 
     setTimeout(() => { photo.classList.add('is-fading'); }, SHOW_MS);
