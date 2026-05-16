@@ -232,12 +232,10 @@
   column-gap: clamp(24px, 4vw, 80px);
   margin-top: var(--spacing-5xl);
 }
-/* Первая секция (пункт 2 правок): сдвиг вверх, чтобы её top попал на 90vh
- * от верха страницы — heading занимает 100vh, секция «выползает» на 10vh.
- * При любом разрешении в первом экране видны heading (centered) + 10%
- * верха секции «Что за проект». */
+/* Первая секция начинается строго с 100vh от верха страницы — heading
+ * заполняет первый экран целиком, секция не видна до скролла. */
 .popup__about-container > .popup__about-section:first-of-type {
-  margin-top: -10vh;
+  margin-top: 0;
 }
 
 .popup__about-section-title {
@@ -304,6 +302,7 @@
   margin: 0;
 }
 .popup__about-pair .popup__about-figure {
+  position: relative;
   margin: 0;
   width: 283px;
   height: 283px;
@@ -318,6 +317,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+/* Accent (Микки) — по Figma image позиционирован абсолютно: вписан по
+ * высоте (top 6.16%, bottom 5.28%) и сдвинут вправо от центра фрейма
+ * на 27.5px (left: calc(50% + 27.5px) + translateX(-50%)). object-fit
+ * cover игнорировал этот сдвиг → Микки оптически уезжал влево.
+ * Здесь повторяем фигма-геометрию точно. */
+.popup__about-figure--accent img {
+  position: absolute;
+  top: 6.16%;
+  bottom: 5.28%;
+  left: calc(50% + 27.5px);
+  transform: translateX(-50%);
+  height: 88.56%;     /* 100% - 6.16% - 5.28% */
+  width: auto;
+  object-fit: contain;
 }
 
 /* Life-line decoration (блок 9): мини-таймлайн между секциями 02 и 03.
