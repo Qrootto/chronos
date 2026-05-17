@@ -142,13 +142,13 @@ function buildAboutPopup(data) {
 }
 
 /* R24 P3: scroll-driven цвет фона about-попапа. Интерполируем линейно
- * между 6 stops: до блока illustration — стартовый, дальше равномерно
+ * между 4 stops: до блока illustration — стартовый, дальше равномерно
  * по скроллу до конца страницы — финальный.
  * Стопы из ТЗ:
- *   #1C1E25 → #0A3CEC → #7205E6 → #29045C → #924B00 → #540429
+ *   #1C1E25 → #5C06B8 → #0C038E → #04541C
  * Реализация — scroll listener c rAF-throttle на самой popup-shutter
  * (она overflow-y: auto, скроллится внутри overlay'я). */
-const ABOUT_BG_STOPS = ['#1C1E25', '#0A3CEC', '#7205E6', '#29045C', '#924B00', '#540429'];
+const ABOUT_BG_STOPS = ['#1C1E25', '#5C06B8', '#0C038E', '#04541C'];
 
 function lerpHex(a, b, t) {
   const pa = parseInt(a.slice(1), 16);
