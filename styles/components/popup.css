@@ -424,6 +424,14 @@
   width: 97px;
   height: 68px;
   flex-shrink: 0;
+  /* Hover instant-in / slow-out (правило 5.2). Default — медленный
+   * return; на hover мгновенный сдвиг ~20px вправо в направлении
+   * стрелки. Аналог CTA «Get in touch» на antonandirene.com. */
+  transition: transform var(--motion-duration-xslow) var(--motion-ease-out);
+}
+.popup__about-cta:hover .popup__about-cta-arrow {
+  transform: translateX(20px);
+  transition: transform var(--motion-duration-fast) var(--motion-ease-out);
 }
 .popup__about-cta-text {
   font-family: var(--font-h1-family);
