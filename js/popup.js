@@ -129,7 +129,67 @@ function buildAboutPopup(data) {
     initHeadingPhotos(hero, photosLayer, data.people);
   }
 
+  // R24 P3: плавная смена цвета фона при скролле от illustration до
+  // конца страницы. 6 цветов, 5 равных интервалов прогресса.
+  const illustration = popup.querySelector('.popup__about-illustration');
+  if (illustration) {
+    // Layout ещё не settled (popup только что вставлен в DOM) — ждём
+    // следующий кадр, чтобы offsetTop / scrollHeight были корректны.
+    requestAnimationFrame(() => initAboutBgScroll(popup, illustration));
+  }
+
   return popup;
+}
+
+/* R24 P3: scroll-driven цвет фона about-попапа. Интерполируем линейно
+ * между 4 stops: до блока illustration — стартовый, дальше равномерно
+ * по скроллу до конца страницы — финальный.
+ * Стопы из ТЗ:
+ *   #1C1E25 → #5C06B8 → #0C038E → #04541C
+ * Реализация — scroll listener c rAF-throttle на самой popup-shutter
+ * (она overflow-y: auto, скроллится внутри overlay'я). */
+const ABOUT_BG_STOPS = ['#1C1E25', '#5C06B8', '#0C038E', '#04541C'];
+
+function lerpHex(a, b, t) {
+  const pa = parseInt(a.slice(1), 16);
+  const pb = parseInt(b.slice(1), 16);
+  const r = Math.round(((pa >> 16) & 255) + (((pb >> 16) & 255) - ((pa >> 16) & 255)) * t);
+  const g = Math.round(((pa >> 8) & 255) + (((pb >> 8) & 255) - ((pa >> 8) & 255)) * t);
+  const bl = Math.round((pa & 255) + ((pb & 255) - (pa & 255)) * t);
+  return `rgb(${r}, ${g}, ${bl})`;
+}
+
+function aboutBgColorAt(progress) {
+  if (progress <= 0) return ABOUT_BG_STOPS[0];
+  if (progress >= 1) return ABOUT_BG_STOPS[ABOUT_BG_STOPS.length - 1];
+  const segCount = ABOUT_BG_STOPS.length - 1; // 5
+  const segIdx = Math.min(Math.floor(progress * segCount), segCount - 1);
+  const segT = progress * segCount - segIdx;
+  return lerpHex(ABOUT_BG_STOPS[segIdx], ABOUT_BG_STOPS[segIdx + 1], segT);
+}
+
+function initAboutBgScroll(popupEl, anchorEl) {
+  let rafId = 0;
+  const update = () => {
+    rafId = 0;
+    const anchorTop = anchorEl.offsetTop;          // от offsetParent (=.popup--about)
+    const maxScroll = popupEl.scrollHeight - popupEl.clientHeight;
+    const span = maxScroll - anchorTop;
+    if (span <= 0) {
+      popupEl.style.backgroundColor = ABOUT_BG_STOPS[0];
+      return;
+    }
+    const p = (popupEl.scrollTop - anchorTop) / span;
+    popupEl.style.backgroundColor = aboutBgColorAt(Math.max(0, Math.min(1, p)));
+  };
+  popupEl.addEventListener('scroll', () => {
+    if (!rafId) rafId = requestAnimationFrame(update);
+  });
+  // На window resize — пересчитать (изменятся scrollHeight/anchorTop).
+  window.addEventListener('resize', () => {
+    if (!rafId) rafId = requestAnimationFrame(update);
+  });
+  update();
 }
 
 const ABOUT_HTML = `

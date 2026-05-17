@@ -163,9 +163,11 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--surface-popup-bg);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  /* R24 P3: стартовый цвет фона — первый stop из ABOUT_BG_STOPS в popup.js.
+   * Дальше при скролле JS перебивает inline `style.backgroundColor`,
+   * интерполируя по 6 стопам до #540429 в конце страницы. Backdrop-filter
+   * убран — он размывал бы прозрачный задник, а у нас сплошной цвет. */
+  background: #1C1E25;
   display: block;
   /* Padding-bottom = 0. Известный баг WebKit: padding-bottom на
    * scroll-контейнере не учитывается scrollbar'ом. 32px gap до низа
