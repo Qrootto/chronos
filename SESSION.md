@@ -4,6 +4,21 @@
 
 ---
 
+## 2026-05-16 — R24 P2-P4: hover-фото, scroll-фон, hover-CTA
+
+**Сделано (все 4 фазы R24 закрыты, R24 снят с BACKLOG):**
+- **P2 (`feature/r24-about-redesign-p2` → `0f8e5b5`):** При hover-движении по hero-блоку `.popup__about-hero` (100vh) в рандомных местах появляются круглые фото людей (229×229) с throttle 150ms. Появление мгновенно, fade-out 1s. Hover-эффект на буквы heading (`initLogoHover`) сохранён. Изначально фото грузились с Wikimedia (delay при первом hover) → скачали 43 локально в `public/assets/people/<id>.jpg`, потом переконвертировали в WebP (4.5MB → 1.8MB) → новая утилита `js/lib/photo.js → localPhotoPath(id)` используется и в about, и в попапах событий (R20 main/secondary тоже на локальные).
+- **P3 (`feature/r24-about-redesign-p3` → `ccf05c2`):** Scroll-driven цвет фона `.popup--about`: до `.popup__about-illustration` — стартовый цвет, дальше линейная интерполяция RGB по progress скролла до конца. Сначала 6 stops (по ТЗ), потом сократили до 4: `#1C1E25 → #5C06B8 → #0C038E → #04541C`. Реализация — scroll listener + rAF-throttle, `popup.scrollTop` относительно `illustration.offsetTop`. CSS-fallback `background: #1C1E25` чтобы не было мигания на первом кадре.
+- **P4 (`feature/r24-about-redesign-p4` → `adc0280`):** Hover на CTA «Пишите» → стрелка `.popup__about-cta-arrow` мгновенно сдвигается на 20px вправо (`translateX`); при уходе курсора — медленный возврат за 1с (правило 5.2 instant-in / slow-out).
+
+**Новая задача в BACKLOG:**
+- **R25** — скрипт/скилл для скачивания+WebP-конвертации фото при добавлении нового человека (сейчас `/add-person` не обновляет `public/assets/people/`).
+
+**Открытые вопросы:**
+Нет открытых.
+
+---
+
 ## 2026-05-15 — R24 P1: about-попап структура + контент
 
 **Сделано:**
